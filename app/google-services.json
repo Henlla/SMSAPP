@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "796072317285",
+    "project_id": "sms-project-a5152",
+    "storage_bucket": "sms-project-a5152.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796072317285:android:7eeb62b726515030b0918c",
+        "android_client_info": {
+          "package_name": "com.demo1.smsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "796072317285-dmedr79e3gdmmu8mmgd95hj7jddt10i7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.demo1.smsapp",
+            "certificate_hash": "c2bdad40eead75230f759e5bd0c541dadfeb18f3"
+          }
+        },
+        {
+          "client_id": "796072317285-m78bhmnl4cfpcbna8n3t4oohrdl03ico.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB23uilPlpMfM2Fl931cEO4-PM1uXSXl2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "796072317285-m78bhmnl4cfpcbna8n3t4oohrdl03ico.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

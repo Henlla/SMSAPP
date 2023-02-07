@@ -6,4 +6,6 @@ public class ClassSubject {
     private Integer classId;
     private String startDate;
     private String endDate;
+    private Subject subjectBySubjectId;
+    private Classses classsesByClassId;
 }

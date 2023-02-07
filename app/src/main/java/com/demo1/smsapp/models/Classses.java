@@ -10,6 +10,4 @@ public class Classses {
     private Integer majorId;
     private List<Schedule> schedulesById;
     private List<StudentClass> studentClassById;
-
-
 }

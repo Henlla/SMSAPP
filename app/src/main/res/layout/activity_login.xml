@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        tools:context=".activity.LoginActivity"
+        android:padding="20dp">
+    <ImageView android:layout_width="200dp"
+               android:layout_height="200dp"
+               android:src="@drawable/hkt_logo">
+    </ImageView>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_login_bg"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+        <ImageView android:layout_width="30dp"
+                   android:layout_height="30dp"
+                   android:layout_centerVertical="true"
+                   android:src="@drawable/person"
+                   android:id="@+id/icon_user"/>
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/lg_user"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginTop="5dp"
+                  android:background="@null"
+                  android:fontFamily="@font/inria_serif_regular"
+                  android:hint="Tên đăng nhập "
+                  android:layout_toEndOf="@+id/icon_user"/>
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:background="@drawable/input_login_bg">
+        <ImageView android:layout_width="30dp"
+                   android:layout_height="25dp"
+                   android:src="@drawable/lock"
+                   android:layout_centerVertical="true"
+                   android:id="@+id/icon_password"/>
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:background="@null"
+                  android:id="@+id/lg_password"
+                  android:fontFamily="@font/inria_serif_regular"
+                  android:layout_marginStart="10dp"
+                  android:hint="Mật khẩu"
+                  android:inputType="textPassword"
+                  android:layout_toEndOf="@+id/icon_password"/>
+        <ImageView android:id="@+id/hideShowPass"
+                   android:layout_width="20dp"
+                   android:layout_height="20dp"
+                   android:src="@drawable/visibility_off"
+                   android:layout_alignParentEnd="true"
+                   android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:visibility="gone"
+                  android:id="@+id/layout_msg_login"
+                  android:layout_marginStart="30dp"
+                  android:layout_marginTop="10dp">
+        <ImageView android:layout_width="20dp"
+                   android:layout_height="20dp"
+                   android:src="@drawable/error"/>
+        <TextView android:layout_width="wrap_content"
+                  android:id="@+id/msgLogin"
+                  android:fontFamily="@font/inria_serif_regular"
+                  android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton android:layout_width="200dp"
+            android:id="@+id/btnLogin"
+            android:layout_marginTop="40dp"
+            android:text="Đăng nhập"
+            android:fontFamily="@font/inria_serif_regular"
+            android:background="@drawable/btnlogin_background"
+            android:layout_height="wrap_content"/>
+</LinearLayout>

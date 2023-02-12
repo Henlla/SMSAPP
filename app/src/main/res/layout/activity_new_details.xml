@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".activity.NewDetailsActivity">
+    <androidx.appcompat.widget.Toolbar android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       android:background="@color/red">
+        <ImageView android:layout_width="30dp"
+                   android:layout_height="30dp"
+                   android:src="@drawable/arrow_back"
+                   android:backgroundTint="@null"
+                   android:scaleType="centerCrop"
+                   android:id="@+id/ic_back" app:tint="@color/white"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:fontFamily="@font/inria_serif_regular"
+                  android:textSize="20sp"
+                  android:layout_gravity="center"
+                  android:layout_marginStart="30dp"
+                  android:textColor="@color/white"
+                  android:textStyle="bold"
+                  android:id="@+id/sub_title"
+                  android:text="Học kì 1"/>
+    </androidx.appcompat.widget.Toolbar>
+    <androidx.cardview.widget.CardView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="10dp">
+        <ImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="10dp"
+                android:src="@drawable/image_notavailable"
+                android:scaleType="centerCrop"/>
+    </androidx.cardview.widget.CardView>
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/title"
+              android:layout_marginEnd="15dp"
+              android:layout_marginStart="15dp"
+              android:fontFamily="@font/inria_serif_regular"
+              android:textStyle="bold"
+              android:textSize="24sp"
+              android:textColor="@color/black"
+              android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit."/>
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="15dp"
+                  android:layout_marginTop="10dp"
+                  android:orientation="horizontal">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textStyle="bold"
+                  android:textColor="@color/black"
+                  android:text="Ngày đăng :"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textStyle="italic"
+                  android:id="@+id/post_date"
+                  android:layout_marginStart="5dp"
+                  android:textColor="@color/black"
+                  android:text="2023-05-03"/>
+    </LinearLayout>
+    <WebView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="10dp"
+              android:textColor="@color/black"
+              android:fontFamily="@font/inria_serif_regular"
+              android:id="@+id/content"/>
+</LinearLayout>

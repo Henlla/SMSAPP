@@ -3,4 +3,8 @@
     <string name="msg_error_login">Yêu cầu tên đăng nhập và mật khẩu</string>
     <string name="msg_error_username">Yêu cầu tên đăng nhập</string>
     <string name="msg_error_password">Yêu cầu mật khẩu</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Trang chủ</string>
+    <string name="favorite">Thông tin</string>
 </resources>

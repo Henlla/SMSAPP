@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:id="@+id/home_fm"
+             tools:context=".fragment.HomeFragment">
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent"
+                                           android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical">
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="70dp"
+                          android:background="#DF7084"
+                          android:orientation="horizontal">
+                <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/profile_image"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/person"
+                        app:civ_border_color="#FF000000"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="20dp"/>
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginStart="20dp"
+                              android:orientation="vertical"
+                              android:layout_gravity="center">
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:textSize="20sp"
+                              android:id="@+id/username"
+                              android:textColor="@color/black"
+                              android:fontFamily="@font/inria_serif_regular"
+                              android:text="User name 1"/>
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:id="@+id/card"
+                              android:textSize="14sp"
+                              android:textColor="@color/black"
+                              android:fontFamily="@font/inria_serif_regular"
+                              android:text="StudentCard"/>
+                </LinearLayout>
+            </LinearLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="30dp"
+                            android:layout_marginStart="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/input_search_home">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="Tìm kiếm ..."
+                          android:layout_gravity="center"
+                          android:fontFamily="@font/inria_serif_regular"
+                          android:layout_centerVertical="true"
+                          android:layout_marginStart="30dp">
+                </TextView>
+                <ImageView android:layout_width="30dp"
+                           android:layout_height="25dp"
+                           android:src="@drawable/search"
+                           android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
+                           android:layout_marginEnd="20dp"/>
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:layout_marginTop="30dp">
+                <View
+                        android:layout_width="157dp"
+                        android:layout_height="84dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="26dp"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/input_search_home"
+                />
+                <View
+                        android:layout_width="157dp"
+                        android:layout_height="84dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="26dp"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/input_search_home"
+                />
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp">
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical"
+                              android:layout_marginStart="46dp">
+                    <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/input_search_home"
+                    />
+                    <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="20dp"
+                            android:textStyle="bold"
+                            android:textSize="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/inria_serif_regular"
+                            android:layout_gravity="center_vertical"
+                            android:text="function 1"
+                    />
+                </LinearLayout>
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical"
+                              android:layout_centerHorizontal="true"
+                              android:layout_marginStart="46dp">
+                    <ImageView
+                            android:id="@+id/rectangle_9"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/input_search_home"
+                    />
+                    <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="20dp"
+                            android:textStyle="bold"
+                            android:textSize="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/inria_serif_regular"
+                            android:layout_gravity="center_vertical"
+                            android:text="function 1"
+                    />
+                </LinearLayout>
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical"
+                              android:layout_alignParentEnd="true"
+                              android:layout_marginEnd="46dp"
+                              android:layout_marginStart="46dp">
+                    <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/input_search_home"
+                    />
+                    <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="20dp"
+                            android:textStyle="bold"
+                            android:textSize="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/inria_serif_regular"
+                            android:layout_gravity="center_vertical"
+                            android:text="function 1"
+                    />
+                </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp">
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical"
+                              android:layout_marginStart="46dp">
+                    <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/input_search_home"
+                    />
+                    <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="20dp"
+                            android:textStyle="bold"
+                            android:textSize="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/inria_serif_regular"
+                            android:layout_gravity="center_vertical"
+                            android:text="function 1"
+                    />
+                </LinearLayout>
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical"
+                              android:layout_centerHorizontal="true"
+                              android:layout_marginStart="46dp">
+                    <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/input_search_home"
+                    />
+                    <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="20dp"
+                            android:textStyle="bold"
+                            android:textSize="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/inria_serif_regular"
+                            android:layout_gravity="center_vertical"
+                            android:text="function 1"
+                    />
+                </LinearLayout>
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical"
+                              android:layout_alignParentEnd="true"
+                              android:layout_marginEnd="46dp"
+                              android:layout_marginStart="46dp">
+                    <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/input_search_home"
+                    />
+                    <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="20dp"
+                            android:textStyle="bold"
+                            android:textSize="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/inria_serif_regular"
+                            android:layout_gravity="center_vertical"
+                            android:text="function 1"
+                    />
+                </LinearLayout>
+            </RelativeLayout>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Tin tức"
+                      android:layout_marginBottom="20dp"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:textSize="25dp"
+                      android:textColor="@color/black"
+                      android:layout_marginStart="30dp"/>
+            <androidx.recyclerview.widget.RecyclerView android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"
+                                                       android:id="@+id/rcv_new"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

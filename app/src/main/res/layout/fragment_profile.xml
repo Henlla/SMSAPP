@@ -6,10 +6,307 @@
              android:id="@+id/profile_fm"
              tools:context=".fragment.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
+    <androidx.appcompat.widget.Toolbar android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       android:background="@color/red"
+                                       android:id="@+id/toolbar_profile">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:fontFamily="@font/inria_serif_regular"
+                  android:text="Thông Tin Cá Nhân"
+                  android:layout_gravity="center"
+                  android:textColor="@color/white"
+                  android:textStyle="bold"
+                  android:textSize="20sp"/>
+    </androidx.appcompat.widget.Toolbar>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="70dp"
+                        android:layout_marginBottom="20dp"
+                        android:id="@+id/l_image">
+            <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/profile_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/person"
+                    app:civ_border_color="#FF000000"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@+id/profile_image"
+                      android:id="@+id/st_card"
+                      android:layout_centerHorizontal="true"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:textSize="@dimen/_16sdp"
+                      android:textStyle="bold"
+                      android:textColor="@color/black"
+                      android:text="Student1312085"/>
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/l_image"
+                        android:id="@+id/l_fullName"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_centerVertical="true"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:text="Họ và tên :"
+                      style="@style/label"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:text="@string/app_name"
+                      android:id="@+id/tv_fullName"
+                      style="@style/text" android:layout_centerInParent="true"/>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/tv_fullName"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/line_3"
+            />
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/l_fullName"
+                        android:id="@+id/l_gender"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_centerVertical="true"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:text="Giới tính :"
+                      style="@style/label"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:text="@string/app_name"
+                      android:id="@+id/tv_gender"
+                      style="@style/text"
+                      android:layout_centerInParent="true"/>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/tv_gender"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/line_3"
+            />
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/l_gender"
+                        android:id="@+id/l_address"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/lb_address"
+                      android:layout_centerVertical="true"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:text="Địa chỉ :"
+                      style="@style/label"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:layout_toEndOf="@+id/lb_address"
+                      android:layout_marginStart="@dimen/_5sdp"
+                      android:maxLines="2"
+                      android:maxWidth="@dimen/_300sdp"
+                      android:text="F24 Lê Đại Hành,Phú Hài, Phan Thiết, Bình Thuận"
+                      android:id="@+id/tv_address"
+                      style="@style/text" android:layout_centerInParent="true"/>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/tv_address"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/line_3"
+            />
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/l_address"
+                        android:id="@+id/l_dob"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_centerVertical="true"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:text="Ngày sinh :"
+                      style="@style/label"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:layout_marginStart="@dimen/_5sdp"
+                      android:maxLines="2"
+                      android:maxWidth="@dimen/_300sdp"
+                      android:text="07/10/2000"
+                      android:id="@+id/tv_dob"
+                      style="@style/text"
+                      android:layout_centerInParent="true"/>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/tv_dob"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/line_3"
+            />
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/l_dob"
+                        android:id="@+id/l_phone"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_centerVertical="true"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:text="Số điện thoại :"
+                      style="@style/label"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:layout_marginStart="@dimen/_5sdp"
+                      android:maxLines="2"
+                      android:maxWidth="@dimen/_300sdp"
+                      android:text="0388628807"
+                      android:id="@+id/tv_phone"
+                      style="@style/text"
+                      android:layout_centerInParent="true"/>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/tv_phone"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/line_3"
+            />
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/l_phone"
+                        android:id="@+id/l_email"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_centerVertical="true"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:text="Email :"
+                      style="@style/label"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:layout_marginStart="@dimen/_5sdp"
+                      android:maxLines="2"
+                      android:maxWidth="@dimen/_300sdp"
+                      android:text="vongochoa30@gmail.com"
+                      android:id="@+id/tv_email"
+                      style="@style/text"
+                      android:layout_centerInParent="true"/>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/tv_email"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/line_3"
+            />
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/l_email"
+                        android:id="@+id/l_major"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_centerVertical="true"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:text="Nghành học :"
+                      style="@style/label"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:layout_marginStart="@dimen/_5sdp"
+                      android:maxLines="2"
+                      android:maxWidth="@dimen/_300sdp"
+                      android:text="Develop Application"
+                      android:id="@+id/tv_major"
+                      style="@style/text"
+                      android:layout_centerInParent="true"/>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/tv_major"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/line_3"
+            />
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/l_major"
+                        android:id="@+id/l_class"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_centerVertical="true"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:text="Lớp học :"
+                      style="@style/label"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:layout_marginStart="@dimen/_5sdp"
+                      android:maxLines="2"
+                      android:maxWidth="@dimen/_300sdp"
+                      android:text="T1.2104.M0"
+                      android:id="@+id/tv_class"
+                      style="@style/text"
+                      android:layout_centerInParent="true"/>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/tv_class"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/line_3"
+            />
+        </RelativeLayout>
+        <androidx.appcompat.widget.AppCompatButton android:layout_width="@dimen/_270sdp"
+                                                   android:id="@+id/btn_changePassword"
+                                                   android:layout_marginTop="40dp"
+                                                   android:text="Đặt lại mật khẩu mới"
+                                                   android:textColor="@color/white"
+                                                   android:layout_alignParentBottom="true"
+                                                   android:layout_centerHorizontal="true"
+                                                   android:layout_marginBottom="@dimen/_10sdp"
+                                                   android:fontFamily="@font/inria_serif_regular"
+                                                   android:background="@drawable/btn_background"
+                                                   android:layout_height="wrap_content"/>
+    </RelativeLayout>
 
 </FrameLayout>

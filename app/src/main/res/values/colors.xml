@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#DF7084</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryRipple">#423F51B5</color>
 </resources>

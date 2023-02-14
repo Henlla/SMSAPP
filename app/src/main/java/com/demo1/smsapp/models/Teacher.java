@@ -2,6 +2,8 @@ package com.demo1.smsapp.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Teacher {
     @SerializedName("id")
     private Integer id;
@@ -9,9 +11,20 @@ public class Teacher {
     private Integer profileId;
     @SerializedName("profileByProfileId")
     private Profile profileByProfileId;
-
+    @SerializedName("teacherClass")
+    private List<Classses> teacherClass;
     public Teacher() {
     }
+
+
+    public List<Classses> getTeacherClass() {
+        return teacherClass;
+    }
+
+    public void setTeacherClass(List<Classses> teacherClass) {
+        this.teacherClass = teacherClass;
+    }
+
 
     public Integer getId() {
         return id;

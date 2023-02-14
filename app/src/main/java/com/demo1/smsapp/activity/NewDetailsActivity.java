@@ -1,8 +1,10 @@
 package com.demo1.smsapp.activity;
 
 import android.net.Uri;
+import android.view.Window;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.demo1.smsapp.R;
 import com.demo1.smsapp.databinding.ActivityNewDetailsBinding;
@@ -22,6 +24,8 @@ public class NewDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         newDetailsBinding = ActivityNewDetailsBinding.inflate(getLayoutInflater());
+        Window window = this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(this,R.color.red));
         setContentView(newDetailsBinding.getRoot());
         gson = new Gson();
         firebaseStorage = FirebaseStorage.getInstance();

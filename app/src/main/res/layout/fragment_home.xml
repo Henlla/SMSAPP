@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
+             android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
              android:id="@+id/home_fm"
              tools:context=".fragment.HomeFragment">
     <androidx.core.widget.NestedScrollView android:layout_width="match_parent"
@@ -32,22 +32,32 @@
                               android:layout_height="wrap_content"
                               android:textSize="20sp"
                               android:id="@+id/username"
-                              android:textColor="@color/black"
+                              android:textColor="@color/white"
                               android:fontFamily="@font/inria_serif_regular"
                               android:text="User name 1"/>
                     <TextView android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
                               android:id="@+id/card"
                               android:textSize="14sp"
-                              android:textColor="@color/black"
+                              android:textColor="@color/white"
                               android:fontFamily="@font/inria_serif_regular"
                               android:text="StudentCard"/>
                 </LinearLayout>
+                <ImageView android:layout_width="match_parent"
+                           android:layout_height="@dimen/_20sdp"
+                           android:layout_gravity="center"
+                           android:backgroundTint="@null"
+                           app:tint="@color/white"
+                           android:id="@+id/btn_logout"
+                           android:background="?attr/selectableItemBackgroundBorderless"
+                           android:layout_marginStart="@dimen/_80sdp"
+                           app:srcCompat="@drawable/logout"/>
             </LinearLayout>
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_marginTop="20dp"
                             android:layout_marginEnd="30dp"
                             android:layout_marginStart="30dp"
+                            android:id="@+id/l_search"
                             android:layout_height="30dp"
                             android:background="@drawable/input_search_home">
                 <TextView android:layout_width="wrap_content"

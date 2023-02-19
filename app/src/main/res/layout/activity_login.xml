@@ -59,11 +59,11 @@
         <ImageView android:id="@+id/hideShowPass"
                    android:layout_width="20dp"
                    android:layout_height="20dp"
+                   android:background="?attr/selectableItemBackgroundBorderless"
                    android:src="@drawable/visibility_off"
                    android:layout_alignParentEnd="true"
                    android:layout_centerInParent="true"/>
     </RelativeLayout>
-
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:orientation="horizontal"

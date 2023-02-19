@@ -33,6 +33,9 @@ public class Profile {
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("sex")
+    @Expose
+    private String sex;
     @SerializedName("avartarUrl")
     @Expose
     private String avartarUrl;
@@ -234,5 +237,13 @@ public class Profile {
 
     public void setStudentsById(Student studentsById) {
         this.studentsById = studentsById;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 }

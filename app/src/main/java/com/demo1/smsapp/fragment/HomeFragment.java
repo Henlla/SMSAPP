@@ -1,11 +1,16 @@
 package com.demo1.smsapp.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.widget.Toast;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +21,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.bumptech.glide.Glide;
 import com.demo1.smsapp.R;
 import com.demo1.smsapp.activity.HomeActivity;
+import com.demo1.smsapp.activity.LoginActivity;
 import com.demo1.smsapp.activity.NewDetailsActivity;
+import com.demo1.smsapp.activity.SplashActivity;
 import com.demo1.smsapp.adapter.NewAdapter;
 import com.demo1.smsapp.api.NewsAPI;
 import com.demo1.smsapp.api.utils.APIUtils;
@@ -24,10 +31,13 @@ import com.demo1.smsapp.databinding.FragmentHomeBinding;
 import com.demo1.smsapp.dto.ResponseModel;
 import com.demo1.smsapp.models.*;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,7 +53,6 @@ public class HomeFragment extends Fragment {
     Student student;
     Teacher teacher;
     NewAdapter adapter;
-
     NewsAPI newsAPI;
     Gson gson;
     Context context;
@@ -52,7 +61,7 @@ public class HomeFragment extends Fragment {
     String data;
     String profileJson;
     private FirebaseStorage firebaseStorage;
-
+    MaterialDialog mDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,7 +78,43 @@ public class HomeFragment extends Fragment {
         setData();
         setListNews();
         setOnClickNews();
+        processLogout();
+        processClickSearch();
         return fragmentHomeBinding.getRoot();
+    }
+
+    private void processClickSearch() {
+        fragmentHomeBinding.lSearch.setOnClickListener(view -> {
+            SearchBottomSheetModel bottomSheetFragment = new SearchBottomSheetModel();
+            bottomSheetFragment.show(getActivity().getSupportFragmentManager(), bottomSheetFragment.getTag());
+        });
+    }
+
+    private void processLogout() {
+        fragmentHomeBinding.btnLogout.setOnClickListener(view -> {
+            mDialog = new MaterialDialog.Builder(homeActivity)
+                    .setTitle("Đăng xuất")
+                    .setMessage("Bạn có muốn đăng xuất !")
+                    .setCancelable(false)
+                    .setPositiveButton("", R.drawable.logout_2, new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            SharedPreferences sharedPreferences = context.getSharedPreferences("informationAccount",MODE_PRIVATE);
+                            sharedPreferences.edit().clear().apply();
+                            startActivity(new Intent(context, SplashActivity.class));
+                            mDialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("Cancel", R.drawable.close, new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .build();
+            mDialog.show();
+
+        });
     }
 
     private void setData() {

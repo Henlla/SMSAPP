@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".activity.ApplicationActivity"
+        android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/red">
+        <ImageView android:layout_width="@dimen/_20sdp"
+                   android:layout_height="@dimen/_20sdp"
+                   android:src="@drawable/arrow_back"
+                   android:backgroundTint="@null"
+                   android:scaleType="centerCrop"
+                   android:id="@+id/ic_back"
+                   app:tint="@color/white"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:fontFamily="@font/inria_serif_regular"
+                  android:textSize="@dimen/_15sdp"
+                  android:layout_gravity="center"
+                  android:layout_marginStart="@dimen/_30sdp"
+                  android:textColor="@color/white"
+                  android:textStyle="bold"
+                  android:id="@+id/sub_title"
+                  android:text="GỬI ĐƠN"/>
+    </androidx.appcompat.widget.Toolbar>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_10sdp"
+            android:orientation="horizontal">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:orientation="vertical">
+            <LinearLayout android:layout_width="match_parent"
+                          android:orientation="vertical"
+                          android:layout_marginBottom="@dimen/_35sdp"
+                          android:layout_height="wrap_content">
+                <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                        android:id="@+id/cbxAppType"
+                        android:spinnerMode="dropdown"
+                        app:smsp_isSearchable="true"
+                        app:smsp_hintSize="@dimen/_12sdp"
+                        app:smsp_hint="Chọn mẫu đơn..."
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                <TextView
+                        android:id="@+id/btnDownload"
+                        android:visibility="gone"
+                        style="@style/text_link"
+                        android:text="Download"
+                        android:textStyle="bold"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/label"
+                        android:text="Ghi chú"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="@dimen/_10sdp"/>
+                <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:maxLength="100"
+                            android:background="@drawable/input_template"
+                            android:paddingHorizontal="@dimen/_10sdp"
+                            android:hint="Nhập ghi chú..."
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_70sdp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:text="Tệp đính kèm"
+                        android:textStyle="bold"
+                        style="@style/label"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+                        <Button android:id="@+id/fileChoose"
+                                android:text="Chọn tệp"
+                                android:layout_marginRight="@dimen/_10sdp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        <TextView
+                                android:id="@+id/fileName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:id="@+id/errorFile"
+                            android:layout_height="wrap_content">
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content">
+                <TextView
+                        android:textStyle="bold"
+                        android:text="Lưu ý: Vui lòng điền đầy đủ thông tin theo tệp mẫu để tránh trường hợp làm mất thời gian của bạn và của người duyệt đơn"
+                        android:textSize="@dimen/_15sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center_horizontal|bottom"
+                    android:layout_height="match_parent">
+                <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/sendApplication"
+                        android:text="Gửi đơn"
+                        android:textColor="@color/white"
+                        android:background="@drawable/btn_background"
+                        android:textSize="@dimen/_15sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:layout_width="@dimen/_250sdp"
+                        android:layout_height="@dimen/_35sdp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

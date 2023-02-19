@@ -3,6 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable-v24/input_search_home.xml" value="0.1425" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/btn_background.xml" value="0.1425" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/btnlogin_background.xml" value="0.1425" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/input_template.xml" value="0.1425" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_application.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_new_details.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_splash.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/layout.xml" value="0.2359375" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/list_app_type.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/list_news.xml" value="0.25" />
         <entry key="app/src/main/res/drawable-v24/custome_color.xml" value="0.144" />
         <entry key="app/src/main/res/drawable-v24/input_search_home.xml" value="0.1915" />
         <entry key="app/src/main/res/drawable/arrow_back.xml" value="0.1675" />

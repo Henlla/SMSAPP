@@ -1,13 +1,15 @@
 package com.demo1.smsapp.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -20,22 +22,26 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import com.bumptech.glide.Glide;
 import com.demo1.smsapp.R;
-import com.demo1.smsapp.activity.HomeActivity;
-import com.demo1.smsapp.activity.LoginActivity;
-import com.demo1.smsapp.activity.NewDetailsActivity;
-import com.demo1.smsapp.activity.SplashActivity;
+import com.demo1.smsapp.activity.*;
+import com.demo1.smsapp.adapter.ListFunctionAdapter;
 import com.demo1.smsapp.adapter.NewAdapter;
+import com.demo1.smsapp.adapter.SlideNewAdapter;
 import com.demo1.smsapp.api.NewsAPI;
 import com.demo1.smsapp.api.utils.APIUtils;
 import com.demo1.smsapp.databinding.FragmentHomeBinding;
+import com.demo1.smsapp.dto.FunctionModel;
 import com.demo1.smsapp.dto.ResponseModel;
+import com.demo1.smsapp.enums.EFunctionName;
+import com.demo1.smsapp.enums.ERole;
 import com.demo1.smsapp.models.*;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import retrofit2.Call;
@@ -45,6 +51,8 @@ import retrofit2.Response;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 public class HomeFragment extends Fragment {
@@ -62,6 +70,9 @@ public class HomeFragment extends Fragment {
     String profileJson;
     private FirebaseStorage firebaseStorage;
     MaterialDialog mDialog;
+    SlideNewAdapter slideNewAdapter;
+
+    ListFunctionAdapter listFunctionAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,17 +81,81 @@ public class HomeFragment extends Fragment {
         newsAPI = APIUtils.getNews();
         adapter = new NewAdapter();
         gson = new Gson();
+        slideNewAdapter = new SlideNewAdapter();
+        listFunctionAdapter = new ListFunctionAdapter();
         context = inflater.getContext();
         homeActivity = (HomeActivity)getActivity();
         jsonAccount = homeActivity.getAccountJson();
         profileJson =homeActivity.getProfileJson();
         data = homeActivity.getDataJson();
+        setUpSlideAuto();
         setData();
         setListNews();
         setOnClickNews();
         processLogout();
         processClickSearch();
+        clickReadMore();
+        setListFunc();
         return fragmentHomeBinding.getRoot();
+    }
+
+    private void setListFunc() {
+        listFunctionAdapter.setData(listF());
+        fragmentHomeBinding.listFunc.setAdapter(listFunctionAdapter);
+        fragmentHomeBinding.listFunc.setLayoutManager(new GridLayoutManager(getContext(),3));
+
+    }
+
+    private List<FunctionModel> listF(){
+        List<FunctionModel> functionModels= new ArrayList<>();
+        FunctionModel attendance = new FunctionModel(ERole.Teacher.toString(), "Điểm danh", EFunctionName.ATTENDANCE.toString(),R.drawable.logout_2);
+        FunctionModel mark = new FunctionModel(ERole.Teacher.toString(), "Xem điểm", EFunctionName.MARK.toString(),R.drawable.logout_2);
+        FunctionModel schedule = new FunctionModel(ERole.Teacher.toString(), "Thời khóa biểu", EFunctionName.SCHEDULES.toString(),R.drawable.logout_2);
+        FunctionModel application = new FunctionModel(ERole.Teacher.toString(), "Nợp đơn", EFunctionName.APPLICATION.toString(),R.drawable.logout_2);
+        FunctionModel schedule1 = new FunctionModel(ERole.Teacher.toString(), "Thời khóa biểu1", EFunctionName.SCHEDULES.toString(),R.drawable.logout_2);
+        FunctionModel schedule2 = new FunctionModel(ERole.Teacher.toString(), "Thời khóa biểu2", EFunctionName.SCHEDULES.toString(),R.drawable.logout_2);
+        functionModels.add(attendance);
+        functionModels.add(mark);
+        functionModels.add(schedule);
+        functionModels.add(application);
+        functionModels.add(schedule1);
+        functionModels.add(schedule2);
+        return functionModels;
+    }
+
+
+    private void setUpSlideAuto() {
+        newsAPI.findAll().enqueue(new Callback<ResponseModel>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                String json = gson.toJson(response.body().getData());
+                Type listType = new TypeToken<ArrayList<News>>(){}.getType();
+                List<News> listNews = gson.fromJson(json, listType);
+                slideNewAdapter.setData(listNews.stream().filter(news -> news.isActive()).limit(4).collect(Collectors.toList()));
+                fragmentHomeBinding.imageSlider.setSliderAdapter(slideNewAdapter);
+                fragmentHomeBinding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using IndicatorAnimationType. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                fragmentHomeBinding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                fragmentHomeBinding.imageSlider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+                fragmentHomeBinding.imageSlider.setIndicatorSelectedColor(Color.WHITE);
+                fragmentHomeBinding.imageSlider.setIndicatorUnselectedColor(Color.GRAY);
+                fragmentHomeBinding.imageSlider.setScrollTimeInSec(4); //set scroll delay in seconds :
+                fragmentHomeBinding.imageSlider.startAutoCycle();
+
+            }
+            @Override
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
+                Log.e("msg",t.getMessage());
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void clickReadMore() {
+        fragmentHomeBinding.readMore.setOnClickListener(view ->{
+            startActivity(new Intent(context, ListNewsActivity.class));
+        });
     }
 
     private void processClickSearch() {
@@ -119,7 +194,7 @@ public class HomeFragment extends Fragment {
 
     private void setData() {
         account = gson.fromJson(jsonAccount,Account.class);
-        if(account.getRoleByRoleId().getRoleName().equals("STUDENT")){
+        if(account.getRoleByRoleId().getRoleName().equals(ERole.Student.toString())){
             student = gson.fromJson(data,Student.class);
             fragmentHomeBinding.card.setText(student.getStudentCard());
         }else{

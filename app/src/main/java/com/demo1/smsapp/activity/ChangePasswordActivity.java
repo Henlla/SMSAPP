@@ -31,7 +31,6 @@ import retrofit2.Response;
 
 public class ChangePasswordActivity extends AppCompatActivity {
     ActivityChangePasswordBinding changePasswordBinding;
-    HomeActivity homeActivity;
     Account account;
     String _token;
     String accountJson;

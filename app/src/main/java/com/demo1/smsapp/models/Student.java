@@ -24,9 +24,9 @@ public class Student {
     @SerializedName("studentSubjectsById")
     @Expose
     private List<StudentSubject> studentSubjectsById;
-    @SerializedName("studentClassById")
-    @Expose
-    private List<StudentClass> studentClassById;
+//    @SerializedName("studentClassById")
+//    @Expose
+//    private List<StudentClass> studentClassById;
     @SerializedName("studentByProfile")
     @Expose
     private Profile studentByProfile;
@@ -83,13 +83,13 @@ public class Student {
         this.studentSubjectsById = studentSubjectsById;
     }
 
-    public List<StudentClass> getStudentClassById() {
-        return studentClassById;
-    }
-
-    public void setStudentClassById(List<StudentClass> studentClassById) {
-        this.studentClassById = studentClassById;
-    }
+//    public List<StudentClass> getStudentClassById() {
+//        return studentClassById;
+//    }
+//
+//    public void setStudentClassById(List<StudentClass> studentClassById) {
+//        this.studentClassById = studentClassById;
+//    }
 
     public Profile getStudentByProfile() {
         return studentByProfile;

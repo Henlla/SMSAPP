@@ -1,22 +1,30 @@
-package com.demo1.smsapp.models;
+package com.demo1.smsapp.dto;
 
+import com.demo1.smsapp.models.Classses;
+import com.demo1.smsapp.models.Schedule;
+import com.demo1.smsapp.models.ScheduleDetail;
+import com.demo1.smsapp.models.Subject;
 import com.google.gson.annotations.SerializedName;
 
-public class ScheduleDetail {
-    @SerializedName("id")
+
+public class ScheduleDetailModel {
     private int id;
-    @SerializedName("date")
     private String date;
-    @SerializedName("subjectId")
     private Integer subjectId;
-    @SerializedName("scheduleId")
     private Integer scheduleId;
-    @SerializedName("dayOfWeek")
     private String dayOfWeek;
-    @SerializedName("subjectBySubjectId")
+    private String teacherName;
+    private String className;
     private Subject subjectBySubjectId;
-    @SerializedName("scheduleByScheduleId")
     private Schedule scheduleByScheduleId;
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
 
     public int getId() {
         return id;
@@ -56,6 +64,14 @@ public class ScheduleDetail {
 
     public void setDayOfWeek(String dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
     public Subject getSubjectBySubjectId() {

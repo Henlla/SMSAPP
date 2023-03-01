@@ -1,15 +1,12 @@
 package com.demo1.smsapp.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -40,8 +37,6 @@ public class HomeActivity extends AppCompatActivity {
         dataJson = data.getString("data",null);
         setUpViewPager();
         setupNavigationBottom();
-        Intent intent = new Intent(HomeActivity.this,ApplicationActivity.class);
-        startActivity(intent);
     }
     public String getAccountJson() {
         return accountJson;

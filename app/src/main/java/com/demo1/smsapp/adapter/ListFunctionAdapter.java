@@ -2,7 +2,6 @@ package com.demo1.smsapp.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +22,11 @@ public class ListFunctionAdapter extends RecyclerView.Adapter<ListFunctionAdapte
 
     Context context;
 
+    public IClickItem item;
+    public void ClickFunction(IClickItem item){
+        this.item = item;
+    }
+
     @NonNull
     @NotNull
     @Override
@@ -41,6 +45,9 @@ public class ListFunctionAdapter extends RecyclerView.Adapter<ListFunctionAdapte
                 .centerCrop()
                 .error(R.drawable.image_notavailable)
                 .into(holder.listFunctionBinding.imgFunc);
+        holder.listFunctionBinding.layout.setOnClickListener(view->{
+            item.ClickFunction(functionModel.getCode());
+        });
     }
 
     @Override
@@ -54,5 +61,9 @@ public class ListFunctionAdapter extends RecyclerView.Adapter<ListFunctionAdapte
             super(listFunctionBinding.getRoot());
             this.listFunctionBinding = listFunctionBinding;
         }
+    }
+
+   public interface IClickItem{
+       public void ClickFunction(String functionName);
     }
 }

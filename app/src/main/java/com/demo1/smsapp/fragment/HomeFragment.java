@@ -1,5 +1,6 @@
 package com.demo1.smsapp.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,8 +8,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.RequiresApi;
@@ -16,9 +15,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import com.bumptech.glide.Glide;
 import com.demo1.smsapp.R;
@@ -31,7 +27,6 @@ import com.demo1.smsapp.api.utils.APIUtils;
 import com.demo1.smsapp.databinding.FragmentHomeBinding;
 import com.demo1.smsapp.dto.FunctionModel;
 import com.demo1.smsapp.dto.ResponseModel;
-import com.demo1.smsapp.enums.EFunctionName;
 import com.demo1.smsapp.enums.ERole;
 import com.demo1.smsapp.models.*;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,9 +46,10 @@ import retrofit2.Response;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.stream.Collectors;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.demo1.smsapp.enums.EFunctionName.*;
 
 public class HomeFragment extends Fragment {
     FragmentHomeBinding fragmentHomeBinding;
@@ -73,6 +69,7 @@ public class HomeFragment extends Fragment {
     SlideNewAdapter slideNewAdapter;
 
     ListFunctionAdapter listFunctionAdapter;
+    String role;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -96,24 +93,38 @@ public class HomeFragment extends Fragment {
         processClickSearch();
         clickReadMore();
         setListFunc();
+        setOnClickFunction();
         return fragmentHomeBinding.getRoot();
     }
 
-    private void setListFunc() {
-        listFunctionAdapter.setData(listF());
-        fragmentHomeBinding.listFunc.setAdapter(listFunctionAdapter);
-        fragmentHomeBinding.listFunc.setLayoutManager(new GridLayoutManager(getContext(),3));
-
+    public void setOnClickFunction() {
+        listFunctionAdapter.ClickFunction(new ListFunctionAdapter.IClickItem() {
+            @Override
+            public void ClickFunction(String functionName) {
+                if(functionName.equals(SCHEDULES.toString())){
+                    startActivity(new Intent(context, TimetableActivity.class));
+                }
+            }
+        });
     }
 
-    private List<FunctionModel> listF(){
+    @SuppressLint("NewApi")
+    public void setListFunc() {
+        List<FunctionModel> listByRole = listF().stream().filter(functionModel -> functionModel.getRole().equals(role)).collect(Collectors.toList());
+        listFunctionAdapter.setData(listByRole);
+        fragmentHomeBinding.listFunc.setAdapter(listFunctionAdapter);
+        fragmentHomeBinding.listFunc.setLayoutManager(new GridLayoutManager(getContext(),3));
+    }
+
+
+    public List<FunctionModel> listF(){
         List<FunctionModel> functionModels= new ArrayList<>();
-        FunctionModel attendance = new FunctionModel(ERole.Teacher.toString(), "Điểm danh", EFunctionName.ATTENDANCE.toString(),R.drawable.logout_2);
-        FunctionModel mark = new FunctionModel(ERole.Teacher.toString(), "Xem điểm", EFunctionName.MARK.toString(),R.drawable.logout_2);
-        FunctionModel schedule = new FunctionModel(ERole.Teacher.toString(), "Thời khóa biểu", EFunctionName.SCHEDULES.toString(),R.drawable.logout_2);
-        FunctionModel application = new FunctionModel(ERole.Teacher.toString(), "Nợp đơn", EFunctionName.APPLICATION.toString(),R.drawable.logout_2);
-        FunctionModel schedule1 = new FunctionModel(ERole.Teacher.toString(), "Thời khóa biểu1", EFunctionName.SCHEDULES.toString(),R.drawable.logout_2);
-        FunctionModel schedule2 = new FunctionModel(ERole.Teacher.toString(), "Thời khóa biểu2", EFunctionName.SCHEDULES.toString(),R.drawable.logout_2);
+        FunctionModel attendance = new FunctionModel(ERole.Teacher.toString(), "Điểm danh", ATTENDANCE.toString(),R.drawable.logout_2);
+        FunctionModel mark = new FunctionModel(ERole.Teacher.toString(), "Xem điểm", MARK.toString(),R.drawable.logout_2);
+        FunctionModel schedule = new FunctionModel(ERole.Student.toString(), "Thời khóa biểu", SCHEDULES.toString(),R.drawable.logout_2);
+        FunctionModel application = new FunctionModel(ERole.Student.toString(), "Nợp đơn", APPLICATION.toString(),R.drawable.logout_2);
+        FunctionModel schedule1 = new FunctionModel(ERole.Teacher.toString(), "Thời khóa biểu1", SCHEDULES.toString(),R.drawable.logout_2);
+        FunctionModel schedule2 = new FunctionModel(ERole.Teacher.toString(), "Thời khóa biểu2", SCHEDULES.toString(),R.drawable.logout_2);
         functionModels.add(attendance);
         functionModels.add(mark);
         functionModels.add(schedule);
@@ -197,9 +208,11 @@ public class HomeFragment extends Fragment {
         if(account.getRoleByRoleId().getRoleName().equals(ERole.Student.toString())){
             student = gson.fromJson(data,Student.class);
             fragmentHomeBinding.card.setText(student.getStudentCard());
+            role = account.getRoleByRoleId().getRoleName();
         }else{
             fragmentHomeBinding.card.setVisibility(View.GONE);
             teacher = gson.fromJson(data,Teacher.class);
+            role = account.getRoleByRoleId().getRoleName();
         }
         Profile profile = gson.fromJson(profileJson,Profile.class);
         StorageReference reference = firebaseStorage.getReference().child(profile.getAvatarPath());

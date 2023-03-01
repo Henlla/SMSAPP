@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.demo1.smsapp.api.TeacherAPI;
 import com.demo1.smsapp.api.utils.APIUtils;
 import com.demo1.smsapp.databinding.ActivityLoginBinding;
 import com.demo1.smsapp.dto.LoginResponse;
+import com.demo1.smsapp.enums.ERole;
 import com.demo1.smsapp.models.Account;
 import com.demo1.smsapp.models.Profile;
 import com.demo1.smsapp.models.Student;
@@ -61,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         pd = new ProgressDialog(this);
         pd.setMessage("Loading ....");
         Window window = this.getWindow();
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.red));
+        window.setStatusBarColor(ContextCompat.getColor(LoginActivity.this, R.color.red));
         hideShowPassword();
         setFocusButton();
         login();
@@ -129,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                                     profile = response.body();
                                     profileId = profile.getId();
                                     jsonProfile = gson.toJson(profile);
-                                    if (accountResponse.getRoleByRoleId().getRoleName().equals("STUDENT")) {
+                                    if (accountResponse.getRoleByRoleId().getRoleName().equals(ERole.Student.toString())) {
                                         studentAPI.getStudentByProfileId(_token, profileId).enqueue(new Callback<Student>() {
                                             @Override
                                             public void onResponse(Call<Student> call, Response<Student> response) {

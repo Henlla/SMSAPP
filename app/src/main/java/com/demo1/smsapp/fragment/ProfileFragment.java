@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +13,25 @@ import com.bumptech.glide.Glide;
 import com.demo1.smsapp.R;
 import com.demo1.smsapp.activity.ChangePasswordActivity;
 import com.demo1.smsapp.activity.HomeActivity;
+import com.demo1.smsapp.api.ClassAPI;
+import com.demo1.smsapp.api.StudentClassAPI;
+import com.demo1.smsapp.api.utils.APIUtils;
 import com.demo1.smsapp.databinding.FragmentProfileBinding;
+import com.demo1.smsapp.dto.ResponseModel;
 import com.demo1.smsapp.models.*;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileFragment extends Fragment {
@@ -35,6 +48,10 @@ public class ProfileFragment extends Fragment {
     Gson gson;
     private FirebaseStorage firebaseStorage;
 
+    ClassAPI classAPI;
+    StudentClassAPI studentClassAPI;
+    String token;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,6 +60,9 @@ public class ProfileFragment extends Fragment {
         homeActivity = (HomeActivity) getActivity();
         gson = new Gson();
         context = getContext();
+        classAPI = APIUtils.getClasses();
+        token = homeActivity.get_token();
+        studentClassAPI = APIUtils.getStudentClass();
         jsonAccount = homeActivity.getAccountJson();
         profileJson = homeActivity.getProfileJson();
         data = homeActivity.getDataJson();
@@ -66,7 +86,6 @@ public class ProfileFragment extends Fragment {
             student = gson.fromJson(data, Student.class);
             profileBinding.stCard.setText(student.getStudentCard());
             List<MajorStudent> majorStudentList = student.getMajorStudentsById();
-            List<StudentClass> studentClasses = student.getStudentClassById();
             if(majorStudentList.isEmpty()){
                 profileBinding.tvMajor.setText("Chưa có");
             }else{
@@ -80,19 +99,39 @@ public class ProfileFragment extends Fragment {
                 }
                 profileBinding.tvMajor.setText(major);
             }
-            if(studentClasses.isEmpty()){
-                profileBinding.tvClass.setText("Chưa có");
-            }else{
-                StringBuilder classes = new StringBuilder();
-                for(StudentClass studentClass : studentClasses){
-                    if(studentClasses.get(studentClasses.size()-1)!=null){
-                        classes.append(studentClass.getClassStudentByClass().getClassCode());
-                    }else{
-                        classes.append(studentClass.getClassStudentByClass().getClassCode()).append(", ");
+           studentClassAPI.getClassIdByStudentId(token, student.getId()).enqueue(new Callback<ResponseModel>() {
+               @Override
+               public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                    String json = gson.toJson(response.body().getData());
+                   Type studentClassType = new TypeToken<ArrayList<StudentClass>>(){}.getType();
+                    List<StudentClass> studentClasses = gson.fromJson(json, studentClassType);
+                    for (StudentClass studentClass : studentClasses){
+                        classAPI.getClassById(token,studentClass.getClassId()).enqueue(new Callback<ResponseModel>() {
+                            @Override
+                            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                                String jsonClass = gson.toJson(response.body().getData());
+//                                Type classType = new TypeToken<ResponseModel>(){}.getType();
+                               Classses classses = gson.fromJson(jsonClass, Classses.class);
+                                if(classses==null){
+                                    profileBinding.tvClass.setText("Chưa có");
+                                }else{
+                                    profileBinding.tvClass.setText(classses.getClassCode());
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<ResponseModel> call, Throwable t) {
+                                Log.e("msg",t.getMessage());
+                            }
+                        });
                     }
-                }
-                profileBinding.tvClass.setText(classes);
-            }
+
+               }
+
+               @Override
+               public void onFailure(Call<ResponseModel> call, Throwable t) {
+                   Log.e("msg",t.getMessage());
+               }
+           });
         } else {
             profileBinding.lMajor.setVisibility(View.GONE);
             profileBinding.lClass.setVisibility(View.GONE);

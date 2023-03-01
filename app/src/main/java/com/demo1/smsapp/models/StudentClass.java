@@ -6,17 +6,13 @@ public class StudentClass {
     @SerializedName("id")
     private int id;
     @SerializedName("studentId")
-
     private Integer studentId;
     @SerializedName("classId")
-
     private Integer classId;
     @SerializedName("classStudentByStudent")
-
     private Student classStudentByStudent;
-    @SerializedName("classStudentByClass")
-
-    private Classses classStudentByClass;
+//    @SerializedName("classStudentByClass")
+//    private Classses classStudentByClass;
 
     public int getId() {
         return id;
@@ -50,11 +46,11 @@ public class StudentClass {
         this.classStudentByStudent = classStudentByStudent;
     }
 
-    public Classses getClassStudentByClass() {
-        return classStudentByClass;
-    }
-
-    public void setClassStudentByClass(Classses classStudentByClass) {
-        this.classStudentByClass = classStudentByClass;
-    }
+//    public Classses getClassStudentByClass() {
+//        return classStudentByClass;
+//    }
+//
+//    public void setClassStudentByClass(Classses classStudentByClass) {
+//        this.classStudentByClass = classStudentByClass;
+//    }
 }

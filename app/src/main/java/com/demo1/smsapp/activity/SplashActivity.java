@@ -18,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
         splashBinding= ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(splashBinding.getRoot());
         Window window = this.getWindow();
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.red));
+        window.setStatusBarColor(ContextCompat.getColor(this,R.color.bluegra));
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
@@ -27,6 +27,6 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(mainIntent);
                 finish();
             }
-        }, 3000);
+        }, 2000);
     }
 }

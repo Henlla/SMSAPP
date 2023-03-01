@@ -8,6 +8,8 @@ public class APIUtils {
     private static final String URL_STUDENT = "http://10.0.2.2:8080/api/students/";
     private static final String URL_PROFILE = "http://10.0.2.2:8080/api/profiles/";
     private static final String URL_TEACHER = "http://10.0.2.2:8080/api/teachers/";
+    private static final String URL_STUDENT_CLASS = "http://10.0.2.2:8080/api/student-class/";
+    private static final String URL_CLASS = "http://10.0.2.2:8080/api/classes/";
     public static AccountAPI getAccountAPI(){
         return Retrofit.getRetrofitClient(URL_ACCOUNT).create(AccountAPI.class);
     }
@@ -23,5 +25,11 @@ public class APIUtils {
     }
     public static TeacherAPI getTeacher(){
         return Retrofit.getRetrofitClient(URL_TEACHER).create(TeacherAPI.class);
+    }
+    public static StudentClassAPI getStudentClass(){
+        return Retrofit.getRetrofitClient(URL_STUDENT_CLASS).create(StudentClassAPI.class);
+    }
+    public static ClassAPI getClasses(){
+        return Retrofit.getRetrofitClient(URL_CLASS).create(ClassAPI.class);
     }
 }

@@ -14,6 +14,7 @@
                    android:src="@drawable/arrow_back"
                    android:backgroundTint="@null"
                    android:scaleType="centerCrop"
+                   android:background="?attr/selectableItemBackgroundBorderless"
                    android:id="@+id/ic_back" app:tint="@color/white"/>
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -56,23 +57,22 @@
                   android:layout_marginStart="15dp"
                   android:layout_marginTop="10dp"
                   android:orientation="horizontal">
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textStyle="bold"
-                  android:textColor="@color/black"
-                  android:text="Ngày đăng :"/>
+        <ImageView android:layout_width="@dimen/_20sdp"
+                   android:layout_height="@dimen/_20sdp"
+                   android:src="@drawable/clock"/>
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textStyle="italic"
                   android:id="@+id/post_date"
+                  android:layout_gravity="center"
                   android:layout_marginStart="5dp"
                   android:textColor="@color/black"
                   android:text="2023-05-03"/>
     </LinearLayout>
     <WebView android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="10dp"
-              android:textColor="@color/black"
-              android:fontFamily="@font/inria_serif_regular"
-              android:id="@+id/content"/>
+             android:layout_height="wrap_content"
+             android:layout_margin="10dp"
+             android:textColor="@color/black"
+             android:fontFamily="@font/inria_serif_regular"
+             android:id="@+id/content"/>
 </LinearLayout>

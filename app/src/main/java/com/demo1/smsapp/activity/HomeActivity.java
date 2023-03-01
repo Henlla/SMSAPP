@@ -1,8 +1,9 @@
 package com.demo1.smsapp.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
@@ -11,32 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 import com.demo1.smsapp.R;
-import com.demo1.smsapp.adapter.NewAdapter;
 import com.demo1.smsapp.adapter.ViewPagerAdapter;
-import com.demo1.smsapp.api.NewsAPI;
-import com.demo1.smsapp.api.utils.APIUtils;
 import com.demo1.smsapp.databinding.ActivityHomeBinding;
-import com.demo1.smsapp.dto.ResponseModel;
-import com.demo1.smsapp.fragment.HomeFragment;
-import com.demo1.smsapp.fragment.ProfileFragment;
-import com.demo1.smsapp.models.Account;
-import com.demo1.smsapp.models.News;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.gson.Gson;
 import org.jetbrains.annotations.NotNull;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -59,8 +40,9 @@ public class HomeActivity extends AppCompatActivity {
         dataJson = data.getString("data",null);
         setUpViewPager();
         setupNavigationBottom();
+        Intent intent = new Intent(HomeActivity.this,ApplicationActivity.class);
+        startActivity(intent);
     }
-
     public String getAccountJson() {
         return accountJson;
     }

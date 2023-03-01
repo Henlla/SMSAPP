@@ -31,6 +31,9 @@ public class Student {
     @Expose
     private Profile studentByProfile;
 
+    public Student(Integer id) {
+        this.id = id;
+    }
 
     public Integer getId() {
         return id;

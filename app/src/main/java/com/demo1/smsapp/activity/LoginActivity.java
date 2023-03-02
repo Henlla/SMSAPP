@@ -10,28 +10,30 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import com.demo1.smsapp.R;
-import com.demo1.smsapp.api.AccountAPI;
-import com.demo1.smsapp.api.ProfileAPI;
-import com.demo1.smsapp.api.StudentAPI;
-import com.demo1.smsapp.api.TeacherAPI;
+import com.demo1.smsapp.api.*;
 import com.demo1.smsapp.api.utils.APIUtils;
 import com.demo1.smsapp.databinding.ActivityLoginBinding;
 import com.demo1.smsapp.dto.LoginResponse;
 import com.demo1.smsapp.enums.ERole;
-import com.demo1.smsapp.models.Account;
-import com.demo1.smsapp.models.Profile;
-import com.demo1.smsapp.models.Student;
-import com.demo1.smsapp.models.Teacher;
+import com.demo1.smsapp.models.*;
+import com.demo1.smsapp.utils.MyFirebaseMessagingService;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding loginBinding;
@@ -49,6 +51,11 @@ public class LoginActivity extends AppCompatActivity {
     String _token;
     MaterialDialog mDialog;
     ProgressDialog pd;
+    MyFirebaseMessagingService service;
+
+    DeviceAPI deviceAPI;
+
+    String tokenDevice;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -62,12 +69,20 @@ public class LoginActivity extends AppCompatActivity {
         teacherAPI = APIUtils.getTeacher();
         pd = new ProgressDialog(this);
         pd.setMessage("Loading ....");
+        deviceAPI = APIUtils.getDeviceAPI();
+        service = new MyFirebaseMessagingService();
         Window window = this.getWindow();
         window.setStatusBarColor(ContextCompat.getColor(LoginActivity.this, R.color.red));
         hideShowPassword();
         setFocusButton();
         login();
+        setTokenDevice();
     }
+
+    private void setTokenDevice() {
+
+    }
+
 
     @SuppressLint("NewApi")
     private void hideShowPassword() {
@@ -125,6 +140,38 @@ public class LoginActivity extends AppCompatActivity {
                             _token = "Bearer " + response.body().getToken();
                             Account accountResponse = gson.fromJson(jsonAccount, Account.class);
                             Integer accountId = accountResponse.getId();
+                            Device device = new Device();
+                            FirebaseMessaging.getInstance().getToken()
+                                    .addOnCompleteListener(new OnCompleteListener<String>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<String> task) {
+                                            if (!task.isSuccessful()) {
+                                                Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                                                return;
+                                            }
+
+                                            // Get new FCM registration token
+                                            tokenDevice = task.getResult();
+                                            // Log and toast
+                                            Log.d("token", tokenDevice);
+//                        Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    });
+                            device.setDeviceToken(tokenDevice);
+                            device.setAccountId(accountId);
+                            deviceAPI.saveDevice(device).enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+
+                                }
+                            });
+
                             profileAPI.getProfileByAccountId(_token, accountId).enqueue(new Callback<Profile>() {
                                 @Override
                                 public void onResponse(Call<Profile> call, Response<Profile> response) {
@@ -146,6 +193,7 @@ public class LoginActivity extends AppCompatActivity {
                                                         .putString("data", data)
                                                         .apply();
                                                 pd.dismiss();
+                                                setTokenDevice();
                                                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                             }
 
@@ -168,6 +216,7 @@ public class LoginActivity extends AppCompatActivity {
                                                         .putString("profile", jsonProfile)
                                                         .putString("data", data)
                                                         .apply();
+                                                setTokenDevice();
                                                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                             }
 

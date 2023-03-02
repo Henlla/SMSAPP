@@ -18,12 +18,14 @@ import com.demo1.smsapp.adapter.ListScheduleAdapter;
 import com.demo1.smsapp.api.ClassAPI;
 import com.demo1.smsapp.api.ScheduleAPI;
 import com.demo1.smsapp.api.StudentClassAPI;
+import com.demo1.smsapp.api.SubjectAPI;
 import com.demo1.smsapp.api.utils.APIUtils;
 import com.demo1.smsapp.databinding.ActivityTimetableBinding;
 import com.demo1.smsapp.dto.ResponseModel;
 import com.demo1.smsapp.dto.ScheduleDetailModel;
 import com.demo1.smsapp.models.*;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpStatus;
 import com.google.gson.Gson;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
@@ -54,7 +56,9 @@ public class TimetableActivity extends AppCompatActivity {
     ListScheduleAdapter listScheduleAdapter;
     MaterialDialog materialDialog;
     List<ScheduleDetailModel> scheduleDetailModels;
-
+    List<String> listSubject;
+    SubjectAPI subjectAPI;
+    List<Subject> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +70,7 @@ public class TimetableActivity extends AppCompatActivity {
         listScheduleAdapter = new ListScheduleAdapter();
         scheduleAPI = APIUtils.getScheduleAPI();
         Window window = this.getWindow();
+        subjectAPI = APIUtils.getSubject();
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.red));
         SharedPreferences sharedPreferences = getApplication().getSharedPreferences("informationAccount", MODE_PRIVATE);
         studentJson = sharedPreferences.getString("data", null);
@@ -77,6 +82,37 @@ public class TimetableActivity extends AppCompatActivity {
         setListSpinWeek();
         setDataSelectSemester();
         setDataSelectWeek();
+        setDataSelectSubject();
+    }
+
+    private void setDataSelectSubject() {
+        timetableBinding.cbxSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i==0){
+                    listScheduleAdapter.setList(scheduleDetailModels);
+                    timetableBinding.rcvListSchedule.setAdapter(listScheduleAdapter);
+                    timetableBinding.rcvListSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                }else{
+                    String subjectName = listSubject.get(i-1);
+                    Integer subjectId = null;
+                    for (Subject sb:list.stream().filter(subject1 -> subject1.getSubjectName().equals(subjectName)).collect(Collectors.toList())){
+                        subjectId = sb.getId();
+                    }
+                    Integer finalSubjectId = subjectId;
+                    List<ScheduleDetailModel> scheduleDetailModelList = scheduleDetailModels.stream().filter(scheduleDetailModel -> scheduleDetailModel.getSubjectBySubjectId().getId() == finalSubjectId).collect(Collectors.toList());
+                    listScheduleAdapter.setList(scheduleDetailModelList);
+                    timetableBinding.rcvListSchedule.setAdapter(listScheduleAdapter);
+                    timetableBinding.rcvListSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void setDataSelectWeek() {
@@ -226,6 +262,7 @@ public class TimetableActivity extends AppCompatActivity {
                                 ScheduleDetailModel scheduleDetailModel = new ScheduleDetailModel();
                                 scheduleDetailModel.setDate(scheduleDetail.getDate());
                                 scheduleDetailModel.setId(scheduleDetail.getId());
+                                scheduleDetailModel.setScheduleId(scheduleDetail.getSubjectBySubjectId().getId());
                                 scheduleDetailModel.setScheduleId(scheduleDetail.getScheduleId());
                                 scheduleDetailModel.setSubjectBySubjectId(scheduleDetail.getSubjectBySubjectId());
                                 scheduleDetailModel.setScheduleByScheduleId(scheduleDetail.getScheduleByScheduleId());
@@ -238,7 +275,52 @@ public class TimetableActivity extends AppCompatActivity {
                             listScheduleAdapter.setList(scheduleDetailModels);
                             timetableBinding.rcvListSchedule.setAdapter(listScheduleAdapter);
                             timetableBinding.rcvListSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                        } else {
+                            subjectAPI.findSubjectByMajorIdSemester(_token,classses.getMajorId(),i+1).enqueue(new Callback<ResponseModel>() {
+                                @Override
+                                public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                                        if(response.isSuccessful()){
+                                            listSubject = new ArrayList<>();
+                                            String json = gson.toJson(response.body().getData());
+                                            Type listType = new TypeToken<ArrayList<Subject>>(){}.getType();
+                                            list = gson.fromJson(json,listType);
+                                            listSubject.add("Tất cả");
+                                            for (Subject subject:list){
+                                                listSubject.add(subject.getSubjectName());
+                                            }
+                                            timetableBinding.cbxSubject.setItem(listSubject);
+                                        }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseModel> call, Throwable t) {
+                                    materialDialog = new MaterialDialog.Builder(TimetableActivity.this)
+                                            .setMessage(t.getMessage())
+                                            .setCancelable(false)
+                                            .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int which) {
+                                                    materialDialog.dismiss();
+                                                }
+                                            }).build();
+                                    materialDialog.show();
+                                }
+                            });
+                        }else if(response.code() == 403){
+                            materialDialog = new MaterialDialog.Builder(TimetableActivity.this)
+                                    .setMessage("Hết phiên đăng nhập ! Vui lòng đăng nhập lại")
+                                    .setCancelable(false)
+                                    .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int which) {
+                                            SharedPreferences sharedPreferences = getApplication().getSharedPreferences("informationAccount", MODE_PRIVATE);
+                                            sharedPreferences.edit().clear().apply();
+                                            dialogInterface.dismiss();
+                                            startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+                                        }
+                                    }).build();
+                            materialDialog.show();
+                        }
+                        else {
                             materialDialog = new MaterialDialog.Builder(TimetableActivity.this)
                                     .setMessage("Chưa có thời khóa biểu kì " + (i + 1))
                                     .setCancelable(false)
@@ -250,6 +332,7 @@ public class TimetableActivity extends AppCompatActivity {
                                     }).build();
                             materialDialog.show();
                         }
+
                     }
 
                     @Override

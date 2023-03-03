@@ -12,7 +12,10 @@ public class APIUtils {
     private static final String URL_CLASS = "http://10.0.2.2:8080/api/classes/";
     private static final String URL_APPLICATION = "http://10.0.2.2:8080/api/application/";
     private static final String URL_APPLICATION_TYPE = "http://10.0.2.2:8080/api/application_type/";
-   
+    private static final String URL_SCHEDULE = "http://10.0.2.2:8080/api/schedules/";
+    private static final String URL_SUBJECT = "http://10.0.2.2:8080/api/subject/";
+    private static final String URL_DEVICE = "http://10.0.2.2:8080/api/device/";
+
    // private static final String URL_ACCOUNT = "http://192.168.1.55:8080/api/accounts/";
    // private static final String URL_NEWS = "http://192.168.1.55:8080/api/news/";
    // private static final String URL_STUDENT = "http://192.168.1.55:8080/api/students/";
@@ -43,8 +46,9 @@ public class APIUtils {
     public static StudentClassAPI getStudentClass(){
         return Retrofit.getRetrofitClient(URL_STUDENT_CLASS).create(StudentClassAPI.class);
     }
-    public static ClassAPI getClasses(){
+    public static ClassAPI getClasses() {
         return Retrofit.getRetrofitClient(URL_CLASS).create(ClassAPI.class);
+    }
 
     public static ApplicationApi Application() {
         return Retrofit.getRetrofitClient(URL_APPLICATION).create(ApplicationApi.class);
@@ -52,5 +56,14 @@ public class APIUtils {
 
     public static ApplicationTypeApi ApplicationType() {
         return Retrofit.getRetrofitClient(URL_APPLICATION_TYPE).create(ApplicationTypeApi.class);
+    }
+    public static ScheduleAPI getScheduleAPI() {
+        return Retrofit.getRetrofitClient(URL_SCHEDULE).create(ScheduleAPI.class);
+    }
+    public static SubjectAPI getSubject() {
+        return Retrofit.getRetrofitClient(URL_SUBJECT).create(SubjectAPI.class);
+    }
+    public static DeviceAPI getDeviceAPI() {
+        return Retrofit.getRetrofitClient(URL_DEVICE).create(DeviceAPI.class);
     }
 }

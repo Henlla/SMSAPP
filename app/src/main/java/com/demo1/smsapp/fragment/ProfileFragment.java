@@ -156,6 +156,7 @@ public class ProfileFragment extends Fragment {
         profileBinding.tvEmail.setText(profile.getEmail());
         profileBinding.tvDob.setText(profile.getDob());
         profileBinding.tvGender.setText(profile.getSex());
+        profileBinding.tvPhone.setText(profile.getPhone());
 
         StringBuilder address = new StringBuilder();
         address.append(profile.getAddress()).append(", ")

@@ -10,4 +10,6 @@
     <string name="msg_error_changePassword">Yêu cầu điền mật khẩu cũ và mật khẩu mới !</string>
     <string name="msg_error_oldPassword">Yêu cầu nhập mật khẩu cũ !</string>
     <string name="msg_error_newPassword">Yêu cầu nhập mật khẩu mới !</string>
+    <string name="default_notification_channel_id">htk_app</string>
+
 </resources>

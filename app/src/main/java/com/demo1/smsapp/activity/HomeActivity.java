@@ -1,6 +1,8 @@
 package com.demo1.smsapp.activity;
 
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,11 +12,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.demo1.smsapp.R;
 import com.demo1.smsapp.adapter.ViewPagerAdapter;
 import com.demo1.smsapp.databinding.ActivityHomeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Date;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -23,6 +31,8 @@ public class HomeActivity extends AppCompatActivity {
     String profileJson;
     String dataJson;
     String _token;
+    String role;
+    MaterialDialog materialDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +45,35 @@ public class HomeActivity extends AppCompatActivity {
         _token = data.getString("token",null);
         profileJson = data.getString("profile",null);
         dataJson = data.getString("data",null);
+        role = data.getString("role",null);
         setUpViewPager();
         setupNavigationBottom();
     }
+
+    public String getRole() {
+        return role;
+    }
+
+    private void checkToken() {
+        String newToken = _token.substring(7, _token.length());
+        DecodedJWT jwt = JWT.decode(newToken);
+        if (jwt.getExpiresAt().before(new Date())) {
+            materialDialog = new MaterialDialog.Builder(HomeActivity.this)
+                    .setMessage("Hết phiên đăng nhập ! Vui lòng đăng nhập lại")
+                    .setCancelable(false)
+                    .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            SharedPreferences sharedPreferences = getApplication().getSharedPreferences("informationAccount", MODE_PRIVATE);
+                            sharedPreferences.edit().clear().apply();
+                            dialogInterface.dismiss();
+                            startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+                        }
+                    }).build();
+            materialDialog.show();
+        }
+    }
+
     public String getAccountJson() {
         return accountJson;
     }
@@ -101,5 +137,9 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkToken();
+    }
 }

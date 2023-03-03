@@ -39,6 +39,7 @@ public class ListScheduleAdapter extends RecyclerView.Adapter<ListScheduleAdapte
         holder.scheduleBinding.tvTeacher.setText("Gv: "+scheduleDetail.getTeacherName());
         holder.scheduleBinding.tvClass.setText("Lớp : "+scheduleDetail.getClassName());
         holder.scheduleBinding.tvDayOfWeek.setText(dayOfWeek);
+        holder.scheduleBinding.tvTime.setText(scheduleDetail.getTime());
         holder.scheduleBinding.tvDate.setText(dateFormat);
     }
 

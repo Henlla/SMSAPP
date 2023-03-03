@@ -13,10 +13,19 @@ public class ScheduleDetailModel {
     private Integer subjectId;
     private Integer scheduleId;
     private String dayOfWeek;
+    private String time;
     private String teacherName;
     private String className;
     private Subject subjectBySubjectId;
     private Schedule scheduleByScheduleId;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getClassName() {
         return className;

@@ -55,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
 
     DeviceAPI deviceAPI;
 
-    String tokenDevice;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -140,38 +139,80 @@ public class LoginActivity extends AppCompatActivity {
                             _token = "Bearer " + response.body().getToken();
                             Account accountResponse = gson.fromJson(jsonAccount, Account.class);
                             Integer accountId = accountResponse.getId();
-                            Device device = new Device();
-                            FirebaseMessaging.getInstance().getToken()
-                                    .addOnCompleteListener(new OnCompleteListener<String>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<String> task) {
-                                            if (!task.isSuccessful()) {
-                                                Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                                                return;
-                                            }
 
-                                            // Get new FCM registration token
-                                            tokenDevice = task.getResult();
-                                            // Log and toast
-                                            Log.d("token", tokenDevice);
-//                        Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
-                                        }
-
-                                    });
-                            device.setDeviceToken(tokenDevice);
-                            device.setAccountId(accountId);
-                            deviceAPI.saveDevice(device).enqueue(new Callback<Void>() {
+                            deviceAPI.findByAccountId(accountId).enqueue(new Callback<Device>() {
                                 @Override
-                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                public void onResponse(Call<Device> call, Response<Device> response) {
+                                    if (response.isSuccessful()) {
+                                        FirebaseMessaging.getInstance().getToken()
+                                                .addOnCompleteListener(new OnCompleteListener<String>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<String> task) {
+                                                        if (!task.isSuccessful()) {
+                                                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                                                            return;
+                                                        }
+                                                        Device device = response.body();
+                                                        // Get new FCM registration token
+                                                        String tokenDevice = task.getResult();
+                                                        device.setDeviceToken(tokenDevice);
+                                                        String deviceJson = gson.toJson(device);
+                                                        deviceAPI.putDevice(deviceJson).enqueue(new Callback<Device>() {
+                                                            @Override
+                                                            public void onResponse(Call<Device> call, Response<Device> response) {
 
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<Device> call, Throwable t) {
+
+                                                            }
+                                                        });
+                                                        // Log and toast
+                                                        Log.d("token", tokenDevice);
+//                        Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                    } else {
+                                        FirebaseMessaging.getInstance().getToken()
+                                                .addOnCompleteListener(new OnCompleteListener<String>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<String> task) {
+                                                        if (!task.isSuccessful()) {
+                                                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                                                            return;
+                                                        }
+                                                        Device device = new Device();
+                                                        // Get new FCM registration token
+                                                        String tokenDevice = task.getResult();
+                                                        device.setDeviceToken(tokenDevice);
+                                                        device.setAccountId(accountId);
+                                                        String deviceJson = gson.toJson(device);
+                                                        deviceAPI.saveDevice(deviceJson).enqueue(new Callback<Device>() {
+                                                            @Override
+                                                            public void onResponse(Call<Device> call, Response<Device> response) {
+
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<Device> call, Throwable t) {
+
+                                                            }
+                                                        });
+                                                        // Log and toast
+                                                        Log.d("token", tokenDevice);
+//                        Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
+                                                    }
+
+                                                });
+                                    }
                                 }
 
                                 @Override
-                                public void onFailure(Call<Void> call, Throwable t) {
+                                public void onFailure(Call<Device> call, Throwable t) {
 
                                 }
                             });
-
                             profileAPI.getProfileByAccountId(_token, accountId).enqueue(new Callback<Profile>() {
                                 @Override
                                 public void onResponse(Call<Profile> call, Response<Profile> response) {
@@ -190,6 +231,7 @@ public class LoginActivity extends AppCompatActivity {
                                                         .putString("account", accountJson)
                                                         .putString("token", _token)
                                                         .putString("profile", jsonProfile)
+                                                        .putString("role", accountResponse.getRoleByRoleId().getRoleName())
                                                         .putString("data", data)
                                                         .apply();
                                                 pd.dismiss();
@@ -214,6 +256,7 @@ public class LoginActivity extends AppCompatActivity {
                                                         .putString("account", accountJson)
                                                         .putString("token", _token)
                                                         .putString("profile", jsonProfile)
+                                                        .putString("role", accountResponse.getRoleByRoleId().getRoleName())
                                                         .putString("data", data)
                                                         .apply();
                                                 setTokenDevice();
@@ -251,6 +294,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        pd.dismiss();
                         Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.e("msg", t.getMessage());
                     }

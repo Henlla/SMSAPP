@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.demo1.smsapp.R;
 import com.demo1.smsapp.adapter.ListScheduleAdapter;
 import com.demo1.smsapp.api.ClassAPI;
@@ -24,6 +26,7 @@ import com.demo1.smsapp.databinding.ActivityTimetableBinding;
 import com.demo1.smsapp.dto.ResponseModel;
 import com.demo1.smsapp.dto.ScheduleDetailModel;
 import com.demo1.smsapp.models.*;
+import com.demo1.smsapp.utils.ConvertDayOfWeek;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpStatus;
 import com.google.gson.Gson;
@@ -42,7 +45,6 @@ import java.util.stream.Collectors;
 
 public class TimetableActivity extends AppCompatActivity {
     ActivityTimetableBinding timetableBinding;
-
     Student student;
     String _token;
     Classses classses;
@@ -95,7 +97,7 @@ public class TimetableActivity extends AppCompatActivity {
                     timetableBinding.rcvListSchedule.setAdapter(listScheduleAdapter);
                     timetableBinding.rcvListSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 }else{
-                    String subjectName = listSubject.get(i-1);
+                    String subjectName = listSubject.get(i);
                     Integer subjectId = null;
                     for (Subject sb:list.stream().filter(subject1 -> subject1.getSubjectName().equals(subjectName)).collect(Collectors.toList())){
                         subjectId = sb.getId();
@@ -267,6 +269,7 @@ public class TimetableActivity extends AppCompatActivity {
                                 scheduleDetailModel.setSubjectBySubjectId(scheduleDetail.getSubjectBySubjectId());
                                 scheduleDetailModel.setScheduleByScheduleId(scheduleDetail.getScheduleByScheduleId());
                                 scheduleDetailModel.setClassName(classses.getClassCode());
+                                scheduleDetailModel.setTime(ConvertDayOfWeek.convertShift(classses.getShift()));
                                 scheduleDetailModel.setDayOfWeek(scheduleDetail.getDayOfWeek());
                                 scheduleDetailModel.setTeacherName(classses.getTeacher().getProfileByProfileId().getFirstName() + " " + classses.getTeacher().getProfileByProfileId().getLastName());
                                 scheduleDetailModels.add(scheduleDetailModel);
@@ -414,5 +417,30 @@ public class TimetableActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void checkToken() {
+        String newToken = _token.substring(7, _token.length());
+        DecodedJWT jwt = JWT.decode(newToken);
+        if (jwt.getExpiresAt().before(new Date())) {
+            materialDialog = new MaterialDialog.Builder(TimetableActivity.this)
+                    .setMessage("Hết phiên đăng nhập ! Vui lòng đăng nhập lại")
+                    .setCancelable(false)
+                    .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            SharedPreferences sharedPreferences = getApplication().getSharedPreferences("informationAccount", MODE_PRIVATE);
+                            sharedPreferences.edit().clear().apply();
+                            dialogInterface.dismiss();
+                            startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+                        }
+                    }).build();
+            materialDialog.show();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkToken();
     }
 }

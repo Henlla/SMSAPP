@@ -14,4 +14,9 @@ public interface ScheduleAPI {
     Call<ResponseModel> getScheduleByClassAndSemester(@Header("Authorization")String _toke,
                                                       @Field("classId")Integer classId,
                                                       @Field("semester")Integer semester);
+
+    @POST("getScheduleByClass")
+    @FormUrlEncoded
+    Call<ResponseModel> getScheduleByClass(@Header("Authorization")String _toke,
+                                                      @Field("classId")Integer classId);
 }

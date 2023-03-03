@@ -63,7 +63,7 @@
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:fontFamily="@font/inria_serif_regular"
-                      android:text="@string/app_name"
+                      android:text=""
                       android:id="@+id/tv_fullName"
                       style="@style/text" android:layout_centerInParent="true"/>
             <View
@@ -91,7 +91,7 @@
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:fontFamily="@font/inria_serif_regular"
-                      android:text="@string/app_name"
+                      android:text=""
                       android:id="@+id/tv_gender"
                       style="@style/text"
                       android:layout_centerInParent="true"/>
@@ -125,7 +125,7 @@
                       android:layout_marginStart="@dimen/_5sdp"
                       android:maxLines="2"
                       android:maxWidth="@dimen/_300sdp"
-                      android:text="F24 Lê Đại Hành,Phú Hài, Phan Thiết, Bình Thuận"
+                      android:text=""
                       android:id="@+id/tv_address"
                       style="@style/text" android:layout_centerInParent="true"/>
             <View
@@ -156,7 +156,7 @@
                       android:layout_marginStart="@dimen/_5sdp"
                       android:maxLines="2"
                       android:maxWidth="@dimen/_300sdp"
-                      android:text="07/10/2000"
+                      android:text=""
                       android:id="@+id/tv_dob"
                       style="@style/text"
                       android:layout_centerInParent="true"/>
@@ -188,7 +188,7 @@
                       android:layout_marginStart="@dimen/_5sdp"
                       android:maxLines="2"
                       android:maxWidth="@dimen/_300sdp"
-                      android:text="0388628807"
+                      android:text=""
                       android:id="@+id/tv_phone"
                       style="@style/text"
                       android:layout_centerInParent="true"/>
@@ -220,7 +220,7 @@
                       android:layout_marginStart="@dimen/_5sdp"
                       android:maxLines="2"
                       android:maxWidth="@dimen/_300sdp"
-                      android:text="vongochoa30@gmail.com"
+                      android:text=""
                       android:id="@+id/tv_email"
                       style="@style/text"
                       android:layout_centerInParent="true"/>
@@ -252,7 +252,7 @@
                       android:layout_marginStart="@dimen/_5sdp"
                       android:maxLines="2"
                       android:maxWidth="@dimen/_300sdp"
-                      android:text="Develop Application"
+                      android:text=""
                       android:id="@+id/tv_major"
                       style="@style/text"
                       android:layout_centerInParent="true"/>
@@ -284,7 +284,7 @@
                       android:layout_marginStart="@dimen/_5sdp"
                       android:maxLines="2"
                       android:maxWidth="@dimen/_300sdp"
-                      android:text="T1.2104.M0"
+                      android:text="Chưa có"
                       android:id="@+id/tv_class"
                       style="@style/text"
                       android:layout_centerInParent="true"/>

@@ -2,61 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="@dimen/_80sdp"
-              android:layout_marginBottom="@dimen/_10sdp"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/_5sdp"
               android:layout_marginHorizontal="@dimen/_5sdp"
-              android:background="@color/yellow">
+              android:background="@color/blue_light">
     <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/_20sdp">
+            android:layout_marginStart="@dimen/_10sdp">
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:id="@+id/tv_dayOfWeek"
-                  android:text="Thứ hai"
+                  android:layout_gravity="center"
+                  android:text="T2"
                   android:textStyle="bold"
                   android:textSize="@dimen/_16sdp"/>
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:fontFamily="@font/inria_serif_regular"
                   android:id="@+id/tv_date"
-                  android:text=" 27/02/2023"/>
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:fontFamily="@font/inria_serif_regular"
-                  android:id="@+id/tv_time"
-                  android:layout_marginTop="@dimen/_3sdp"
-                  android:textColor="@color/teal_700"
-                  android:text="13h30 - 17h30"/>
+                  android:text=" 27/02"/>
     </LinearLayout>
     <View
             android:layout_width="1dp"
             android:layout_below="@+id/tv_fullName"
             android:layout_height="match_parent"
-            android:background="@drawable/line_3"
+            android:background="@drawable/line_4"
             android:layout_marginStart="@dimen/_30sdp"
     />
-    <LinearLayout android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:layout_gravity="center"
-                  android:layout_marginStart="@dimen/_10sdp">
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/tv_subjectName"
-                  android:text="Môn: Console Application"
-                  android:textSize="@dimen/_12sdp"/>
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/tv_teacher"
-                  android:text="Giáo viên: SinhTP"
-                  android:textSize="@dimen/_12sdp"/>
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="Lớp: T1.2104.E0"
-                  android:id="@id/tv_class"
-                  android:textSize="@dimen/_12sdp"/>
-    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rcv_schedule_details"/>
 </LinearLayout>

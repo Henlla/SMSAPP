@@ -13,10 +13,20 @@ public class ScheduleDetail {
     private Integer scheduleId;
     @SerializedName("dayOfWeek")
     private String dayOfWeek;
+    @SerializedName("slot")
+    private Integer slot;
     @SerializedName("subjectBySubjectId")
     private Subject subjectBySubjectId;
     @SerializedName("scheduleByScheduleId")
     private Schedule scheduleByScheduleId;
+
+    public Integer getSlot() {
+        return slot;
+    }
+
+    public void setSlot(Integer slot) {
+        this.slot = slot;
+    }
 
     public int getId() {
         return id;

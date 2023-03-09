@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -25,11 +26,13 @@ import com.demo1.smsapp.api.utils.APIUtils;
 import com.demo1.smsapp.databinding.ActivityTimetableBinding;
 import com.demo1.smsapp.dto.ResponseModel;
 import com.demo1.smsapp.dto.ScheduleDetailModel;
+import com.demo1.smsapp.dto.ScheduleGroupDTO;
 import com.demo1.smsapp.models.*;
 import com.demo1.smsapp.utils.ConvertDayOfWeek;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpStatus;
 import com.google.gson.Gson;
+import dev.shreyaspatil.MaterialDialog.AbstractDialog;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import retrofit2.Call;
@@ -57,7 +60,7 @@ public class TimetableActivity extends AppCompatActivity {
     ScheduleAPI scheduleAPI;
     ListScheduleAdapter listScheduleAdapter;
     MaterialDialog materialDialog;
-    List<ScheduleDetailModel> scheduleDetailModels;
+    List<ScheduleGroupDTO> groupDTOList;
     List<String> listSubject;
     SubjectAPI subjectAPI;
     List<Subject> list;
@@ -93,7 +96,7 @@ public class TimetableActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i==0){
-                    listScheduleAdapter.setList(scheduleDetailModels);
+                    listScheduleAdapter.setList(groupDTOList);
                     timetableBinding.rcvListSchedule.setAdapter(listScheduleAdapter);
                     timetableBinding.rcvListSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 }else{
@@ -103,10 +106,29 @@ public class TimetableActivity extends AppCompatActivity {
                         subjectId = sb.getId();
                     }
                     Integer finalSubjectId = subjectId;
-                    List<ScheduleDetailModel> scheduleDetailModelList = scheduleDetailModels.stream().filter(scheduleDetailModel -> scheduleDetailModel.getSubjectBySubjectId().getId() == finalSubjectId).collect(Collectors.toList());
-                    listScheduleAdapter.setList(scheduleDetailModelList);
+                    boolean flag;
+                    List<ScheduleGroupDTO> dtoList = new ArrayList<>();
+                    for (ScheduleGroupDTO scheduleGroupDTO : groupDTOList){
+                        ScheduleGroupDTO scheduleDTO = new ScheduleGroupDTO();
+                        flag = false;
+                        List<ScheduleDetailModel> scheduleDetailModelList = new ArrayList<>();
+                        for (ScheduleDetailModel scheduleDetailModel : scheduleGroupDTO.getList()){
+                            if(scheduleDetailModel.getSubjectBySubjectId().getId() == finalSubjectId){
+                                scheduleDetailModelList.add(scheduleDetailModel);
+                                flag =true;
+                            }
+                        }
+                        if(flag){
+                            scheduleDTO.setDate(scheduleGroupDTO.getDate());
+                            scheduleDTO.setList(scheduleDetailModelList);
+                            dtoList.add(scheduleDTO);
+                        }
+                    }
+                    listScheduleAdapter.setList(dtoList);
                     timetableBinding.rcvListSchedule.setAdapter(listScheduleAdapter);
                     timetableBinding.rcvListSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    DividerItemDecoration itemDecorator = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
+                    timetableBinding.rcvListSchedule.addItemDecoration(itemDecorator);
                 }
             }
 
@@ -118,12 +140,11 @@ public class TimetableActivity extends AppCompatActivity {
     }
 
     private void setDataSelectWeek() {
-
         timetableBinding.cbxWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                List<ScheduleDetailModel> listRangeDate = new ArrayList<>();
+                List<ScheduleGroupDTO> listRangeDate = new ArrayList<>();
                 if (i == 0) {
                     int weekOfYear = LocalDate.now().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
                     int year = LocalDate.now().getYear();
@@ -137,10 +158,8 @@ public class TimetableActivity extends AppCompatActivity {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                     LocalDate startDate = LocalDate.parse(sdf.format(date1));
                     LocalDate endDate = LocalDate.parse(sdf.format(date2));
-                    listRangeDate = scheduleDetailModels.stream().filter(scheduleDetailModel
-                                    -> LocalDate.parse(scheduleDetailModel.getDate()).isAfter(startDate)
-                                    && LocalDate.parse(scheduleDetailModel.getDate()).isBefore(endDate))
-                            .sorted((a, b) -> LocalDate.parse(a.getDate()).compareTo(LocalDate.parse(b.getDate())))
+                    listRangeDate = groupDTOList.stream().filter(scheduleGroupDTO -> scheduleGroupDTO.getDate().isAfter(startDate)
+                            && scheduleGroupDTO.getDate().isBefore(endDate))
                             .collect(Collectors.toList());
                     if (listRangeDate.isEmpty()) {
                         materialDialog = new MaterialDialog.Builder(TimetableActivity.this)
@@ -171,10 +190,8 @@ public class TimetableActivity extends AppCompatActivity {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                     LocalDate startDate = LocalDate.parse(sdf.format(date1));
                     LocalDate endDate = LocalDate.parse(sdf.format(date2));
-                    listRangeDate = scheduleDetailModels.stream().filter(scheduleDetailModel
-                                    -> LocalDate.parse(scheduleDetailModel.getDate()).isAfter(startDate)
-                                    && LocalDate.parse(scheduleDetailModel.getDate()).isBefore(endDate))
-                            .sorted((a, b) -> LocalDate.parse(a.getDate()).compareTo(LocalDate.parse(b.getDate())))
+                    listRangeDate = groupDTOList.stream().filter(scheduleGroupDTO -> scheduleGroupDTO.getDate().isAfter(startDate)
+                            && scheduleGroupDTO.getDate().isBefore(endDate))
                             .collect(Collectors.toList());
                     if (listRangeDate.isEmpty()) {
                         materialDialog = new MaterialDialog.Builder(TimetableActivity.this)
@@ -194,9 +211,7 @@ public class TimetableActivity extends AppCompatActivity {
                     }
                 }else if(i == 2){
                     int monthOfYear = LocalDate.now().getMonthValue();
-                    listRangeDate = scheduleDetailModels.stream().filter(scheduleDetailModel
-                                    -> LocalDate.parse(scheduleDetailModel.getDate()).getMonthValue() == monthOfYear)
-                            .sorted((a, b) -> LocalDate.parse(a.getDate()).compareTo(LocalDate.parse(b.getDate())))
+                    listRangeDate = groupDTOList.stream().filter(scheduleGroupDTO -> scheduleGroupDTO.getDate().getMonthValue() == monthOfYear)
                             .collect(Collectors.toList());
                     if (listRangeDate.isEmpty()) {
                         materialDialog = new MaterialDialog.Builder(TimetableActivity.this)
@@ -216,9 +231,7 @@ public class TimetableActivity extends AppCompatActivity {
                     }
                 }else if(i == 3){
                     int monthOfYear = LocalDate.now().getMonthValue() +1;
-                    listRangeDate = scheduleDetailModels.stream().filter(scheduleDetailModel
-                                    -> LocalDate.parse(scheduleDetailModel.getDate()).getMonthValue() == monthOfYear)
-                            .sorted((a, b) -> LocalDate.parse(a.getDate()).compareTo(LocalDate.parse(b.getDate())))
+                    listRangeDate = groupDTOList.stream().filter(scheduleGroupDTO -> scheduleGroupDTO.getDate().getMonthValue() == monthOfYear)
                             .collect(Collectors.toList());
                     if (listRangeDate.isEmpty()) {
                         materialDialog = new MaterialDialog.Builder(TimetableActivity.this)
@@ -254,30 +267,85 @@ public class TimetableActivity extends AppCompatActivity {
                     @SuppressLint("NewApi")
                     @Override
                     public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                        scheduleDetailModels = new ArrayList<>();
+                        groupDTOList = new ArrayList<>();
                         if (response.isSuccessful()) {
                             timetableBinding.cbxSubject.setVisibility(View.VISIBLE);
                             timetableBinding.cbxWeek.setVisibility(View.VISIBLE);
                             String json = gson.toJson(response.body().getData());
                             Schedule schedule = gson.fromJson(json, Schedule.class);
-                            for (ScheduleDetail scheduleDetail : schedule.getScheduleDetailsById()) {
-                                ScheduleDetailModel scheduleDetailModel = new ScheduleDetailModel();
-                                scheduleDetailModel.setDate(scheduleDetail.getDate());
-                                scheduleDetailModel.setId(scheduleDetail.getId());
-                                scheduleDetailModel.setScheduleId(scheduleDetail.getSubjectBySubjectId().getId());
-                                scheduleDetailModel.setScheduleId(scheduleDetail.getScheduleId());
-                                scheduleDetailModel.setSubjectBySubjectId(scheduleDetail.getSubjectBySubjectId());
-                                scheduleDetailModel.setScheduleByScheduleId(scheduleDetail.getScheduleByScheduleId());
-                                scheduleDetailModel.setClassName(classses.getClassCode());
-                                scheduleDetailModel.setTime(ConvertDayOfWeek.convertShift(classses.getShift()));
-                                scheduleDetailModel.setDayOfWeek(scheduleDetail.getDayOfWeek());
-                                scheduleDetailModel.setTeacherName(classses.getTeacher().getProfileByProfileId().getFirstName() + " " + classses.getTeacher().getProfileByProfileId().getLastName());
-                                scheduleDetailModels.add(scheduleDetailModel);
+
+                            List<ScheduleDetail> scheduleDetailList = schedule.getScheduleDetailsById().stream().sorted((a, b) -> LocalDate.parse(a.getDate()).compareTo(LocalDate.parse(b.getDate()))).collect(Collectors.toList());
+                            HashMap<String,List<ScheduleDetail>> hashMap = new HashMap<>();
+
+                            for (ScheduleDetail scheduleDetail : scheduleDetailList){
+                                String key = scheduleDetail.getDate();
+                                if(hashMap.containsKey(key)){
+                                    List<ScheduleDetail> list = hashMap.get(key);
+                                    list.add(scheduleDetail);
+
+                                }else{
+                                    List<ScheduleDetail> list = new ArrayList<ScheduleDetail>();
+                                    list.add(scheduleDetail);
+                                    hashMap.put(key, list);
+                                }
                             }
-                            scheduleDetailModels = scheduleDetailModels.stream().sorted((a, b) -> LocalDate.parse(a.getDate()).compareTo(LocalDate.parse(b.getDate()))).collect(Collectors.toList());
-                            listScheduleAdapter.setList(scheduleDetailModels);
+
+                            SortedSet<String> keys = new TreeSet<>(hashMap.keySet());
+                            String subShift = classses.getShift().substring(0,1);
+                            for(String key : keys){
+                                List<ScheduleDetail> scheduleDetailList1 = hashMap.get(key);
+                                List<ScheduleDetailModel> listTemp= new ArrayList<>();
+                                for(ScheduleDetail scheduleDetail : scheduleDetailList1){
+                                    ScheduleDetailModel scheduleDetailModel = new ScheduleDetailModel();
+                                    scheduleDetailModel.setDate(scheduleDetail.getDate());
+                                    scheduleDetailModel.setId(scheduleDetail.getId());
+                                    scheduleDetailModel.setScheduleId(scheduleDetail.getSubjectBySubjectId().getId());
+                                    scheduleDetailModel.setScheduleId(scheduleDetail.getScheduleId());
+                                    scheduleDetailModel.setSubjectBySubjectId(scheduleDetail.getSubjectBySubjectId());
+                                    scheduleDetailModel.setScheduleByScheduleId(scheduleDetail.getScheduleByScheduleId());
+                                    scheduleDetailModel.setClassName(classses.getClassCode());
+                                    scheduleDetailModel.setSlot(scheduleDetail.getSlot());
+                                    if(subShift.equals("M")){
+                                        if(scheduleDetail.getSlot().equals(1)){
+                                            scheduleDetailModel.setTimeStart("7:30");
+                                            scheduleDetailModel.setTimeEnd("9:30");
+                                        }else{
+                                            scheduleDetailModel.setTimeStart("9:30");
+                                            scheduleDetailModel.setTimeEnd("11:30");
+                                        }
+                                    } else if (subShift.equals("A")) {
+                                        if(scheduleDetail.getSlot().equals(1)){
+                                            scheduleDetailModel.setTimeStart("12:30");
+                                            scheduleDetailModel.setTimeEnd("15:30");
+                                        }else{
+                                            scheduleDetailModel.setTimeStart("15:30");
+                                            scheduleDetailModel.setTimeEnd("17:30");
+                                        }
+                                    }else{
+                                        if(scheduleDetail.getSlot().equals(1)){
+                                            scheduleDetailModel.setTimeStart("17:30");
+                                            scheduleDetailModel.setTimeEnd("19:30");
+                                        }else{
+                                            scheduleDetailModel.setTimeStart("19:30");
+                                            scheduleDetailModel.setTimeEnd("21:30");
+                                        }
+                                    }
+                                    scheduleDetailModel.setDayOfWeek(scheduleDetail.getDayOfWeek());
+                                    scheduleDetailModel.setTeacherName(classses.getTeacher().getProfileByProfileId().getLastName());
+                                    listTemp.add(scheduleDetailModel);
+                                }
+                                ScheduleGroupDTO scheduleGroupDTO = new ScheduleGroupDTO();
+                                scheduleGroupDTO.setDate(LocalDate.parse(key));
+                                scheduleGroupDTO.setList(listTemp);
+                                groupDTOList.add(scheduleGroupDTO);
+                            }
+
+                            groupDTOList = groupDTOList.stream().sorted((a, b) -> a.getDate().compareTo(b.getDate())).collect(Collectors.toList());
+                            listScheduleAdapter.setList(groupDTOList);
                             timetableBinding.rcvListSchedule.setAdapter(listScheduleAdapter);
                             timetableBinding.rcvListSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            DividerItemDecoration itemDecorator = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
+                            timetableBinding.rcvListSchedule.addItemDecoration(itemDecorator);
                             subjectAPI.findSubjectByMajorIdSemester(_token,classses.getMajorId(),i+1).enqueue(new Callback<ResponseModel>() {
                                 @Override
                                 public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {

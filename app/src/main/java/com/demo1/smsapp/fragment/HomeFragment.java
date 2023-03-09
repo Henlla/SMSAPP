@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
@@ -40,6 +41,7 @@ import com.demo1.smsapp.dto.ResponseModel;
 import com.demo1.smsapp.enums.ERole;
 import com.demo1.smsapp.models.*;
 import com.demo1.smsapp.utils.ConvertDayOfWeek;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
 import com.google.firebase.storage.FirebaseStorage;
@@ -326,7 +328,13 @@ public class HomeFragment extends Fragment {
                         .error(R.drawable.image_notavailable)
                         .into(fragmentHomeBinding.profileImage);
             }
-        });
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Log.e("fb",exception.getMessage());
+            }
+        });;
         String fullName = profile.getFirstName() + " " + profile.getLastName();
         fragmentHomeBinding.username.setText(fullName);
     }

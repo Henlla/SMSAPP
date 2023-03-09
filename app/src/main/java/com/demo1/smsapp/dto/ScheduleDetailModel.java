@@ -13,19 +13,39 @@ public class ScheduleDetailModel {
     private Integer subjectId;
     private Integer scheduleId;
     private String dayOfWeek;
-    private String time;
+    private String timeStart;
+    private String timeEnd;
+    private Integer slot;
     private String teacherName;
     private String className;
     private Subject subjectBySubjectId;
     private Schedule scheduleByScheduleId;
 
-    public String getTime() {
-        return time;
+    public String getTimeStart() {
+        return timeStart;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTimeStart(String timeStart) {
+        this.timeStart = timeStart;
     }
+
+    public String getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(String timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+    public Integer getSlot() {
+        return slot;
+    }
+
+    public void setSlot(Integer slot) {
+        this.slot = slot;
+    }
+
+
 
     public String getClassName() {
         return className;

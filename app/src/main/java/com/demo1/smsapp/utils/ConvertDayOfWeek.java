@@ -4,19 +4,19 @@ public class ConvertDayOfWeek {
     public static String convertDayOfWeek(String dayOfWeek){
         switch (dayOfWeek){
             case "MONDAY":
-                return "Thứ hai";
+                return "T2";
             case "TUESDAY":
-                return "Thứ ba";
+                return "T3";
             case "WEDNESDAY":
-                return "Thứ tư";
+                return "T4";
             case "THURSDAY":
-                return "Thứ năm";
+                return "T5";
             case "FRIDAY":
-                return "Thứ sáu";
+                return "T6";
             case "SATURDAY":
-                return "Thứ bảy";
+                return "T7";
             case "SUNDAY":
-                return "Chủ nhật";
+                return "CN";
         }
         return "";
     }

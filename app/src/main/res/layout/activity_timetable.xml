@@ -28,9 +28,27 @@
                   android:textColor="@color/white"
                   android:textStyle="bold"
                   android:id="@+id/sub_title"
-                  android:text="Thời khóa biểu"/>
+                  android:text="Timetable"/>
     </androidx.appcompat.widget.Toolbar>
-
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:gravity="center"
+                  android:layout_marginBottom="@dimen/_5sdp">
+        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                android:id="@+id/cbxClass"
+                android:spinnerMode="dropdown"
+                app:smsp_isSearchable="true"
+                app:smsp_hintSize="@dimen/_10sdp"
+                app:smsp_underlineSize="0dp"
+                android:layout_gravity="center"
+                app:smsp_floatingLabelText="Class"
+                app:smsp_hint="Class"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_35sdp"
+                app:smsp_multilineError="false"
+                android:background="@drawable/btn_dropdown_spin"/>
+    </LinearLayout>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:orientation="horizontal"
@@ -43,8 +61,9 @@
                 app:smsp_hintSize="@dimen/_10sdp"
                 app:smsp_underlineSize="0dp"
                 android:layout_gravity="center"
-                app:smsp_floatingLabelText="Chọn kì"
-                app:smsp_hint="Chọn kì"
+                app:smsp_floatingLabelText="Semester"
+                app:smsp_hint="Semester"
+                android:visibility="gone"
                 android:layout_width="@dimen/_75sdp"
                 android:layout_height="@dimen/_35sdp"
                 app:smsp_multilineError="false"
@@ -55,8 +74,8 @@
                 app:smsp_isSearchable="true"
                 app:smsp_hintSize="@dimen/_10sdp"
                 app:smsp_underlineSize="0dp"
-                app:smsp_floatingLabelText="Chọn môn"
-                app:smsp_hint="Chọn môn"
+                app:smsp_floatingLabelText="Subject"
+                app:smsp_hint="Subject"
                 android:layout_width="@dimen/_75sdp"
                 android:layout_height="@dimen/_35sdp"
                 app:smsp_multilineError="false"
@@ -69,8 +88,8 @@
                 app:smsp_isSearchable="true"
                 app:smsp_hintSize="@dimen/_10sdp"
                 app:smsp_underlineSize="0dp"
-                app:smsp_floatingLabelText="Chọn tuần"
-                app:smsp_hint="Chọn tuần"
+                app:smsp_floatingLabelText="Week"
+                app:smsp_hint="Week"
                 android:layout_width="@dimen/_75sdp"
                 android:layout_height="@dimen/_35sdp"
                 app:smsp_multilineError="false"

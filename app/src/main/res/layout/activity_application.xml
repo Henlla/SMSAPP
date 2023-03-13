@@ -29,7 +29,7 @@
                   android:textColor="@color/white"
                   android:textStyle="bold"
                   android:id="@+id/sub_title"
-                  android:text="GỬI ĐƠN"/>
+                  android:text="Send application"/>
     </androidx.appcompat.widget.Toolbar>
     <LinearLayout
             android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                         android:spinnerMode="dropdown"
                         app:smsp_isSearchable="true"
                         app:smsp_hintSize="@dimen/_12sdp"
-                        app:smsp_hint="Chọn mẫu đơn..."
+                        app:smsp_hint="Choose application type..."
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                 <TextView
@@ -72,7 +72,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/label"
-                        android:text="Ghi chú"
+                        android:text="Note"
                         android:textStyle="bold"
                         android:layout_marginBottom="@dimen/_10sdp"/>
                 <com.google.android.material.textfield.TextInputLayout
@@ -83,7 +83,7 @@
                             android:maxLength="100"
                             android:background="@drawable/input_template"
                             android:paddingHorizontal="@dimen/_10sdp"
-                            android:hint="Nhập ghi chú..."
+                            android:hint="Enter note..."
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_70sdp"/>
                 </com.google.android.material.textfield.TextInputLayout>
@@ -96,7 +96,7 @@
                     android:layout_marginBottom="@dimen/_30sdp"
                     android:layout_height="wrap_content">
                 <TextView
-                        android:text="Tệp đính kèm"
+                        android:text="File"
                         android:textStyle="bold"
                         style="@style/label"
                         android:layout_marginBottom="@dimen/_8sdp"
@@ -112,7 +112,7 @@
                             android:orientation="horizontal"
                             android:layout_height="wrap_content">
                         <Button android:id="@+id/fileChoose"
-                                android:text="Chọn tệp"
+                                android:text="Choose file"
                                 android:layout_marginRight="@dimen/_10sdp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
@@ -144,7 +144,7 @@
                     android:layout_height="match_parent">
                 <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/sendApplication"
-                        android:text="Gửi đơn"
+                        android:text="Send application"
                         android:textColor="@color/white"
                         android:background="@drawable/btn_background"
                         android:textSize="@dimen/_15sdp"

@@ -16,13 +16,18 @@ public class APIUtils {
     private static final String URL_SUBJECT = "http://10.0.2.2:8080/api/subject/";
     private static final String URL_DEVICE = "http://10.0.2.2:8080/api/device/";
 
-   // private static final String URL_ACCOUNT = "http://192.168.1.55:8080/api/accounts/";
-   // private static final String URL_NEWS = "http://192.168.1.55:8080/api/news/";
-   // private static final String URL_STUDENT = "http://192.168.1.55:8080/api/students/";
-   // private static final String URL_PROFILE = "http://192.168.1.55:8080/api/profiles/";
-    //private static final String URL_TEACHER = "http://192.168.1.55:8080/api/teachers/";
-    //private static final String URL_APPLICATION = "http://192.168.1.55:8080/api/application/";
-    //private static final String URL_APPLICATION_TYPE = "http://192.168.1.55:8080/api/application_type/";
+//    private static final String URL_ACCOUNT = "http://192.168.1.34:8080/api/accounts/";
+//    private static final String URL_NEWS = "http://192.168.1.34:8080/api/news/";
+//    private static final String URL_STUDENT = "http://192.168.1.34:8080/api/students/";
+//    private static final String URL_PROFILE = "http://192.168.1.34:8080/api/profiles/";
+//    private static final String URL_TEACHER = "http://192.168.1.34:8080/api/teachers/";
+//    private static final String URL_STUDENT_CLASS = "http://192.168.1.34:8080/api/student-class/";
+//    private static final String URL_CLASS = "http://192.168.1.34:8080/api/classes/";
+//    private static final String URL_APPLICATION = "http://192.168.1.34:8080/api/application/";
+//    private static final String URL_APPLICATION_TYPE = "http://192.168.1.34:8080/api/application_type/";
+//    private static final String URL_SCHEDULE = "http://192.168.1.34:8080/api/schedules/";
+//    private static final String URL_SUBJECT = "http://192.168.1.34:8080/api/subject/";
+//    private static final String URL_DEVICE = "http://192.168.1.34:8080/api/device/";
 
     public static AccountAPI getAccountAPI() {
         return Retrofit.getRetrofitClient(URL_ACCOUNT).create(AccountAPI.class);

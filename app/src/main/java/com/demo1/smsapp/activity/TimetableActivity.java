@@ -64,6 +64,7 @@ public class TimetableActivity extends AppCompatActivity {
     List<String> listSubject;
     SubjectAPI subjectAPI;
     List<Subject> list;
+    List<String> listClass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,11 +84,46 @@ public class TimetableActivity extends AppCompatActivity {
         student = gson.fromJson(studentJson, Student.class);
         getClassId();
         processBtnBack();
-        setListSpin();
+        setListSpinClass();
+        setListSpinSemester();
         setListSpinWeek();
+        setDataSelectClass();
         setDataSelectSemester();
         setDataSelectWeek();
         setDataSelectSubject();
+    }
+
+    private void setDataSelectClass() {
+        timetableBinding.cbxClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String value = listClass.get(i);
+                classAPI.findClassCode(_token,value).enqueue(new Callback<ResponseModel>() {
+                    @Override
+                    public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                        String jsonClass = gson.toJson(response.body().getData());
+                        classses = gson.fromJson(jsonClass,Classses.class);
+                        timetableBinding.cbxSemester.setVisibility(View.VISIBLE);
+                        timetableBinding.cbxSubject.setVisibility(View.VISIBLE);
+                        timetableBinding.cbxWeek.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseModel> call, Throwable t) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void setListSpinClass() {
+        timetableBinding.cbxClass.setItem(listClass);
     }
 
     private void setDataSelectSubject() {
@@ -430,7 +466,7 @@ public class TimetableActivity extends AppCompatActivity {
         });
     }
 
-    private void setListSpin() {
+    private void setListSpinSemester() {
         listSemester = new ArrayList<>();
         listSemester.add("1");
         listSemester.add("2");
@@ -455,6 +491,7 @@ public class TimetableActivity extends AppCompatActivity {
     }
 
     private void getClassId() {
+        listClass = new ArrayList<>();
         studentClassAPI.getClassIdByStudentId(_token, student.getId()).enqueue(new Callback<ResponseModel>() {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
@@ -468,7 +505,8 @@ public class TimetableActivity extends AppCompatActivity {
                         public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                             String jsonClass = gson.toJson(response.body().getData());
 //                                Type classType = new TypeToken<ResponseModel>(){}.getType();
-                            classses = gson.fromJson(jsonClass, Classses.class);
+                           Classses classses = gson.fromJson(jsonClass, Classses.class);
+                            listClass.add(classses.getClassCode());
                         }
 
                         @Override

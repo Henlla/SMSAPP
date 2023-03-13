@@ -28,7 +28,7 @@
                   android:textColor="@color/white"
                   android:textStyle="bold"
                   android:id="@+id/sub_title"
-                  android:text="Danh sách tin tức"/>
+                  android:text="List news"/>
     </androidx.appcompat.widget.Toolbar>
     <androidx.recyclerview.widget.RecyclerView android:layout_width="match_parent"
                                                android:layout_height="wrap_content"

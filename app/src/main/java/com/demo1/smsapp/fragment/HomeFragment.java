@@ -43,6 +43,7 @@ import com.demo1.smsapp.models.*;
 import com.demo1.smsapp.utils.ConvertDayOfWeek;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -52,6 +53,7 @@ import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
+import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -127,7 +129,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void processBtnCloseNotification() {
-        fragmentHomeBinding.btnCloseNotice.setOnClickListener(view->{
+        fragmentHomeBinding.btnCloseNotice.setOnClickListener(view -> {
             fragmentHomeBinding.layoutNotification.setVisibility(View.GONE);
         });
     }
@@ -165,8 +167,8 @@ public class HomeFragment extends Fragment {
                                                 for (ScheduleDetail scheduleDetail : schedule.getScheduleDetailsById()) {
                                                     if (LocalDate.parse(scheduleDetail.getDate()).equals(currenDate)) {
                                                         fragmentHomeBinding.layoutNotification.setVisibility(View.VISIBLE);
-                                                        fragmentHomeBinding.subName.setText("Môn: "+scheduleDetail.getSubjectBySubjectId().getSubjectName());
-                                                        fragmentHomeBinding.time.setText("Vào lúc: "+ConvertDayOfWeek.convertShift(classses.getShift()));
+                                                        fragmentHomeBinding.subName.setText("Môn: " + scheduleDetail.getSubjectBySubjectId().getSubjectName());
+                                                        fragmentHomeBinding.time.setText("Vào lúc: " + ConvertDayOfWeek.convertShift(classses.getShift()));
                                                     }
                                                 }
                                             }
@@ -220,18 +222,18 @@ public class HomeFragment extends Fragment {
 
     public List<FunctionModel> listF() {
         List<FunctionModel> functionModels = new ArrayList<>();
-        FunctionModel attendance = new FunctionModel(ERole.Teacher.toString(), "Điểm danh", ATTENDANCE.toString(), R.drawable.logout_2);
-        FunctionModel mark = new FunctionModel(ERole.Teacher.toString(), "Xem điểm", MARK.toString(), R.drawable.logout_2);
-        FunctionModel schedule = new FunctionModel(ERole.Student.toString(), "Thời khóa biểu", SCHEDULES.toString(), R.drawable.logout_2);
-        FunctionModel application = new FunctionModel(ERole.Student.toString(), "Nợp đơn", APPLICATION.toString(), R.drawable.logout_2);
-        FunctionModel schedule1 = new FunctionModel(ERole.Teacher.toString(), "Thời khóa biểu1", SCHEDULES.toString(), R.drawable.logout_2);
-        FunctionModel schedule2 = new FunctionModel(ERole.Teacher.toString(), "Thời khóa biểu2", SCHEDULES.toString(), R.drawable.logout_2);
+        FunctionModel attendance = new FunctionModel(ERole.Teacher.toString(), "Attendance", ATTENDANCE.toString(), R.drawable.attendance);
+        FunctionModel attendanceStudent = new FunctionModel(ERole.Student.toString(), "Attendance", ATTENDANCE.toString(), R.drawable.attendance);
+        FunctionModel mark = new FunctionModel(ERole.Teacher.toString(), "Mark", MARK.toString(), R.drawable.logout_2);
+        FunctionModel schedule = new FunctionModel(ERole.Student.toString(), "Timetable", SCHEDULES.toString(), R.drawable.schedule);
+        FunctionModel application = new FunctionModel(ERole.Student.toString(), "Application", APPLICATION.toString(), R.drawable.resume);
+        FunctionModel checkMark = new FunctionModel(ERole.Student.toString(), "Mark", MARK.toString(), R.drawable.check_mark);
         functionModels.add(attendance);
         functionModels.add(mark);
         functionModels.add(schedule);
         functionModels.add(application);
-        functionModels.add(schedule1);
-        functionModels.add(schedule2);
+        functionModels.add(attendanceStudent);
+        functionModels.add(checkMark);
         return functionModels;
     }
 
@@ -282,8 +284,8 @@ public class HomeFragment extends Fragment {
     private void processLogout() {
         fragmentHomeBinding.btnLogout.setOnClickListener(view -> {
             mDialog = new MaterialDialog.Builder(homeActivity)
-                    .setTitle("Đăng xuất")
-                    .setMessage("Bạn có muốn đăng xuất !")
+                    .setTitle("Logout")
+                    .setMessage("Do you wanna logout !")
                     .setCancelable(false)
                     .setPositiveButton("", R.drawable.logout_2, new MaterialDialog.OnClickListener() {
                         @Override
@@ -322,19 +324,14 @@ public class HomeFragment extends Fragment {
         reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+                Log.e("uri",uri.toString());
                 Glide.with(context)
                         .load(uri)
-                        .centerCrop()
                         .error(R.drawable.image_notavailable)
+                        .centerCrop()
                         .into(fragmentHomeBinding.profileImage);
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-                Log.e("fb",exception.getMessage());
-            }
-        });;
+        });
         String fullName = profile.getFirstName() + " " + profile.getLastName();
         fragmentHomeBinding.username.setText(fullName);
     }

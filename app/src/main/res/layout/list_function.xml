@@ -22,6 +22,7 @@
             android:id="@+id/title"
             android:fontFamily="@font/inria_serif_regular"
             android:text="function 1"
+            android:textColor="@color/black"
             android:layout_below="@id/img_func"
             android:layout_centerHorizontal="true"
     />

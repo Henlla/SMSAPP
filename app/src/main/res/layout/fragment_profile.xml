@@ -13,7 +13,7 @@
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:fontFamily="@font/inria_serif_regular"
-                  android:text="Thông Tin Cá Nhân"
+                  android:text="Profile"
                   android:layout_gravity="center"
                   android:textColor="@color/white"
                   android:textStyle="bold"
@@ -58,7 +58,7 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:fontFamily="@font/inria_serif_regular"
-                      android:text="Họ và tên :"
+                      android:text="Full Name :"
                       style="@style/label"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:fontFamily="@font/inria_serif_regular"
-                      android:text="Giới tính :"
+                      android:text="Gender :"
                       style="@style/label"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                       android:id="@+id/lb_address"
                       android:layout_centerVertical="true"
                       android:fontFamily="@font/inria_serif_regular"
-                      android:text="Địa chỉ :"
+                      android:text="Address :"
                       style="@style/label"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -148,7 +148,7 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:fontFamily="@font/inria_serif_regular"
-                      android:text="Ngày sinh :"
+                      android:text="DoB :"
                       style="@style/label"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -180,7 +180,7 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:fontFamily="@font/inria_serif_regular"
-                      android:text="Số điện thoại :"
+                      android:text="Phone :"
                       style="@style/label"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -244,7 +244,7 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:fontFamily="@font/inria_serif_regular"
-                      android:text="Nghành học :"
+                      android:text="Major :"
                       style="@style/label"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -276,7 +276,7 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:fontFamily="@font/inria_serif_regular"
-                      android:text="Lớp học :"
+                      android:text="Class :"
                       style="@style/label"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -284,7 +284,7 @@
                       android:layout_marginStart="@dimen/_5sdp"
                       android:maxLines="2"
                       android:maxWidth="@dimen/_300sdp"
-                      android:text="Chưa có"
+                      android:text="No"
                       android:id="@+id/tv_class"
                       style="@style/text"
                       android:layout_centerInParent="true"/>
@@ -299,7 +299,7 @@
         <androidx.appcompat.widget.AppCompatButton android:layout_width="@dimen/_270sdp"
                                                    android:id="@+id/btn_changePassword"
                                                    android:layout_marginTop="40dp"
-                                                   android:text="Đặt lại mật khẩu mới"
+                                                   android:text="Change password"
                                                    android:textColor="@color/white"
                                                    android:layout_alignParentBottom="true"
                                                    android:layout_centerHorizontal="true"

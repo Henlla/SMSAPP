@@ -67,6 +67,12 @@ public class ListScheduleAdapter extends RecyclerView.Adapter<ListScheduleAdapte
         oldList.addAll(newList);
     }
 
+    public void clear() {
+        int size = scheduleDetails.size();
+        scheduleDetails.clear();
+        notifyItemRangeRemoved(0, size);
+    }
+
     public static class ListScheduleVH extends RecyclerView.ViewHolder{
         ListScheduleBinding scheduleBinding;
         public ListScheduleVH(ListScheduleBinding scheduleBinding) {

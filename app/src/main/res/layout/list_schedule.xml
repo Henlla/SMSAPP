@@ -11,7 +11,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/_10sdp">
+            android:layout_marginStart="@dimen/_20sdp">
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:id="@+id/tv_dayOfWeek"
@@ -30,7 +30,7 @@
             android:layout_below="@+id/tv_fullName"
             android:layout_height="match_parent"
             android:background="@drawable/line_4"
-            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_35sdp"
     />
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"

@@ -130,7 +130,7 @@ public class ApplicationActivity extends AppCompatActivity {
                 Student student = gson.fromJson(dataJson, Student.class);
                 note = binding.note.getEditText().getText().toString();
                 sendDate = FormatHelper.Format("date", new Date().toString());
-                status = "pending";
+                status = "PENDING";
                 isValid = CheckValidate();
                 if(isValid){
                     app.setStatus(status);

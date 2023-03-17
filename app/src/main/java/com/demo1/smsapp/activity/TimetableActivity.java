@@ -309,82 +309,82 @@ public class TimetableActivity extends AppCompatActivity {
                             timetableBinding.cbxWeek.setVisibility(View.VISIBLE);
                             String json = gson.toJson(response.body().getData());
                             Schedule schedule = gson.fromJson(json, Schedule.class);
+                            if(schedule != null){
+                                List<ScheduleDetail> scheduleDetailList = schedule.getScheduleDetailsById().stream().sorted((a, b) -> LocalDate.parse(a.getDate()).compareTo(LocalDate.parse(b.getDate()))).collect(Collectors.toList());
+                                HashMap<String,List<ScheduleDetail>> hashMap = new HashMap<>();
 
-                            List<ScheduleDetail> scheduleDetailList = schedule.getScheduleDetailsById().stream().sorted((a, b) -> LocalDate.parse(a.getDate()).compareTo(LocalDate.parse(b.getDate()))).collect(Collectors.toList());
-                            HashMap<String,List<ScheduleDetail>> hashMap = new HashMap<>();
+                                for (ScheduleDetail scheduleDetail : scheduleDetailList){
+                                    String key = scheduleDetail.getDate();
+                                    if(hashMap.containsKey(key)){
+                                        List<ScheduleDetail> list = hashMap.get(key);
+                                        list.add(scheduleDetail);
 
-                            for (ScheduleDetail scheduleDetail : scheduleDetailList){
-                                String key = scheduleDetail.getDate();
-                                if(hashMap.containsKey(key)){
-                                    List<ScheduleDetail> list = hashMap.get(key);
-                                    list.add(scheduleDetail);
-
-                                }else{
-                                    List<ScheduleDetail> list = new ArrayList<ScheduleDetail>();
-                                    list.add(scheduleDetail);
-                                    hashMap.put(key, list);
-                                }
-                            }
-
-                            SortedSet<String> keys = new TreeSet<>(hashMap.keySet());
-                            String subShift = classses.getShift().substring(0,1);
-                            for(String key : keys){
-                                List<ScheduleDetail> scheduleDetailList1 = hashMap.get(key);
-                                List<ScheduleDetailModel> listTemp= new ArrayList<>();
-                                for(ScheduleDetail scheduleDetail : scheduleDetailList1){
-                                    ScheduleDetailModel scheduleDetailModel = new ScheduleDetailModel();
-                                    scheduleDetailModel.setDate(scheduleDetail.getDate());
-                                    scheduleDetailModel.setId(scheduleDetail.getId());
-                                    scheduleDetailModel.setScheduleId(scheduleDetail.getSubjectBySubjectId().getId());
-                                    scheduleDetailModel.setScheduleId(scheduleDetail.getScheduleId());
-                                    scheduleDetailModel.setSubjectBySubjectId(scheduleDetail.getSubjectBySubjectId());
-                                    scheduleDetailModel.setScheduleByScheduleId(scheduleDetail.getScheduleByScheduleId());
-                                    scheduleDetailModel.setClassName(classses.getClassCode());
-                                    scheduleDetailModel.setSlot(scheduleDetail.getSlot());
-                                    if(subShift.equals("M")){
-                                        if(scheduleDetail.getSlot().equals(1)){
-                                            scheduleDetailModel.setTimeStart("7:30");
-                                            scheduleDetailModel.setTimeEnd("9:30");
-                                        }else{
-                                            scheduleDetailModel.setTimeStart("9:30");
-                                            scheduleDetailModel.setTimeEnd("11:30");
-                                        }
-                                    } else if (subShift.equals("A")) {
-                                        if(scheduleDetail.getSlot().equals(1)){
-                                            scheduleDetailModel.setTimeStart("12:30");
-                                            scheduleDetailModel.setTimeEnd("15:30");
-                                        }else{
-                                            scheduleDetailModel.setTimeStart("15:30");
-                                            scheduleDetailModel.setTimeEnd("17:30");
-                                        }
                                     }else{
-                                        if(scheduleDetail.getSlot().equals(1)){
-                                            scheduleDetailModel.setTimeStart("17:30");
-                                            scheduleDetailModel.setTimeEnd("19:30");
-                                        }else{
-                                            scheduleDetailModel.setTimeStart("19:30");
-                                            scheduleDetailModel.setTimeEnd("21:30");
-                                        }
+                                        List<ScheduleDetail> list = new ArrayList<ScheduleDetail>();
+                                        list.add(scheduleDetail);
+                                        hashMap.put(key, list);
                                     }
-                                    scheduleDetailModel.setDayOfWeek(scheduleDetail.getDayOfWeek());
-                                    scheduleDetailModel.setTeacherName(classses.getTeacher().getProfileByProfileId().getLastName());
-                                    listTemp.add(scheduleDetailModel);
                                 }
-                                ScheduleGroupDTO scheduleGroupDTO = new ScheduleGroupDTO();
-                                scheduleGroupDTO.setDate(LocalDate.parse(key));
-                                scheduleGroupDTO.setList(listTemp);
-                                groupDTOList.add(scheduleGroupDTO);
-                            }
 
-                            groupDTOList = groupDTOList.stream().sorted((a, b) -> a.getDate().compareTo(b.getDate())).collect(Collectors.toList());
-                            listScheduleAdapter.setList(groupDTOList);
-                            timetableBinding.rcvListSchedule.setAdapter(listScheduleAdapter);
-                            timetableBinding.rcvListSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                            DividerItemDecoration itemDecorator = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
-                            timetableBinding.rcvListSchedule.addItemDecoration(itemDecorator);
-                            subjectAPI.findSubjectByMajorIdSemester(_token,classses.getMajorId(),i+1).enqueue(new Callback<ResponseModel>() {
-                                @Override
-                                public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                                SortedSet<String> keys = new TreeSet<>(hashMap.keySet());
+                                String subShift = classses.getShift().substring(0,1);
+                                for(String key : keys){
+                                    List<ScheduleDetail> scheduleDetailList1 = hashMap.get(key);
+                                    List<ScheduleDetailModel> listTemp= new ArrayList<>();
+                                    for(ScheduleDetail scheduleDetail : scheduleDetailList1){
+                                        ScheduleDetailModel scheduleDetailModel = new ScheduleDetailModel();
+                                        scheduleDetailModel.setDate(scheduleDetail.getDate());
+                                        scheduleDetailModel.setId(scheduleDetail.getId());
+                                        scheduleDetailModel.setScheduleId(scheduleDetail.getSubjectBySubjectId().getId());
+                                        scheduleDetailModel.setScheduleId(scheduleDetail.getScheduleId());
+                                        scheduleDetailModel.setSubjectBySubjectId(scheduleDetail.getSubjectBySubjectId());
+                                        scheduleDetailModel.setScheduleByScheduleId(scheduleDetail.getScheduleByScheduleId());
+                                        scheduleDetailModel.setClassName(classses.getClassCode());
+                                        scheduleDetailModel.setSlot(scheduleDetail.getSlot());
+                                        if(subShift.equals("M")){
+                                            if(scheduleDetail.getSlot().equals(1)){
+                                                scheduleDetailModel.setTimeStart("7:30");
+                                                scheduleDetailModel.setTimeEnd("9:30");
+                                            }else{
+                                                scheduleDetailModel.setTimeStart("9:30");
+                                                scheduleDetailModel.setTimeEnd("11:30");
+                                            }
+                                        } else if (subShift.equals("A")) {
+                                            if(scheduleDetail.getSlot().equals(1)){
+                                                scheduleDetailModel.setTimeStart("12:30");
+                                                scheduleDetailModel.setTimeEnd("15:30");
+                                            }else{
+                                                scheduleDetailModel.setTimeStart("15:30");
+                                                scheduleDetailModel.setTimeEnd("17:30");
+                                            }
+                                        }else{
+                                            if(scheduleDetail.getSlot().equals(1)){
+                                                scheduleDetailModel.setTimeStart("17:30");
+                                                scheduleDetailModel.setTimeEnd("19:30");
+                                            }else{
+                                                scheduleDetailModel.setTimeStart("19:30");
+                                                scheduleDetailModel.setTimeEnd("21:30");
+                                            }
+                                        }
+                                        scheduleDetailModel.setDayOfWeek(scheduleDetail.getDayOfWeek());
+                                        scheduleDetailModel.setTeacherName(classses.getTeacher().getProfileByProfileId().getLastName());
+                                        listTemp.add(scheduleDetailModel);
+                                    }
+                                    ScheduleGroupDTO scheduleGroupDTO = new ScheduleGroupDTO();
+                                    scheduleGroupDTO.setDate(LocalDate.parse(key));
+                                    scheduleGroupDTO.setList(listTemp);
+                                    groupDTOList.add(scheduleGroupDTO);
+                                }
+
+                                groupDTOList = groupDTOList.stream().sorted((a, b) -> a.getDate().compareTo(b.getDate())).collect(Collectors.toList());
+                                listScheduleAdapter.setList(groupDTOList);
+                                timetableBinding.rcvListSchedule.setAdapter(listScheduleAdapter);
+                                timetableBinding.rcvListSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                DividerItemDecoration itemDecorator = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
+                                timetableBinding.rcvListSchedule.addItemDecoration(itemDecorator);
+                                subjectAPI.findSubjectByMajorIdSemester(_token,classses.getMajorId(),i+1).enqueue(new Callback<ResponseModel>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                                         if(response.isSuccessful()){
                                             listSubject = new ArrayList<>();
                                             String json = gson.toJson(response.body().getData());
@@ -396,22 +396,35 @@ public class TimetableActivity extends AppCompatActivity {
                                             }
                                             timetableBinding.cbxSubject.setItem(listSubject);
                                         }
-                                }
+                                    }
 
-                                @Override
-                                public void onFailure(Call<ResponseModel> call, Throwable t) {
-                                    materialDialog = new MaterialDialog.Builder(TimetableActivity.this)
-                                            .setMessage(t.getMessage())
-                                            .setCancelable(false)
-                                            .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int which) {
-                                                    materialDialog.dismiss();
-                                                }
-                                            }).build();
-                                    materialDialog.show();
-                                }
-                            });
+                                    @Override
+                                    public void onFailure(Call<ResponseModel> call, Throwable t) {
+                                        materialDialog = new MaterialDialog.Builder(TimetableActivity.this)
+                                                .setMessage(t.getMessage())
+                                                .setCancelable(false)
+                                                .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int which) {
+                                                        materialDialog.dismiss();
+                                                    }
+                                                }).build();
+                                        materialDialog.show();
+                                    }
+                                });
+                            }else{
+                                materialDialog = new MaterialDialog.Builder(TimetableActivity.this)
+                                        .setMessage("Chưa có thời khóa biểu kì " + (i + 1))
+                                        .setCancelable(false)
+                                        .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int which) {
+                                                materialDialog.dismiss();
+                                            }
+                                        }).build();
+                                materialDialog.show();
+                            }
+
                         }else if(response.code() == 403){
                             materialDialog = new MaterialDialog.Builder(TimetableActivity.this)
                                     .setMessage("Hết phiên đăng nhập ! Vui lòng đăng nhập lại")

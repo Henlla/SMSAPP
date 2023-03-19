@@ -9,8 +9,13 @@ public interface ClassAPI {
     @GET("getClass/{classId}")
     Call<ResponseModel> getClassById(@Header("Authorization")String _token, @Path("classId")Integer classId);
 
+    @GET("findClassByTeacher/{id}")
+    Call<ResponseModel> findClassByTeacher(@Header("Authorization")String _token, @Path("id")Integer teacherId);
+
     @POST("findClassCode")
     @FormUrlEncoded
     Call<ResponseModel> findClassCode(@Header("Authorization")String _token, @Field("classCode") String classCode);
+
+
 
 }

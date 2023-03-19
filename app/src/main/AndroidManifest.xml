@@ -2,11 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.demo1.smsapp">
-    <uses-permission android:name="android.permission.INTERNET"/>
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" tools:node="remove"/>
+    <uses-permission
+            android:name="android.permission.POST_NOTIFICATIONS"
+            tools:node="remove"/>
 
     <application
             android:allowBackup="true"
@@ -19,17 +21,24 @@
             android:theme="@style/Theme.SMSAPP"
             android:usesCleartextTraffic="true"
             tools:targetApi="31">
+        <activity
+                android:name=".activity.TeachingScheduleActivity"
+                android:exported="false"/>
+
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"
-                android:resource="@drawable/hkt_logo" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+                android:resource="@drawable/hkt_logo"/>
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_color"
-                android:resource="@color/red" />
+                android:resource="@color/red"/>
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_channel_id"
-                android:value="@string/default_notification_channel_id" />
+                android:value="@string/default_notification_channel_id"/>
+
         <activity
                 android:name=".activity.TimetableActivity"
                 android:exported="false"/>
@@ -38,11 +47,9 @@
                 android:exported="false"/>
         <activity
                 android:name=".activity.ChangePasswordActivity"
-
                 android:exported="false"/>
         <activity
                 android:name=".activity.ApplicationActivity"
-
                 android:exported="false"/>
         <activity
                 android:name=".activity.NewDetailsActivity"
@@ -62,11 +69,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <service
                 android:name=".utils.MyFirebaseMessagingService"
                 android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
     </application>

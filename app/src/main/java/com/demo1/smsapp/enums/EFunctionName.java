@@ -8,6 +8,7 @@ public enum EFunctionName {
     MARK("MARK"),
     SCHEDULES("SCHEDULES"),
     APPLICATION("APPLICATION"),
+    TEACHING_SCHEDULE("TEACHING_SCHEDULE"),
     ;
 
     private final String text;

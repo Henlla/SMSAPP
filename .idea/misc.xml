@@ -25,6 +25,7 @@
         <entry key="app/src/main/res/drawable/btn_background.xml" value="0.2335" />
         <entry key="app/src/main/res/drawable/btn_dropdown_spin.xml" value="0.231" />
         <entry key="app/src/main/res/drawable/btnlogin_background.xml" value="0.2335" />
+        <entry key="app/src/main/res/drawable/calendar_month.xml" value="0.229" />
         <entry key="app/src/main/res/drawable/clock.xml" value="0.137" />
         <entry key="app/src/main/res/drawable/close.xml" value="0.1395" />
         <entry key="app/src/main/res/drawable/home.xml" value="0.156" />
@@ -32,16 +33,19 @@
         <entry key="app/src/main/res/drawable/icon_home.xml" value="0.102" />
         <entry key="app/src/main/res/drawable/input_login_bg.xml" value="0.2335" />
         <entry key="app/src/main/res/drawable/line_3.xml" value="0.2335" />
+        <entry key="app/src/main/res/drawable/line_5.xml" value="0.201" />
         <entry key="app/src/main/res/drawable/line_start.xml" value="0.2975" />
         <entry key="app/src/main/res/drawable/logout.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/logout_2.xml" value="0.1395" />
         <entry key="app/src/main/res/drawable/notifications.xml" value="0.241" />
         <entry key="app/src/main/res/drawable/person.xml" value="0.2335" />
+        <entry key="app/src/main/res/drawable/schedule_background.xml" value="0.229" />
         <entry key="app/src/main/res/drawable/search.xml" value="0.1915" />
         <entry key="app/src/main/res/drawable/shadow.xml" value="0.144" />
         <entry key="app/src/main/res/drawable/shape.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/splash_background.xml" value="0.2335" />
         <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.1" />
+        <entry key="app/src/main/res/layout-v26/calander_sheet_model.xml" value="0.3484375" />
         <entry key="app/src/main/res/layout-v26/fragment_profile.xml" value="0.3453125" />
         <entry key="app/src/main/res/layout/activity_application.xml" value="0.24074074074074073" />
         <entry key="app/src/main/res/layout/activity_change_password.xml" value="0.3463541666666667" />
@@ -51,7 +55,9 @@
         <entry key="app/src/main/res/layout/activity_new_details.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_news_detail.xml" value="0.32314814814814813" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/layout/activity_teaching_schedule.xml" value="0.3212962962962963" />
         <entry key="app/src/main/res/layout/activity_timetable.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/calendar_sheet_model.xml" value="0.3212962962962963" />
         <entry key="app/src/main/res/layout/fragemnt_profile.xml" value="0.1288149028933809" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_new_detail.xml" value="0.1" />
@@ -62,6 +68,8 @@
         <entry key="app/src/main/res/layout/list_news.xml" value="0.3453125" />
         <entry key="app/src/main/res/layout/list_schedule.xml" value="0.335" />
         <entry key="app/src/main/res/layout/list_schedule_details.xml" value="0.34205128205128205" />
+        <entry key="app/src/main/res/layout/list_teaching_schedule.xml" value="0.2638888888888889" />
+        <entry key="app/src/main/res/layout/list_teaching_schedule_details.xml" value="0.375" />
         <entry key="app/src/main/res/layout/search_sheet_model.xml" value="0.2734584450402145" />
         <entry key="app/src/main/res/layout/slide_news.xml" value="0.37395833333333334" />
         <entry key="app/src/main/res/menu/menu_bottom_nav.xml" value="0.1" />
@@ -76,5 +84,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="jpab" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.375" />
+      </ProjectState>
+    </option>
   </component>
 </project>

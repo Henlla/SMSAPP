@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.CalendarView;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,9 +28,11 @@ import com.demo1.smsapp.api.StudentClassAPI;
 import com.demo1.smsapp.api.SubjectAPI;
 import com.demo1.smsapp.api.utils.APIUtils;
 import com.demo1.smsapp.databinding.ActivityTimetableBinding;
+import com.demo1.smsapp.databinding.CalendarSheetModelBinding;
 import com.demo1.smsapp.dto.ResponseModel;
 import com.demo1.smsapp.dto.ScheduleDetailModel;
 import com.demo1.smsapp.dto.ScheduleGroupDTO;
+import com.demo1.smsapp.fragment.CalendarBottomSheetModel;
 import com.demo1.smsapp.models.*;
 import com.demo1.smsapp.utils.ConvertDayOfWeek;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
@@ -46,7 +52,7 @@ import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class TimetableActivity extends AppCompatActivity {
+public class TimetableActivity extends AppCompatActivity implements CalendarBottomSheetModel.ISetOnclick {
     ActivityTimetableBinding timetableBinding;
     Student student;
     String _token;
@@ -82,6 +88,7 @@ public class TimetableActivity extends AppCompatActivity {
         studentJson = sharedPreferences.getString("data", null);
         _token = sharedPreferences.getString("token", null);
         student = gson.fromJson(studentJson, Student.class);
+        CalendarBottomSheetModel calendarBottomSheetModel = new CalendarBottomSheetModel(this);
         getClassId();
         processBtnBack();
         setListSpinClass();
@@ -91,6 +98,17 @@ public class TimetableActivity extends AppCompatActivity {
         setDataSelectSemester();
         setDataSelectWeek();
         setDataSelectSubject();
+        eventClickCalendar();
+    }
+
+    private void eventClickCalendar() {
+        timetableBinding.calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CalendarBottomSheetModel calendarBottomSheetModel = new CalendarBottomSheetModel();
+                calendarBottomSheetModel.show(getSupportFragmentManager(),calendarBottomSheetModel.getTag());
+            }
+        });
     }
 
     private void setDataSelectClass() {
@@ -307,6 +325,7 @@ public class TimetableActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             timetableBinding.cbxSubject.setVisibility(View.VISIBLE);
                             timetableBinding.cbxWeek.setVisibility(View.VISIBLE);
+                            timetableBinding.calendar.setVisibility(View.VISIBLE);
                             String json = gson.toJson(response.body().getData());
                             Schedule schedule = gson.fromJson(json, Schedule.class);
                             if(schedule != null){
@@ -380,8 +399,8 @@ public class TimetableActivity extends AppCompatActivity {
                                 listScheduleAdapter.setList(groupDTOList);
                                 timetableBinding.rcvListSchedule.setAdapter(listScheduleAdapter);
                                 timetableBinding.rcvListSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                                DividerItemDecoration itemDecorator = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
-                                timetableBinding.rcvListSchedule.addItemDecoration(itemDecorator);
+//                                DividerItemDecoration itemDecorator = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
+//                                timetableBinding.rcvListSchedule.addItemDecoration(itemDecorator);
                                 subjectAPI.findSubjectByMajorIdSemester(_token,classses.getMajorId(),i+1).enqueue(new Callback<ResponseModel>() {
                                     @Override
                                     public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
@@ -562,4 +581,34 @@ public class TimetableActivity extends AppCompatActivity {
         super.onResume();
         checkToken();
     }
+
+
+    @SuppressLint("NewApi")
+    @Override
+    public void SelectDate(int month, int date) {
+        List<ScheduleGroupDTO> listFilterDate = new ArrayList<>();
+        for(ScheduleGroupDTO scheduleGroupDTO:groupDTOList){
+            int monthOfSchedule = scheduleGroupDTO.getDate().getMonthValue();
+            int dateOfSchedule = scheduleGroupDTO.getDate().getDayOfMonth();
+            if(monthOfSchedule - 1 == month && dateOfSchedule == date){
+                listFilterDate.add(scheduleGroupDTO);
+                listScheduleAdapter.setList(listFilterDate);
+                timetableBinding.rcvListSchedule.setAdapter(listScheduleAdapter);
+                timetableBinding.rcvListSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            }
+        }
+        if(listFilterDate.isEmpty()){
+            materialDialog = new MaterialDialog.Builder(TimetableActivity.this)
+                    .setMessage("Không có dữ liệu")
+                    .setCancelable(false)
+                    .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            materialDialog.dismiss();
+                        }
+                    }).build();
+            materialDialog.show();
+        }
+    }
+
 }

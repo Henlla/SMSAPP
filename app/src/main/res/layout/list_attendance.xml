@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:orientation="vertical"
+              android:layout_margin="@dimen/_10sdp"
+              android:layout_marginBottom="@dimen/_10sdp"
+              android:layout_height="wrap_content">
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:layout_height="@dimen/_70sdp">
+        <LinearLayout android:layout_width="@dimen/_80sdp"
+                      android:orientation="vertical"
+                      android:layout_gravity="center_vertical"
+                      android:gravity="center_horizontal"
+                      android:layout_height="wrap_content">
+            <TextView android:layout_width="wrap_content"
+                      android:text="Slot 1"
+                      android:layout_marginBottom="@dimen/_10sdp"
+                      android:id="@+id/attendanceSlot"
+                      android:textColor="@color/black"
+                      android:textSize="@dimen/_13sdp"
+                      android:layout_height="wrap_content"/>
+            <TextView android:layout_width="wrap_content"
+                      android:text="Present"
+                      android:id="@+id/attendanceStatus"
+                      android:textColor="@color/black"
+                      android:textSize="@dimen/_13sdp"
+                      android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent"
+                      android:orientation="vertical"
+                      android:paddingVertical="@dimen/_5sdp"
+                      android:background="@drawable/attendance_background"
+                      android:layout_gravity="center_vertical"
+                      android:layout_height="wrap_content">
+            <LinearLayout android:layout_width="wrap_content"
+                          android:orientation="horizontal"
+                          android:layout_height="wrap_content">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:text="Teacher: "
+                        android:textSize="@dimen/_11sdp"
+                        android:layout_height="wrap_content"/>
+                <TextView android:layout_width="wrap_content"
+                          android:text="Tran Van A"
+                          android:id="@+id/attendanceTeacher"
+                          android:textColor="@color/black"
+                          android:textSize="@dimen/_13sdp"
+                          android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <TextView android:layout_width="wrap_content"
+                      android:text="14/03/2023"
+                      android:id="@+id/attendanceDate"
+                      android:textSize="@dimen/_11sdp"
+                      android:layout_height="wrap_content"/>
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:text="Class: "
+                        android:textSize="@dimen/_11sdp"
+                        android:layout_height="wrap_content"/>
+                <TextView android:layout_width="wrap_content"
+                          android:text="C.E0.0203.01"
+                          android:id="@+id/attendanceClass"
+                          android:textColor="@color/black"
+                          android:textSize="@dimen/_13sdp"
+                          android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

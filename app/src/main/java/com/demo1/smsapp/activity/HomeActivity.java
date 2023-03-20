@@ -1,7 +1,6 @@
 package com.demo1.smsapp.activity;
 
 import android.annotation.SuppressLint;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -33,19 +32,20 @@ public class HomeActivity extends AppCompatActivity {
     String _token;
     String role;
     MaterialDialog materialDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         homeBinding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(homeBinding.getRoot());
-        SharedPreferences data = getSharedPreferences("informationAccount",MODE_PRIVATE);
+        SharedPreferences data = getSharedPreferences("informationAccount", MODE_PRIVATE);
         Window window = this.getWindow();
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.red));
-        accountJson = data.getString("account",null);
-        _token = data.getString("token",null);
-        profileJson = data.getString("profile",null);
-        dataJson = data.getString("data",null);
-        role = data.getString("role",null);
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.red));
+        accountJson = data.getString("account", null);
+        _token = data.getString("token", null);
+        profileJson = data.getString("profile", null);
+        dataJson = data.getString("data", null);
+        role = data.getString("role", null);
         setUpViewPager();
         setupNavigationBottom();
     }
@@ -90,12 +90,12 @@ public class HomeActivity extends AppCompatActivity {
         return _token;
     }
 
-    public void setupNavigationBottom(){
+    public void setupNavigationBottom() {
         homeBinding.bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.home:
                         homeBinding.viewPager.setCurrentItem(0);
                         break;
@@ -107,7 +107,8 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
-    private void setUpViewPager(){
+
+    private void setUpViewPager() {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),
                 FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
@@ -117,11 +118,12 @@ public class HomeActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
+
             //Event vuốt trái phải
             @SuppressLint("ResourceAsColor")
             @Override
             public void onPageSelected(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         homeBinding.bottomNav.getMenu().findItem(R.id.home).setChecked(true);
                         break;
@@ -130,6 +132,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                 }
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
 

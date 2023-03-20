@@ -13,10 +13,20 @@ public class Schedule {
     private String endDate;
     @SerializedName("classId")
     private Integer classId;
+    @SerializedName("semester")
+    private String semester;
     @SerializedName("classsesByClassId")
     private Classses classsesByClassId;
     @SerializedName("scheduleDetailsById")
     private List<ScheduleDetail> scheduleDetailsById;
+
+    public String getSemester() {
+        return semester;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
 
     public int getId() {
         return id;

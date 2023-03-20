@@ -8,10 +8,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import com.demo1.smsapp.R;
 import com.demo1.smsapp.api.utils.APIUtils;
 import com.demo1.smsapp.api.utils.FileHelper;
 import com.demo1.smsapp.api.utils.FormatHelper;
@@ -20,21 +23,25 @@ import com.demo1.smsapp.dto.ResponseModel;
 import com.demo1.smsapp.models.Application;
 import com.demo1.smsapp.models.ApplicationType;
 import com.demo1.smsapp.models.Student;
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.util.Arrays;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class ApplicationActivity extends AppCompatActivity {
     public ActivityApplicationBinding binding;
-    public JsonElement json;
+    public String json;
     public List<ApplicationType> listAppType;
     public static final int PICKFILE_RESULT_CODE = 1;
+    MaterialDialog materialDialog;
     public Uri fileUri;
     public String note, applicationFile, extension, dataJson, sendDate, status, token, fileName;
     public Integer applicationTypeId;
@@ -49,6 +56,8 @@ public class ApplicationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityApplicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Window window = this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.red));
         data = getSharedPreferences("informationAccount", MODE_PRIVATE);
         init();
     }
@@ -62,12 +71,13 @@ public class ApplicationActivity extends AppCompatActivity {
     }
 
     public void OnBindingDropdown() {
-        APIUtils.ApplicationType().getAll().enqueue(new Callback<ResponseModel>() {
+        APIUtils.getApplicationType().getAll().enqueue(new Callback<ResponseModel>() {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 Gson gson = new Gson();
-                json = gson.toJsonTree(response.body().getData());
-                listAppType = Arrays.asList(gson.fromJson(json, ApplicationType[].class));
+                json = gson.toJson(response.body().getData());
+                Type type = new TypeToken<ArrayList<ApplicationType>>(){}.getType();
+                listAppType = gson.fromJson(json,type);
                 binding.cbxAppType.setItem(listAppType);
             }
 
@@ -89,7 +99,7 @@ public class ApplicationActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         FileHelper.saveDocx(appType.getFile(), appType.getName());
-                        Toast.makeText(ApplicationActivity.this, "Tải về thành công", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ApplicationActivity.this, "Download success", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -132,27 +142,43 @@ public class ApplicationActivity extends AppCompatActivity {
                 sendDate = FormatHelper.Format("date", new Date().toString());
                 status = "PENDING";
                 isValid = CheckValidate();
-                if(isValid){
+                if (isValid) {
                     app.setStatus(status);
                     app.setSendDate(sendDate);
                     app.setNote(note);
                     app.setStudentId(student.getId());
                     app.setFile(applicationFile);
                     app.setApplicationTypeId(applicationTypeId);
+                    app.setResponseDate("");
+                    app.setResponseNote("");
                     String applicationJson = gson.toJson(app);
-                    APIUtils.Application().post_app(token, applicationJson).enqueue(new Callback<ResponseModel>() {
+                    APIUtils.getApplicationApi().post_app(token, applicationJson).enqueue(new Callback<ResponseModel>() {
                         @Override
                         public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                             if (response.code() == 403) {
-                                Toast.makeText(ApplicationActivity.this, "Hết phiên đăng nhập", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(ApplicationActivity.this, "Gửi đơn thành công", Toast.LENGTH_SHORT).show();
+                                materialDialog = new MaterialDialog.Builder(ApplicationActivity.this)
+                                        .setMessage("End of session login ! Please login again")
+                                        .setCancelable(false)
+                                        .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int which) {
+                                                SharedPreferences sharedPreferences = getApplication().getSharedPreferences("informationAccount", MODE_PRIVATE);
+                                                sharedPreferences.edit().clear().apply();
+                                                dialogInterface.dismiss();
+                                                startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+                                            }
+                                        }).build();
+                                materialDialog.show();
+                            } else if (response.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "Send application success", Toast.LENGTH_SHORT).show();
+                            } else{
+                                Toast.makeText(getApplicationContext(),"Send application fail",Toast.LENGTH_LONG).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ResponseModel> call, Throwable t) {
-                            Toast.makeText(ApplicationActivity.this, "Gửi đơn thất bại", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ApplicationActivity.this, "Send application fail", Toast.LENGTH_SHORT).show();
                             Log.d("error", t.getMessage());
                         }
                     });
@@ -161,7 +187,6 @@ public class ApplicationActivity extends AppCompatActivity {
         });
     }
 
-    //Chọn hình ảnh
     public void OnFileChoose() {
         binding.fileChoose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,7 +195,7 @@ public class ApplicationActivity extends AppCompatActivity {
                 intent.setType("*/*");
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 try {
-                    startActivityForResult(Intent.createChooser(intent, "Chọn file"), PICKFILE_RESULT_CODE);
+                    startActivityForResult(Intent.createChooser(intent, "Choose file"), PICKFILE_RESULT_CODE);
                 } catch (android.content.ActivityNotFoundException ex) {
                     Toast.makeText(ApplicationActivity.this, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
                 }
@@ -189,6 +214,7 @@ public class ApplicationActivity extends AppCompatActivity {
             binding.cbxAppType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    binding.btnDownload.setVisibility(View.VISIBLE);
                     binding.cbxAppType.setErrorText(null);
                 }
 
@@ -197,34 +223,34 @@ public class ApplicationActivity extends AppCompatActivity {
 
                 }
             });
-            binding.cbxAppType.setErrorText("Vui lòng chọn mẫu đơn");
+            binding.cbxAppType.setErrorText("Please choose application template");
             return false;
         }
         if (binding.note.getEditText().getText().length() == 0) {
-            binding.note.setError("Vui lòng nhập ghi chú");
+            binding.note.setError("Please enter note");
             binding.note.getEditText().addTextChangedListener(new TextWatcher() {
-               @Override
-               public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-               }
+                }
 
-               @Override
-               public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-               }
+                }
 
-               @Override
-               public void afterTextChanged(Editable editable) {
-                  if(binding.note.getEditText().getText().length() == 0){
-                      binding.note.setError("Vui lòng nhập ghi chú");
-                  }else{
-                      binding.note.setError(null);
-                  }
-               }
-           });
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (binding.note.getEditText().getText().length() == 0) {
+                        binding.note.setError("Please enter note");
+                    } else {
+                        binding.note.setError(null);
+                    }
+                }
+            });
         }
         if (binding.fileName.length() == 0) {
-            binding.errorFile.setError("Vui lòng chọn tệp đính kèm");
+            binding.errorFile.setError("Please choose file");
             return false;
         }
         return true;

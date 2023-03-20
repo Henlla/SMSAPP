@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_margin="@dimen/_8sdp"
+              android:layout_height="@dimen/_80sdp">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+        <LinearLayout
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+            <TextView android:layout_width="wrap_content"
+                      android:id="@+id/studentName"
+                      android:text="Nguyen Van A"
+                      android:textColor="@color/black"
+                      android:textSize="@dimen/_13sdp"
+                      android:layout_height="wrap_content"/>
+            <Switch android:layout_width="wrap_content"
+                    android:checked="true"
+                    android:id="@+id/switchAttendance"
+                    android:layout_height="wrap_content"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"/>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/edNote"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:hint="Note"
+                        android:textColor="@color/black"
+                        android:background="@drawable/attendance_background"
+                        android:layout_height="@dimen/_70sdp"
+                        tools:ignore="HardcodedText"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--            <EditText android:layout_width="match_parent"-->
+            <!--                      android:id="@+id/edNote"-->
+            <!--                      android:background="@drawable/attendance_background"-->
+            <!--                      android:layout_height="@dimen/_50sdp"/>-->
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -41,8 +41,8 @@ public class FileHelper {
 
     public static void saveDocx(String base64String, String fileName) {
         String root = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOCUMENTS).toString();
-        File myDir = new File(root + "/docx/");
+                Environment.DIRECTORY_DOWNLOADS).toString();
+        File myDir = new File(root);
         BufferedOutputStream bos = null;
         FileOutputStream fos = null;
         File file = null;

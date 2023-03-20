@@ -203,6 +203,8 @@ public class HomeFragment extends Fragment {
                     startActivity(new Intent(context, ViewSubjectActivity.class));
                 } else if (functionName.equals(ATTENDANCE.toString())) {
                     startActivity(new Intent(context, TeacherAttendanceActivity.class));
+                } else if (functionName.equals(TEACHING_SCHEDULE.toString())) {
+                    startActivity(new Intent(context, TeachingScheduleActivity.class));
                 }
             }
         });
@@ -225,6 +227,7 @@ public class HomeFragment extends Fragment {
         FunctionModel application = new FunctionModel(ERole.Student.toString(), "Send Application", APPLICATION.toString(), R.drawable.resume);
         FunctionModel viewApplication = new FunctionModel(ERole.Student.toString(), "View Application", VIEW_APPLICATION.toString(), R.drawable.check_mark);
         FunctionModel checkMark = new FunctionModel(ERole.Student.toString(), "Mark", MARK.toString(), R.drawable.check_mark);
+        FunctionModel teaching_schedule = new FunctionModel(ERole.Teacher.toString(), "Teaching schedule", TEACHING_SCHEDULE.toString(), R.drawable.schedule);
         functionModels.add(attendance);
         functionModels.add(mark);
         functionModels.add(schedule);
@@ -232,6 +235,7 @@ public class HomeFragment extends Fragment {
         functionModels.add(viewApplication);
         functionModels.add(attendanceStudent);
         functionModels.add(checkMark);
+        functionModels.add(teaching_schedule);
         return functionModels;
     }
 
@@ -312,8 +316,8 @@ public class HomeFragment extends Fragment {
             fragmentHomeBinding.card.setText(student.getStudentCard());
             role = account.getRoleByRoleId().getRoleName();
         } else {
-            fragmentHomeBinding.card.setVisibility(View.GONE);
             teacher = gson.fromJson(data, Teacher.class);
+            fragmentHomeBinding.card.setText(teacher.getTeacherCard());
             role = account.getRoleByRoleId().getRoleName();
         }
         Profile profile = gson.fromJson(profileJson, Profile.class);

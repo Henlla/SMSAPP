@@ -21,7 +21,9 @@
             android:theme="@style/Theme.SMSAPP"
             android:usesCleartextTraffic="true"
             tools:targetApi="31">
-
+        <activity
+                android:name=".activity.TeachingScheduleActivity"
+                android:exported="false"/>
 
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"

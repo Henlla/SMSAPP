@@ -54,6 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private Classses classses = new Classses();
     private Student student;
     private Gson gson = new Gson();
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -64,13 +65,50 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             System.out.println("Message Notification Body: " + remoteMessage.getNotification().getBody());
-            DataNotification data = gson.fromJson(remoteMessage.getNotification().getBody(),DataNotification.class);
-            if(data.getAction().equals("Schedule")){
+            DataNotification data = gson.fromJson(remoteMessage.getNotification().getBody(), DataNotification.class);
+            if (data.getAction().equals("Schedule")) {
                 sendNotificationSchedule(data.getContent(), remoteMessage.getNotification().getTitle());
+            } else if (data.getAction().equals("Application")) {
+                sendNotificationApplication(data.getContent(), remoteMessage.getNotification().getTitle());
             }
         }
 
     }
+
+    private void sendNotificationApplication(String content, String title) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_IMMUTABLE);
+        String channelId = "fcm_default_channel";
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(getApplicationContext(), channelId)
+                        .setContentTitle(title)
+                        .setContentText(content)
+                        .setAutoCancel(true)
+                        .setSmallIcon(R.drawable.hkt_logo)
+                        .setSound(defaultSoundUri)
+                        .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        }
+
+        // Since android Oreo notification channel is needed.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channelId,
+                    "HTK_APP",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channel);
+        }
+        if (notificationManager != null) {
+            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        }
+    }
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)

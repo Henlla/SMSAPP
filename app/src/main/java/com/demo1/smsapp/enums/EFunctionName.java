@@ -10,6 +10,7 @@ public enum EFunctionName {
     SCHEDULES("SCHEDULES"),
     APPLICATION("APPLICATION"),
     VIEW_APPLICATION("VIEW_APPLICATION")
+    TEACHING_SCHEDULE("TEACHING_SCHEDULE"),
     ;
 
     private final String text;

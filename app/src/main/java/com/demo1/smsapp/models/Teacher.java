@@ -9,6 +9,9 @@ public class Teacher {
     private Integer id;
     @SerializedName("profileId")
     private Integer profileId;
+
+    @SerializedName("teacherCard")
+    private String teacherCard;
     @SerializedName("profileByProfileId")
     private Profile profileByProfileId;
     @SerializedName("teacherClass")
@@ -16,6 +19,13 @@ public class Teacher {
     public Teacher() {
     }
 
+    public String getTeacherCard() {
+        return teacherCard;
+    }
+
+    public void setTeacherCard(String teacherCard) {
+        this.teacherCard = teacherCard;
+    }
 
     public List<Classses> getTeacherClass() {
         return teacherClass;

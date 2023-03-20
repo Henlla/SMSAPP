@@ -5,9 +5,11 @@ import org.jetbrains.annotations.NotNull;
 
 public enum EFunctionName {
     ATTENDANCE("ATTENDANCE"),
+    VIEW_ATTENDANCE("VIEW_ATTENDANCE"),
     MARK("MARK"),
     SCHEDULES("SCHEDULES"),
     APPLICATION("APPLICATION"),
+    VIEW_APPLICATION("VIEW_APPLICATION")
     TEACHING_SCHEDULE("TEACHING_SCHEDULE"),
     ;
 

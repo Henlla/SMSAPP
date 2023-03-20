@@ -21,7 +21,10 @@ public class Application {
     private Student studentByStudentId;
     @SerializedName("applicationTypeByApplicationTypeId")
     private ApplicationType applicationTypeByApplicationTypeId;
-
+    @SerializedName("responseNote")
+    private String responseNote;
+    @SerializedName("responseDate")
+    private String responseDate;
     public Application(ApplicationType applicationTypeByApplicationTypeId) {
         this.applicationTypeByApplicationTypeId = applicationTypeByApplicationTypeId;
     }
@@ -99,5 +102,21 @@ public class Application {
 
     public void setApplicationTypeByApplicationTypeId(ApplicationType applicationTypeByApplicationTypeId) {
         this.applicationTypeByApplicationTypeId = applicationTypeByApplicationTypeId;
+    }
+
+    public String getResponseNote() {
+        return responseNote;
+    }
+
+    public void setResponseNote(String responseNote) {
+        this.responseNote = responseNote;
+    }
+
+    public String getResponseDate() {
+        return responseDate;
+    }
+
+    public void setResponseDate(String responseDate) {
+        this.responseDate = responseDate;
     }
 }

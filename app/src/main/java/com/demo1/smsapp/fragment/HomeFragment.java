@@ -1,32 +1,25 @@
 package com.demo1.smsapp.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bumptech.glide.Glide;
 import com.demo1.smsapp.R;
 import com.demo1.smsapp.activity.*;
+import com.demo1.smsapp.activity.teacher.TeacherAttendanceActivity;
 import com.demo1.smsapp.adapter.ListFunctionAdapter;
 import com.demo1.smsapp.adapter.NewAdapter;
 import com.demo1.smsapp.adapter.SlideNewAdapter;
@@ -41,9 +34,7 @@ import com.demo1.smsapp.dto.ResponseModel;
 import com.demo1.smsapp.enums.ERole;
 import com.demo1.smsapp.models.*;
 import com.demo1.smsapp.utils.ConvertDayOfWeek;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -53,7 +44,6 @@ import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
-import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,7 +51,6 @@ import retrofit2.Response;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -206,6 +195,14 @@ public class HomeFragment extends Fragment {
             public void ClickFunction(String functionName) {
                 if (functionName.equals(SCHEDULES.toString())) {
                     startActivity(new Intent(context, TimetableActivity.class));
+                } else if (functionName.equals(APPLICATION.toString())) {
+                    startActivity(new Intent(context, ApplicationActivity.class));
+                } else if (functionName.equals(VIEW_APPLICATION.toString())) {
+                    startActivity(new Intent(context, ViewApplicationActivity.class));
+                } else if (functionName.equals(VIEW_ATTENDANCE.toString())) {
+                    startActivity(new Intent(context, ViewSubjectActivity.class));
+                } else if (functionName.equals(ATTENDANCE.toString())) {
+                    startActivity(new Intent(context, TeacherAttendanceActivity.class));
                 } else if (functionName.equals(TEACHING_SCHEDULE.toString())) {
                     startActivity(new Intent(context, TeachingScheduleActivity.class));
                 }
@@ -221,26 +218,26 @@ public class HomeFragment extends Fragment {
         fragmentHomeBinding.listFunc.setLayoutManager(new GridLayoutManager(getContext(), 3));
     }
 
-
     public List<FunctionModel> listF() {
         List<FunctionModel> functionModels = new ArrayList<>();
         FunctionModel attendance = new FunctionModel(ERole.Teacher.toString(), "Attendance", ATTENDANCE.toString(), R.drawable.attendance);
-        FunctionModel attendanceStudent = new FunctionModel(ERole.Student.toString(), "Attendance", ATTENDANCE.toString(), R.drawable.attendance);
+        FunctionModel attendanceStudent = new FunctionModel(ERole.Student.toString(), "View Attendance", VIEW_ATTENDANCE.toString(), R.drawable.attendance);
         FunctionModel mark = new FunctionModel(ERole.Teacher.toString(), "Mark", MARK.toString(), R.drawable.logout_2);
         FunctionModel schedule = new FunctionModel(ERole.Student.toString(), "Timetable", SCHEDULES.toString(), R.drawable.schedule);
-        FunctionModel application = new FunctionModel(ERole.Student.toString(), "Application", APPLICATION.toString(), R.drawable.resume);
+        FunctionModel application = new FunctionModel(ERole.Student.toString(), "Send Application", APPLICATION.toString(), R.drawable.resume);
+        FunctionModel viewApplication = new FunctionModel(ERole.Student.toString(), "View Application", VIEW_APPLICATION.toString(), R.drawable.check_mark);
         FunctionModel checkMark = new FunctionModel(ERole.Student.toString(), "Mark", MARK.toString(), R.drawable.check_mark);
         FunctionModel teaching_schedule = new FunctionModel(ERole.Teacher.toString(), "Teaching schedule", TEACHING_SCHEDULE.toString(), R.drawable.schedule);
         functionModels.add(attendance);
         functionModels.add(mark);
         functionModels.add(schedule);
         functionModels.add(application);
+        functionModels.add(viewApplication);
         functionModels.add(attendanceStudent);
         functionModels.add(checkMark);
         functionModels.add(teaching_schedule);
         return functionModels;
     }
-
 
     private void setUpSlideAuto() {
         newsAPI.findAll().enqueue(new Callback<ResponseModel>() {
@@ -328,7 +325,7 @@ public class HomeFragment extends Fragment {
         reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Log.e("uri",uri.toString());
+                Log.e("uri", uri.toString());
                 Glide.with(context)
                         .load(uri)
                         .error(R.drawable.image_notavailable)
@@ -379,6 +376,5 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
 
 }

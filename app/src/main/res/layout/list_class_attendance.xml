@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:orientation="vertical"
+              android:layout_margin="@dimen/_7sdp"
+              android:layout_height="wrap_content">
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:layout_height="wrap_content">
+        <LinearLayout android:layout_width="wrap_content"
+                      android:orientation="vertical"
+                      android:layout_height="wrap_content">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/startTime"
+                    android:text="07:30"
+                    android:layout_height="wrap_content"/>
+            <LinearLayout android:layout_width="match_parent"
+                          android:orientation="horizontal"
+                          android:gravity="center_horizontal"
+                          android:layout_gravity="bottom"
+                          android:layout_height="wrap_content">
+                <View
+                        android:id="@+id/line_7"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_60sdp"
+                        android:background="@drawable/line_7"
+                />
+            </LinearLayout>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/endTime"
+                    android:text="07:30"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="wrap_content"
+                      android:layout_gravity="center_vertical"
+                      android:layout_height="wrap_content">
+            <TextView android:layout_width="wrap_content"
+                      android:text="Slot 1"
+                      android:id="@+id/slot"
+                      android:textSize="@dimen/_13sdp"
+                      android:textColor="@color/black"
+                      android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent"
+                      android:orientation="vertical"
+                      android:layout_marginLeft="@dimen/_3sdp"
+                      android:background="@drawable/attendance_background"
+                      android:paddingLeft="@dimen/_5sdp"
+                      android:layout_gravity="center_vertical"
+                      android:layout_height="@dimen/_90sdp">
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_marginBottom="@dimen/_5sdp"
+                          android:text="Bootstrap and Jquery"
+                          android:textSize="@dimen/_12sdp"
+                          android:id="@+id/subjectName"
+                          android:textColor="@color/black"
+                          android:layout_height="wrap_content"/>
+               <View android:layout_width="@dimen/_7sdp"
+                     android:layout_gravity="center_vertical"
+                     android:background="@color/black"
+                     android:layout_marginHorizontal="@dimen/_5sdp"
+                     android:layout_height="@dimen/_1sdp"/>
+                <TextView android:layout_width="wrap_content"
+                          android:text="6715-BJQ"
+                          android:id="@+id/subjectCode"
+                          android:textSize="@dimen/_12sdp"
+                          android:textColor="@color/black"
+                          android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <TextView android:layout_width="wrap_content"
+                      android:text="12/03/2023"
+                      android:id="@+id/date"
+                      android:layout_height="wrap_content"/>
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_gravity="end"
+                          android:layout_marginRight="@dimen/_5sdp"
+                          android:paddingBottom="@dimen/_5sdp"
+                          android:gravity="bottom"
+                          android:layout_height="match_parent">
+                <TextView android:layout_width="wrap_content"
+                          android:text="Class: "
+                          android:textSize="@dimen/_13sdp"
+                          android:layout_height="wrap_content"/>
+                <TextView android:layout_width="wrap_content"
+                          android:text="T1.2104.E0"
+                          android:id="@+id/classes"
+                          android:textColor="@color/black"
+                          android:textSize="@dimen/_13sdp"
+                          android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--    <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:orientation="horizontal"-->
+    <!--            android:layout_height="@dimen/_80sdp">-->
+    <!--        <LinearLayout-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:orientation="vertical"-->
+    <!--                android:layout_marginLeft="@dimen/_10sdp"-->
+    <!--                android:gravity="center_horizontal"-->
+    <!--                android:layout_gravity="center_vertical"-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--            <TextView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:textSize="@dimen/_13sdp"-->
+    <!--                    android:textColor="@color/black"-->
+    <!--                    android:id="@+id/slot"-->
+    <!--                    android:text="Slot 1"-->
+    <!--                    android:layout_height="wrap_content"/>-->
+    <!--            -->
+    <!--            <TextView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:textSize="@dimen/_13sdp"-->
+    <!--                    android:textColor="@color/black"-->
+    <!--                    android:id="@+id/classes"-->
+    <!--                    android:text="C.M0.0303.01"-->
+    <!--                    android:layout_height="wrap_content"/>-->
+    <!--        </LinearLayout>-->
+    <!--       -->
+    <!--        <LinearLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:orientation="vertical"-->
+    <!--                android:layout_gravity="center_vertical"-->
+    <!--                android:layout_height="wrap_content">-->
+    <!--            <TextView android:layout_width="wrap_content"-->
+    <!--                      android:text="6715-BSJ"-->
+    <!--                      android:id="@+id/subjectCode"-->
+    <!--                      android:textSize="@dimen/_13sdp"-->
+    <!--                      android:textColor="@color/black"-->
+    <!--                      android:layout_height="wrap_content"/>-->
+    <!--            <TextView android:layout_width="wrap_content"-->
+    <!--                      android:textSize="@dimen/_11sdp"-->
+    <!--                      android:text="15/03/2023"-->
+    <!--                      android:id="@+id/date"-->
+    <!--                      android:layout_height="wrap_content"/>-->
+    <!--            <TextView android:layout_width="wrap_content"-->
+    <!--                      android:textSize="@dimen/_13sdp"-->
+    <!--                      android:id="@+id/subjectName"-->
+    <!--                      android:textColor="@color/black"-->
+    <!--                      android:text="BootStrap and jQuery"-->
+    <!--                      android:layout_height="wrap_content"/>-->
+    <!--        </LinearLayout>-->
+    <!--    </LinearLayout>-->
+
+</LinearLayout>

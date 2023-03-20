@@ -65,6 +65,7 @@ public class ListNewsActivity extends AppCompatActivity {
             }
         });
     }
+
     private void setListNews() {
         newsAPI.findAll().enqueue(new Callback<ResponseModel>() {
             @RequiresApi(api = Build.VERSION_CODES.N)

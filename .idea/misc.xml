@@ -4,19 +4,55 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable-v24/input_search_home.xml" value="0.1425" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable-v24/line_4.xml" value="0.1535" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/arrow_back.xml" value="0.1535" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/attendance_background.xml" value="0.1565" />
         <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/btn_background.xml" value="0.1425" />
         <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/btnlogin_background.xml" value="0.1425" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/dot_line.xml" value="0.1565" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/dotted_line.xml" value="0.1565" />
         <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/input_template.xml" value="0.1425" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/line_3.xml" value="0.1535" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/line_7.xml" value="0.1565" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/line_end.xml" value="0.1535" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/line_start.xml" value="0.1535" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/drawable/vertical_line.xml" value="0.1535" />
         <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_application.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_attendance.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_change_password.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_edit_attendance.xml" value="0.25" />
         <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_list_class_attendance.xml" value="0.25" />
         <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_new_details.xml" value="0.25" />
         <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_splash.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_take_attendance.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_teacher_attendance.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_teacher_view_attendance.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_timetable.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_view_application.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_view_attendance.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/activity_view_teacher_attendance.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/fragment_application.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/fragment_edit_attendance.xml" value="0.25" />
         <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/fragment_take_attendance.xml" value="0.24615384615384617" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/fragment_view_application.xml" value="0.25" />
         <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/layout.xml" value="0.2359375" />
         <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/list_app_type.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/list_application.xml" value="0.264" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/list_attendance.xml" value="0.264" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/list_class_attendance.xml" value="0.24615384615384617" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/list_function.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/list_list_news.xml" value="0.25" />
         <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/list_news.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/list_schedule.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/list_schedule_details.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/list_student_attendance.xml" value="0.264" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/layout/list_subject.xml" value="0.25" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/menu/menu_attendance.xml" value="0.2635416666666667" />
+        <entry key="..\:/Users/phamk/Desktop/learning/Semester4/PRJ4/SMSAPP/app/src/main/res/menu/menu_bottom_nav.xml" value="0.26458333333333334" />
         <entry key="app/src/main/res/drawable-v24/custome_color.xml" value="0.144" />
         <entry key="app/src/main/res/drawable-v24/input_search_home.xml" value="0.1915" />
         <entry key="app/src/main/res/drawable-v24/line_4.xml" value="0.2975" />

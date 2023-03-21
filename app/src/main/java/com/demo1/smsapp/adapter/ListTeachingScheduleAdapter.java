@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.demo1.smsapp.databinding.ListTeachingScheduleBinding;
 import com.demo1.smsapp.dto.ScheduleGroupDTO;
+import com.demo1.smsapp.dto.TeachingScheduleGroupDTO;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.format.DateTimeFormatter;
@@ -18,11 +19,11 @@ import java.util.List;
 
 public class ListTeachingScheduleAdapter extends RecyclerView.Adapter<ListTeachingScheduleAdapter.TeachingScheduleVH> {
 
-    List<ScheduleGroupDTO> scheduleGroupDTOS;
+    List<TeachingScheduleGroupDTO> scheduleGroupDTOS;
     ListTeachingScheduleDetailsAdapter adapter;
     Context context;
 
-    public void setData(List<ScheduleGroupDTO> scheduleGroupDTOS){
+    public void setData(List<TeachingScheduleGroupDTO> scheduleGroupDTOS){
         this.scheduleGroupDTOS = scheduleGroupDTOS;
         notifyDataSetChanged();
     }
@@ -40,10 +41,10 @@ public class ListTeachingScheduleAdapter extends RecyclerView.Adapter<ListTeachi
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull @NotNull TeachingScheduleVH holder, int position) {
-        ScheduleGroupDTO scheduleGroupDTO = scheduleGroupDTOS.get(position);
+        TeachingScheduleGroupDTO scheduleGroupDTO = scheduleGroupDTOS.get(position);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("LLLL dd , yyyy");
         holder.binding.date.setText(scheduleGroupDTO.getDate().format(dateTimeFormatter));
-        adapter.setData(scheduleGroupDTO.getList());
+        adapter.setData(scheduleGroupDTO.getTeachingScheduleModels());
         holder.binding.rcvTeachingScheduleDetails.setAdapter(adapter);
         holder.binding.rcvTeachingScheduleDetails.setLayoutManager(new LinearLayoutManager(context));
     }

@@ -36,6 +36,10 @@ public class Classses {
     @SerializedName("majorId")
     @Expose
     private Integer majorId;
+
+    @SerializedName("roomId")
+    @Expose
+    private Integer roomId;
     @SerializedName("schedulesById")
     @Expose
     private List<Schedule> schedulesById;
@@ -48,6 +52,33 @@ public class Classses {
     @SerializedName("teacher")
     @Expose
     private Teacher teacher;
+    @SerializedName("classRoom")
+    @Expose
+    private Room classRoom;
+
+    public String getClassStatus() {
+        return classStatus;
+    }
+
+    public void setClassStatus(String classStatus) {
+        this.classStatus = classStatus;
+    }
+
+    public Integer getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Integer roomId) {
+        this.roomId = roomId;
+    }
+
+    public Room getClassRoom() {
+        return classRoom;
+    }
+
+    public void setClassRoom(Room classRoom) {
+        this.classRoom = classRoom;
+    }
 
     public boolean isOnDeleted() {
         return onDeleted;

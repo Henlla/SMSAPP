@@ -20,6 +20,8 @@ public class Schedule {
     @SerializedName("scheduleDetailsById")
     private List<ScheduleDetail> scheduleDetailsById;
 
+
+
     public String getSemester() {
         return semester;
     }

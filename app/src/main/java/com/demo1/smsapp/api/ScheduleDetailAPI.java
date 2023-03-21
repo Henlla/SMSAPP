@@ -2,10 +2,7 @@ package com.demo1.smsapp.api;
 
 import com.demo1.smsapp.dto.ResponseModel;
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.Header;
-import retrofit2.http.POST;
+import retrofit2.http.*;
 
 public interface ScheduleDetailAPI {
     @POST("findScheduleDetailByScheduleIdAndSubjectId")
@@ -45,4 +42,8 @@ public interface ScheduleDetailAPI {
                                                                @Field("fromDate") String fromDate,
                                                                @Field("toDate") String toDate,
                                                                @Field("scheduleId") Integer scheduleId);
+
+
+    @GET("findScheduleByTeacher/{teacherId}")
+    Call<ResponseModel> findScheduleByTeacher(@Header("Authorization") String token,@Path("teacherId")Integer teacherId);
 }

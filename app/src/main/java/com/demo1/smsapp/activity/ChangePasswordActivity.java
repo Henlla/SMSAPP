@@ -94,19 +94,24 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 changePasswordBinding.tvOldPass.requestFocus();
                 changePasswordBinding.layoutMsgLogin.setVisibility(View.VISIBLE);
                 changePasswordBinding.msgChangePassword.setText(R.string.msg_error_oldPassword);
-            } else if (newPassword.isEmpty()) {
+            }
+            else if (newPassword.length() < 8) {
+                changePasswordBinding.tvOldPass.requestFocus();
+                changePasswordBinding.layoutMsgLogin.setVisibility(View.VISIBLE);
+                changePasswordBinding.msgChangePassword.setText("New password must be greater than 8 characters");
+            }else if (newPassword.isEmpty()) {
                 changePasswordBinding.tvNewPass.requestFocus();
                 changePasswordBinding.layoutMsgLogin.setVisibility(View.VISIBLE);
                 changePasswordBinding.msgChangePassword.setText(R.string.msg_error_newPassword);
             } else if (newPassword.equals(oldPassword)) {
                 changePasswordBinding.tvNewPass.requestFocus();
                 changePasswordBinding.layoutMsgLogin.setVisibility(View.VISIBLE);
-                changePasswordBinding.msgChangePassword.setText("Mật khẩu mới không được giống mật khẩu cũ !");
+                changePasswordBinding.msgChangePassword.setText("Old password cannot same new password !");
             } else {
                 materialDialog = new MaterialDialog.Builder(ChangePasswordActivity.this)
-                        .setTitle("Đổi mật khẩu")
-                        .setMessage("Bạn có muốn đổi mật khẩu không ?")
-                        .setPositiveButton("Có", R.drawable.done, new MaterialDialog.OnClickListener() {
+                        .setTitle("Change password")
+                        .setMessage("Do you wanna change password ?")
+                        .setPositiveButton("Yes", R.drawable.done, new MaterialDialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 progressDialog.show();
@@ -116,7 +121,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                         if (response.isSuccessful()) {
                                             CookieBar.build(ChangePasswordActivity.this)
                                                     .setTitleColor(R.color.red)
-                                                    .setMessage("Đổi mật khẩu thành công")
+                                                    .setMessage("Change password success")
                                                     .setDuration(5000) // 5 seconds
                                                     .show();
                                             progressDialog.dismiss();
@@ -142,7 +147,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                             progressDialog.dismiss();
                                             dialogInterface.dismiss();
                                             changePasswordBinding.layoutMsgLogin.setVisibility(View.VISIBLE);
-                                            changePasswordBinding.msgChangePassword.setText("Mật khẩu cũ không đúng ! Vui lòng thử lại");
+                                            changePasswordBinding.msgChangePassword.setText("Old password isn't correct.Try again!");
                                         }
                                     }
                                     @Override

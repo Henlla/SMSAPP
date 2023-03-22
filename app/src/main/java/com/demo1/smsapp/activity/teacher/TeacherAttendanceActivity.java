@@ -94,30 +94,10 @@ public class TeacherAttendanceActivity extends AppCompatActivity {
         return dataJson;
     }
 
-    private void checkToken() {
-        String newToken = _token.substring(7, _token.length());
-        DecodedJWT jwt = JWT.decode(newToken);
-        if (jwt.getExpiresAt().before(new Date())) {
-            materialDialog = new MaterialDialog.Builder(TeacherAttendanceActivity.this)
-                    .setMessage("End of login session ! Please login again")
-                    .setCancelable(false)
-                    .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            SharedPreferences sharedPreferences = getApplication().getSharedPreferences("informationAccount", MODE_PRIVATE);
-                            sharedPreferences.edit().clear().apply();
-                            dialogInterface.dismiss();
-                            startActivity(new Intent(getApplicationContext(), SplashActivity.class));
-                        }
-                    }).build();
-            materialDialog.show();
-        }
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        checkToken();
     }
 
     public String getToken() {

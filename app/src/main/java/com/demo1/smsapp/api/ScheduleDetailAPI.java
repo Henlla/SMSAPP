@@ -39,10 +39,38 @@ public interface ScheduleDetailAPI {
                                                         @Field("fromDate") String fromDate,
                                                         @Field("toDate") String toDate);
 
+    @POST("findScheduleDetailsByDateBetweenAndTeacherId")
+    @FormUrlEncoded
+    Call<ResponseModel> findScheduleDetailByDateBetweenAndTeacherId(@Header("Authorization") String token,
+                                                                    @Field("fromDate") String fromDate,
+                                                                    @Field("toDate") String toDate,
+                                                                    @Field("teacherId") Integer teacherId);
+
     @POST("findScheduleDetailByDateBetweenAndScheduleId")
     @FormUrlEncoded
     Call<ResponseModel> findScheduleByDateBetweenAndScheduleId(@Header("Authorization") String token,
                                                                @Field("fromDate") String fromDate,
                                                                @Field("toDate") String toDate,
                                                                @Field("scheduleId") Integer scheduleId);
+
+    @POST("findScheduleDetailsByDateBetweenAndScheduleIdAndTeacherId")
+    @FormUrlEncoded
+    Call<ResponseModel> findScheduleDetailsByDateBetweenAndScheduleIdAndTeacherId(@Header("Authorization") String token,
+                                                                                  @Field("fromDate") String fromDate,
+                                                                                  @Field("toDate") String toDate,
+                                                                                  @Field("scheduleId") Integer scheduleId,
+                                                                                  @Field("teacherId") Integer teacherId);
+
+    @POST("findScheduleDetailsByDateAndTeacherId")
+    @FormUrlEncoded
+    Call<ResponseModel> findScheduleDetailsByDateAndTeacherId(@Header("Authorization") String token,
+                                                              @Field("date") String date,
+                                                              @Field("teacherId") Integer teacherId);
+
+    @POST("findScheduleDetailsByDateAndScheduleIdAndTeacherId")
+    @FormUrlEncoded
+    Call<ResponseModel> findScheduleDetailsByDateAndScheduleIdAndTeacherId(@Header("Authorization") String token,
+                                                                           @Field("date") String date,
+                                                                           @Field("scheduleId") Integer scheduleId,
+                                                                           @Field("teacherId") Integer teacherId);
 }

@@ -15,10 +15,32 @@ public class ScheduleDetail {
     private String dayOfWeek;
     @SerializedName("slot")
     private Integer slot;
+
+    @SerializedName("teacherId")
+    private Integer teacherId;
     @SerializedName("subjectBySubjectId")
     private Subject subjectBySubjectId;
     @SerializedName("scheduleByScheduleId")
     private Schedule scheduleByScheduleId;
+
+    @SerializedName("teacherByScheduleDetail")
+    private Teacher teacherByScheduleDetail;
+
+    public Integer getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Integer teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public Teacher getTeacherByScheduleDetail() {
+        return teacherByScheduleDetail;
+    }
+
+    public void setTeacherByScheduleDetail(Teacher teacherByScheduleDetail) {
+        this.teacherByScheduleDetail = teacherByScheduleDetail;
+    }
 
     public Integer getSlot() {
         return slot;

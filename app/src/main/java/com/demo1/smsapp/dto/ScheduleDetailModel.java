@@ -16,10 +16,20 @@ public class ScheduleDetailModel {
     private String timeStart;
     private String timeEnd;
     private Integer slot;
+    private String roomCode;
     private String teacherName;
     private String className;
     private Subject subjectBySubjectId;
     private Schedule scheduleByScheduleId;
+
+
+    public String getRoomCode() {
+        return roomCode;
+    }
+
+    public void setRoomCode(String roomCode) {
+        this.roomCode = roomCode;
+    }
 
     public String getTimeStart() {
         return timeStart;

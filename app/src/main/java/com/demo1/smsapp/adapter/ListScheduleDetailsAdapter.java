@@ -40,16 +40,16 @@ public class ListScheduleDetailsAdapter extends RecyclerView.Adapter<ListSchedul
                 holder.scheduleDetailsBinding.slot.setText("Slot 2");
                 holder.scheduleDetailsBinding.slot.setTextColor(R.color.green);
                 holder.scheduleDetailsBinding.subTitle.setTextColor(R.color.green);
-                holder.scheduleDetailsBinding.subCode.setTextColor(R.color.green);
+                holder.scheduleDetailsBinding.roomCode.setTextColor(R.color.green);
                 holder.scheduleDetailsBinding.imgLine.setImageResource(R.drawable.line_end);
             }
             holder.scheduleDetailsBinding.time1.setText(scheduleDetailModel.getTimeStart());
             holder.scheduleDetailsBinding.time2.setText(scheduleDetailModel.getTimeEnd());
-            holder.scheduleDetailsBinding.subTitle.setText("Môn: "+scheduleDetailModel.getSubjectBySubjectId().getSubjectName());
+            holder.scheduleDetailsBinding.subTitle.setText(scheduleDetailModel.getSubjectBySubjectId().getSubjectName());
 
-            holder.scheduleDetailsBinding.subCode.setText("Mã môn: "+scheduleDetailModel.getSubjectBySubjectId().getSubjectCode());
-            holder.scheduleDetailsBinding.teacher.setText("Giảng viên: "+scheduleDetailModel.getTeacherName());
-            holder.scheduleDetailsBinding.tvClass.setText("Lớp: "+scheduleDetailModel.getClassName());
+            holder.scheduleDetailsBinding.roomCode.setText("Room "+scheduleDetailModel.getRoomCode());
+            holder.scheduleDetailsBinding.teacher.setText("GV:"+scheduleDetailModel.getTeacherName());
+            holder.scheduleDetailsBinding.tvClass.setText("Class: "+scheduleDetailModel.getClassName());
     }
 
     @Override

@@ -354,10 +354,11 @@ public class TimetableActivity extends AppCompatActivity implements CalendarBott
                                         ScheduleDetailModel scheduleDetailModel = new ScheduleDetailModel();
                                         scheduleDetailModel.setDate(scheduleDetail.getDate());
                                         scheduleDetailModel.setId(scheduleDetail.getId());
-                                        scheduleDetailModel.setScheduleId(scheduleDetail.getSubjectBySubjectId().getId());
+                                        scheduleDetailModel.setSubjectId(scheduleDetail.getSubjectBySubjectId().getId());
                                         scheduleDetailModel.setScheduleId(scheduleDetail.getScheduleId());
                                         scheduleDetailModel.setSubjectBySubjectId(scheduleDetail.getSubjectBySubjectId());
                                         scheduleDetailModel.setScheduleByScheduleId(scheduleDetail.getScheduleByScheduleId());
+                                        scheduleDetailModel.setRoomCode(classses.getClassRoom().getRoomCode());
                                         scheduleDetailModel.setClassName(classses.getClassCode());
                                         scheduleDetailModel.setSlot(scheduleDetail.getSlot());
                                         if(subShift.equals("M")){
@@ -386,7 +387,7 @@ public class TimetableActivity extends AppCompatActivity implements CalendarBott
                                             }
                                         }
                                         scheduleDetailModel.setDayOfWeek(scheduleDetail.getDayOfWeek());
-                                        scheduleDetailModel.setTeacherName(classses.getTeacher().getProfileByProfileId().getLastName());
+                                        scheduleDetailModel.setTeacherName(scheduleDetail.getTeacherByScheduleDetail().getProfileByProfileId().getLastName());
                                         listTemp.add(scheduleDetailModel);
                                     }
                                     ScheduleGroupDTO scheduleGroupDTO = new ScheduleGroupDTO();

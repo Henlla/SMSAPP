@@ -21,4 +21,8 @@ public interface ScheduleAPI {
     Call<ResponseModel> getScheduleByScheduleDetail(@Header("Authorization") String token,
                                                     @Path("scheduleId") Integer id);
 
+    @POST("get/{id}")
+    Call<ResponseModel> getScheduleById(@Header("Authorization") String token,
+                                        @Path("id") Integer id);
+
 }

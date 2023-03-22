@@ -27,36 +27,24 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@SuppressLint("NewApi")
 public class EditAttendanceFragment extends Fragment {
     FragmentEditAttendanceBinding binding;
     String token, teacherJson, date;
     Teacher teacher;
     Gson gson;
 
-//    String mSTime = "07:30", mETime = "11:30";
-//    String aSTime = "12:30", aETime = "17:30";
-//    String eSTime = "17:30", eETime = "21:30";
-
-//    String mSTime = "00:00", mETime = "23:59";
-//    String aSTime = "00:00", aETime = "23:59";
-//    String eSTime = "00:00", eETime = "23:59";
-
-    String toDate, fromDate;
-
-    LocalTime startTime;
-    LocalTime endTime;
-    LocalTime onTime;
-    DateTimeFormatter format;
-    String currentTime;
+    LocalDate toDate, fromDate;
+    DateTimeFormatter formatDate;
+    DateTimeFormatter formatTime;
+    LocalTime currentTime;
 
     TeacherAttendanceActivity attendanceActivity;
     TakeAttendanceView takeAttendanceView;
@@ -110,7 +98,6 @@ public class EditAttendanceFragment extends Fragment {
 
     }
 
-    @SuppressLint("NewApi")
     public void init() {
         attendanceActivity = (TeacherAttendanceActivity) getActivity();
         gson = new Gson();
@@ -121,10 +108,9 @@ public class EditAttendanceFragment extends Fragment {
         listStudentClass = new ArrayList<>();
 
         adapter = new ListTakeAttendanceAdapter();
-        format = DateTimeFormatter.ofPattern("HH:mm");
-        int hour = LocalDateTime.now().getHour();
-        int minute = LocalDateTime.now().getMinute();
-        currentTime = (hour < 10 ? "0" + hour : hour) + ":" + (minute < 10 ? "0" + minute : minute);
+        formatTime = DateTimeFormatter.ofPattern("HH:mm");
+        formatDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        currentTime = LocalTime.parse(LocalTime.now().format(formatTime));
         token = attendanceActivity.getToken();
         teacherJson = attendanceActivity.getDataJson();
         teacher = gson.fromJson(teacherJson, Teacher.class);
@@ -136,11 +122,9 @@ public class EditAttendanceFragment extends Fragment {
     public void onGetScheduleDetail() {
         try {
             listScheduleDetail = new ArrayList<>();
-            toDate = ConvertDayOfWeek.dateFormat(LocalDate.now(), "yyyy-mm-dd");
-            String[] date = toDate.split("-");
-            fromDate = ConvertDayOfWeek.dateFormat(LocalDate.of(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]) - 2), "yyyy-mm-dd");
-
-            Response<ResponseModel> response = scheduleDetailAPI.findScheduleDetailByDateBetween(token, fromDate, toDate).execute();
+            toDate = LocalDate.parse(LocalDate.now().format(formatDate));
+            fromDate = toDate.minusDays(2);
+            Response<ResponseModel> response = scheduleDetailAPI.findScheduleDetailByDateBetweenAndTeacherId(token, fromDate.toString(), toDate.toString(), teacher.getId()).execute();
             if (response.isSuccessful()) {
                 String scheduleDetailJson = gson.toJson(response.body().getData());
                 Type type = new TypeToken<ArrayList<ScheduleDetail>>() {
@@ -170,7 +154,7 @@ public class EditAttendanceFragment extends Fragment {
                 }
             }
             if (!listSchedule.isEmpty()) {
-                onGetClass(listSchedule);
+                onGetScheduleDetailBySchedule(listSchedule);
             } else {
                 Toast.makeText(getContext(), "Don't have schedule", Toast.LENGTH_LONG).show();
             }
@@ -180,69 +164,15 @@ public class EditAttendanceFragment extends Fragment {
     }
 
     @SuppressLint("NewApi")
-    public void onGetClass(List<Schedule> scheduleList) {
-        List<Integer> listClassId = scheduleList.stream().map(Schedule::getClassId).distinct().collect(Collectors.toList());
-        listClass = new ArrayList<>();
-        try {
-            for (Integer classId : listClassId) {
-                Response<ResponseModel> response = classAPI.findClassByTeacherAndSchedule(token, teacher.getId(), classId).execute();
-                if (response.isSuccessful()) {
-                    String classJson = gson.toJson(response.body().getData());
-                    Classses classses = gson.fromJson(classJson, Classses.class);
-                    if (classses != null) {
-                        listClass.add(classses);
-                    }
-                }
-            }
-            if (!listClass.isEmpty()) {
-                onGetSchedule(listClass);
-            } else {
-                Toast.makeText(getContext(), "Don't have class", Toast.LENGTH_LONG).show();
-            }
-        } catch (IOException e) {
-            Toast.makeText(getContext(), "Don't find", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public void onGetSchedule(List<Classses> listClass) {
-        try {
-            listSchedule = new ArrayList<>();
-            for (Classses classses : listClass) {
-                Response<ResponseModel> response = scheduleAPI.getScheduleByClass(token, classses.getId()).execute();
-                if (response.isSuccessful()) {
-                    String scheduleJson = gson.toJson(response.body().getData());
-                    Type type = new TypeToken<ArrayList<Schedule>>() {
-                    }.getType();
-                    listSchedule.addAll(gson.fromJson(scheduleJson, type));
-                } else {
-                    Toast.makeText(getContext(), "Don't find schedule", Toast.LENGTH_LONG).show();
-                }
-            }
-            if (!listSchedule.isEmpty()) {
-                onGetScheduleDetailBySchedule(listSchedule, listClass);
-            } else {
-                Toast.makeText(getContext(), "Don't have schedule", Toast.LENGTH_LONG).show();
-            }
-        } catch (Exception e) {
-            Toast.makeText(getContext(), "Don't find", Toast.LENGTH_LONG).show();
-        }
-
-    }
-
-    @SuppressLint("NewApi")
-    public void onGetScheduleDetailBySchedule(List<Schedule> listSchedule, List<Classses> listClass) {
+    public void onGetScheduleDetailBySchedule(List<Schedule> listSchedule) {
         listScheduleDetail = new ArrayList<>();
         for (Schedule schedule : listSchedule) {
-            String day = LocalDate.now().getDayOfMonth() < 10 ? "0" + LocalDate.now().getDayOfMonth() : String.valueOf(LocalDate.now().getDayOfMonth());
-            String month = LocalDate.now().getMonthValue() < 10 ? "0" + LocalDate.now().getMonthValue() : String.valueOf(LocalDate.now().getMonthValue());
-            String year = String.valueOf(LocalDate.now().getYear());
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate startDate = LocalDate.parse(schedule.getStartDate(), format);
-            LocalDate endDate = LocalDate.parse(schedule.getEndDate(), format);
-            LocalDate currentDate = LocalDate.parse(year + "-" + month + "-" + day, format);
+            LocalDate startDate = LocalDate.parse(schedule.getStartDate(), formatDate);
+            LocalDate endDate = LocalDate.parse(schedule.getEndDate(), formatDate);
+            LocalDate currentDate = LocalDate.parse(LocalDate.now().format(formatDate));
             if (currentDate.isAfter(startDate) && currentDate.isBefore(endDate)) {
                 try {
-                    Response<ResponseModel> response = scheduleDetailAPI.findScheduleByDateBetweenAndScheduleId(token, fromDate, toDate, schedule.getId()).execute();
+                    Response<ResponseModel> response = scheduleDetailAPI.findScheduleDetailsByDateBetweenAndScheduleIdAndTeacherId(token, fromDate.toString(), toDate.toString(), schedule.getId(), teacher.getId()).execute();
                     if (response.isSuccessful()) {
                         String scheduleDetailJson = gson.toJson(response.body().getData());
                         Type type = new TypeToken<ArrayList<ScheduleDetail>>() {
@@ -255,98 +185,94 @@ public class EditAttendanceFragment extends Fragment {
             }
         }
         if (!listScheduleDetail.isEmpty()) {
-            onGetAttendance(listScheduleDetail, listClass);
+            onGetAttendance(listScheduleDetail);
         } else {
             Toast.makeText(getContext(), "Don't have schedule", Toast.LENGTH_LONG).show();
         }
     }
 
     @SuppressLint("NewApi")
-    public void onGetAttendance(List<ScheduleDetail> listScheduleDetail, List<Classses> listClass) {
+    public void onGetAttendance(List<ScheduleDetail> listScheduleDetail) {
         listAttendance = new ArrayList<>();
+        Schedule schedule;
+        Classses classses;
         try {
             for (ScheduleDetail scheduleDetail : listScheduleDetail) {
                 listAttendance.clear();
-                for (Classses classses : listClass) {
-                    Response<ResponseModel> response = attendanceAPI.findAttendanceByDateSlotAndShift(token, scheduleDetail.getDate(), scheduleDetail.getSlot(), classses.getShift()).execute();
-                    if (response.isSuccessful()) {
-                        String attendanceJson = gson.toJson(response.body().getData());
-                        Type type = new TypeToken<ArrayList<Attendance>>() {
-                        }.getType();
-                        listAttendance = gson.fromJson(attendanceJson, type);
-                        if (!listAttendance.isEmpty()) {
-                            takeAttendanceView = new TakeAttendanceView();
-                            switch (classses.getShift().substring(0, 1)) {
-                                case "M":
-//                                    startTime = LocalTime.parse(mSTime, format);
-//                                    endTime = LocalTime.parse(mETime, format);
-//                                    onTime = LocalTime.parse(currentTime, format);
-//                                    if (onTime.isAfter(startTime) && onTime.isBefore(endTime)) {
-                                    takeAttendanceView.setClass_code(classses.getClassCode());
-                                    takeAttendanceView.setSlot(scheduleDetail.getSlot());
-                                    takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
-                                    takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
-                                    takeAttendanceView.setDate(scheduleDetail.getDate());
-                                    takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
-                                    if (scheduleDetail.getSlot() == 1) {
-                                        takeAttendanceView.setStartTime("07:30");
-                                        takeAttendanceView.setEndTime("09:30");
-                                    } else {
-                                        takeAttendanceView.setStartTime("09:30");
-                                        takeAttendanceView.setEndTime("11:30");
-                                    }
-                                    listTakeAttendanceView.add(takeAttendanceView);
-//                                    } else {
-//                                        isOnTime = false;
-//                                    }
-                                    break;
-                                case "A":
-//                                    startTime = LocalTime.parse(aSTime, format);
-//                                    endTime = LocalTime.parse(aETime, format);
-//                                    onTime = LocalTime.parse(currentTime, format);
-//                                    if (onTime.isAfter(startTime) && onTime.isBefore(endTime)) {
-                                    takeAttendanceView.setClass_code(classses.getClassCode());
-                                    takeAttendanceView.setSlot(scheduleDetail.getSlot());
-                                    takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
-                                    takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
-                                    takeAttendanceView.setDate(scheduleDetail.getDate());
-                                    takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
-                                    if (scheduleDetail.getSlot() == 1) {
-                                        takeAttendanceView.setStartTime("12:30");
-                                        takeAttendanceView.setEndTime("15:30");
-                                    } else {
-                                        takeAttendanceView.setStartTime("15:30");
-                                        takeAttendanceView.setEndTime("17:30");
-                                    }
-                                    listTakeAttendanceView.add(takeAttendanceView);
-//                                    } else {
-//                                        isOnTime = false;
-//                                    }
-                                    break;
-                                case "E":
-//                                    startTime = LocalTime.parse(eSTime, format);
-//                                    endTime = LocalTime.parse(eETime, format);
-//                                    onTime = LocalTime.parse(currentTime, format);
-//                                    if (onTime.isAfter(startTime) && onTime.isBefore(endTime)) {
-                                    takeAttendanceView.setClass_code(classses.getClassCode());
-                                    takeAttendanceView.setSlot(scheduleDetail.getSlot());
-                                    takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
-                                    takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
-                                    takeAttendanceView.setDate(scheduleDetail.getDate());
-                                    takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
-                                    if (scheduleDetail.getSlot() == 1) {
-                                        takeAttendanceView.setStartTime("17:30");
-                                        takeAttendanceView.setEndTime("19:30");
-                                    } else {
-                                        takeAttendanceView.setStartTime("19:30");
-                                        takeAttendanceView.setEndTime("21:30");
-                                    }
-                                    listTakeAttendanceView.add(takeAttendanceView);
-//                                    } else {
-//                                        isOnTime = false;
-//                                    }
-                                    break;
-                            }
+                schedule = new Schedule();
+                classses = new Classses();
+                // Lấy schedule theo Schedule detail
+                Response<ResponseModel> responseSchedule = scheduleAPI.getScheduleById(token, scheduleDetail.getScheduleId()).execute();
+                if (responseSchedule.isSuccessful()) {
+                    String scheduleJson = gson.toJson(responseSchedule.body().getData());
+                    schedule = gson.fromJson(scheduleJson, Schedule.class);
+                } else {
+                    Toast.makeText(getContext(), "Don't find schedule", Toast.LENGTH_LONG).show();
+                }
+                // Lấy class theo schedule id
+                Response<ResponseModel> responseClass = classAPI.getClassById(token, schedule.getClassId()).execute();
+                if (responseClass.isSuccessful()) {
+                    String classJson = gson.toJson(responseClass.body().getData());
+                    classses = gson.fromJson(classJson, Classses.class);
+                }
+
+                Response<ResponseModel> response = attendanceAPI.findAttendanceByDateSlotAndShift(token, scheduleDetail.getDate(), scheduleDetail.getSlot(), classses.getShift()).execute();
+                if (response.isSuccessful()) {
+                    String attendanceJson = gson.toJson(response.body().getData());
+                    Type type = new TypeToken<ArrayList<Attendance>>() {
+                    }.getType();
+                    listAttendance = gson.fromJson(attendanceJson, type);
+                    if (!listAttendance.isEmpty()) {
+                        takeAttendanceView = new TakeAttendanceView();
+                        switch (classses.getShift().substring(0, 1)) {
+                            case "M":
+                                takeAttendanceView.setClass_code(classses.getClassCode());
+                                takeAttendanceView.setSlot(scheduleDetail.getSlot());
+                                takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
+                                takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
+                                takeAttendanceView.setDate(scheduleDetail.getDate());
+                                takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
+                                if (scheduleDetail.getSlot() == 1) {
+                                    takeAttendanceView.setStartTime("07:30");
+                                    takeAttendanceView.setEndTime("09:30");
+                                } else {
+                                    takeAttendanceView.setStartTime("09:30");
+                                    takeAttendanceView.setEndTime("11:30");
+                                }
+                                listTakeAttendanceView.add(takeAttendanceView);
+                                break;
+                            case "A":
+                                takeAttendanceView.setClass_code(classses.getClassCode());
+                                takeAttendanceView.setSlot(scheduleDetail.getSlot());
+                                takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
+                                takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
+                                takeAttendanceView.setDate(scheduleDetail.getDate());
+                                takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
+                                if (scheduleDetail.getSlot() == 1) {
+                                    takeAttendanceView.setStartTime("12:30");
+                                    takeAttendanceView.setEndTime("15:30");
+                                } else {
+                                    takeAttendanceView.setStartTime("15:30");
+                                    takeAttendanceView.setEndTime("17:30");
+                                }
+                                listTakeAttendanceView.add(takeAttendanceView);
+                                break;
+                            case "E":
+                                takeAttendanceView.setClass_code(classses.getClassCode());
+                                takeAttendanceView.setSlot(scheduleDetail.getSlot());
+                                takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
+                                takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
+                                takeAttendanceView.setDate(scheduleDetail.getDate());
+                                takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
+                                if (scheduleDetail.getSlot() == 1) {
+                                    takeAttendanceView.setStartTime("17:30");
+                                    takeAttendanceView.setEndTime("19:30");
+                                } else {
+                                    takeAttendanceView.setStartTime("19:30");
+                                    takeAttendanceView.setEndTime("21:30");
+                                }
+                                listTakeAttendanceView.add(takeAttendanceView);
+                                break;
                         }
                     }
                 }

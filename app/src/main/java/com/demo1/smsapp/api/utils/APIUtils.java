@@ -17,9 +17,9 @@ public class APIUtils {
     private static final String URL_DEVICE = "http://10.0.2.2:8080/api/device/";
     private static final String URL_ATTENDANCE = "http://10.0.2.2:8080/api/attendance/";
     private static final String URL_STUDENT_SUBJECT = "http://10.0.2.2:8080/api/student-subject/";
-    private static  final String URL_SCHEDULE_DETAIL = "http://10.0.2.2:8080/api/schedules_detail/";
+    private static final String URL_SCHEDULE_DETAIL = "http://10.0.2.2:8080/api/schedules_detail/";
     private static final String URL_STUDENT_MAJOR = "http://10.0.2.2:8080/api/student-major/";
-    private static final String URL_ATTENDANCE_TRACKING = "http://10.0.2.2:8080:8080/api/attendance_tracking/";
+    private static final String URL_ATTENDANCE_TRACKING = "http://10.0.2.2:8080/api/attendance_tracking/";
 
 
 //    private static final String URL_ACCOUNT = "http://192.168.1.58:8080/api/accounts/";

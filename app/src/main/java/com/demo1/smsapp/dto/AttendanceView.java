@@ -1,19 +1,11 @@
 package com.demo1.smsapp.dto;
 
+import java.util.List;
+
 public class AttendanceView {
-    private Integer slot;
     private String date;
-    private String teacher_name;
-    private String class_code;
-    private String status;
-
-    public Integer getSlot() {
-        return slot;
-    }
-
-    public void setSlot(Integer slot) {
-        this.slot = slot;
-    }
+    private String classCode;
+    private List<AttendanceDetailView> listAttendanceDetailView;
 
     public String getDate() {
         return date;
@@ -23,27 +15,19 @@ public class AttendanceView {
         this.date = date;
     }
 
-    public String getTeacher_name() {
-        return teacher_name;
+    public String getClassCode() {
+        return classCode;
     }
 
-    public void setTeacher_name(String teacher_name) {
-        this.teacher_name = teacher_name;
+    public void setClassCode(String classCode) {
+        this.classCode = classCode;
     }
 
-    public String getClass_code() {
-        return class_code;
+    public List<AttendanceDetailView> getListAttendanceDetailView() {
+        return listAttendanceDetailView;
     }
 
-    public void setClass_code(String class_code) {
-        this.class_code = class_code;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setListAttendanceDetailView(List<AttendanceDetailView> listAttendanceDetailView) {
+        this.listAttendanceDetailView = listAttendanceDetailView;
     }
 }

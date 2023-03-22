@@ -15,6 +15,7 @@ import com.demo1.smsapp.adapter.ListAttendanceAdapter;
 import com.demo1.smsapp.api.*;
 import com.demo1.smsapp.api.utils.APIUtils;
 import com.demo1.smsapp.databinding.ActivityAttendanceBinding;
+import com.demo1.smsapp.dto.AttendanceDetailView;
 import com.demo1.smsapp.dto.AttendanceView;
 import com.demo1.smsapp.dto.ResponseModel;
 import com.demo1.smsapp.models.*;
@@ -24,10 +25,8 @@ import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import retrofit2.Response;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class AttendanceActivity extends AppCompatActivity {
     ActivityAttendanceBinding binding;
@@ -38,7 +37,7 @@ public class AttendanceActivity extends AppCompatActivity {
     int subjectId, studentId;
     Gson gson;
 
-    List<AttendanceView> listAttendanceView;
+    List<AttendanceDetailView> listAttendanceView;
     List<ScheduleDetail> listScheduleDetail;
     ListAttendanceAdapter adapter;
 
@@ -52,14 +51,9 @@ public class AttendanceActivity extends AppCompatActivity {
     StudentSubjectAPI studentSubjectAPI;
     AttendanceAPI attendanceAPI;
 
-    StudentSubject studentSubject;
-    Teacher teacher;
-    Schedule schedule;
-    AttendanceView attendanceView;
-    Attendance attendance;
 
+    AttendanceDetailView attendanceView;
     List<StudentClass> listStudentClass;
-    List<Classses> listClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,14 +177,13 @@ public class AttendanceActivity extends AppCompatActivity {
     }
 
     public void OnGetAttendance() {
-
         try {
             listAttendanceView = new ArrayList<>();
             Response<ResponseModel> responseStudentSubject = studentSubjectAPI.findStudentSubjectBySubjectIdAndStudentId(token, subjectId, studentId).execute();
             String studentSubjectJson = gson.toJson(responseStudentSubject.body().getData());
             StudentSubject studentSubject = gson.fromJson(studentSubjectJson, StudentSubject.class);
             for (ScheduleDetail scheduleDetail : listScheduleDetail) {
-                attendanceView = new AttendanceView();
+                attendanceView = new AttendanceDetailView();
                 Response<ResponseModel> response = attendanceAPI.findAttendanceByDateAndSlotAndStudentSubjectAndShift(token, scheduleDetail.getDate(), scheduleDetail.getSlot(), studentSubject.getId(), classses.getShift()).execute();
                 String attendanceJson = gson.toJson(response.body().getData());
                 Attendance attendance = gson.fromJson(attendanceJson, Attendance.class);
@@ -217,11 +210,25 @@ public class AttendanceActivity extends AppCompatActivity {
     }
 
     @SuppressLint("NewApi")
-    public void OnGetAttendanceView(List<AttendanceView> listAttendanceView) {
+    public void OnGetAttendanceView(List<AttendanceDetailView> listAttendanceView) {
+        AttendanceView attendance;
+        List<AttendanceView> listAttendance = new ArrayList<>();
         if (listAttendanceView.size() == listScheduleDetail.size()) {
-            Collections.sort(listAttendanceView, Comparator.comparing(AttendanceView::getDate)
-                    .thenComparing(AttendanceView::getSlot));
-            OnBindingView(listAttendanceView);
+            Collections.sort(listAttendanceView, Comparator.comparing(AttendanceDetailView::getDate)
+                    .thenComparing(AttendanceDetailView::getSlot));
+            Map<String, Map<String, List<AttendanceDetailView>>> groupingAttendance =
+                    listAttendanceView.stream().collect(Collectors.groupingBy(AttendanceDetailView::getDate, Collectors.groupingBy(AttendanceDetailView::getClass_code)));
+            for (Map.Entry<String, Map<String, List<AttendanceDetailView>>> grouping : groupingAttendance.entrySet()) {
+                attendance = new AttendanceView();
+                attendance.setDate(grouping.getKey());
+                for (Map.Entry<String, List<AttendanceDetailView>> grouping2 : grouping.getValue().entrySet()) {
+                    attendance.setClassCode(grouping2.getKey());
+                    attendance.setListAttendanceDetailView(grouping2.getValue());
+                    listAttendance.add(attendance);
+                }
+            }
+            Collections.sort(listAttendance,Comparator.comparing(AttendanceView::getDate));
+            OnBindingView(listAttendance);
         }
     }
 

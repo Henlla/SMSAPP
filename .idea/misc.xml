@@ -58,6 +58,7 @@
         <entry key="app/src/main/res/drawable-v24/input_search_home.xml" value="0.1915" />
         <entry key="app/src/main/res/drawable-v24/line_4.xml" value="0.2975" />
         <entry key="app/src/main/res/drawable/arrow_back.xml" value="0.1675" />
+        <entry key="app/src/main/res/drawable/attendance_background.xml" value="0.2125" />
         <entry key="app/src/main/res/drawable/backgroud_stroke.xml" value="0.173" />
         <entry key="app/src/main/res/drawable/btn_background.xml" value="0.2335" />
         <entry key="app/src/main/res/drawable/btn_dropdown_spin.xml" value="0.231" />
@@ -74,6 +75,7 @@
         <entry key="app/src/main/res/drawable/line_start.xml" value="0.2975" />
         <entry key="app/src/main/res/drawable/logout.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/logout_2.xml" value="0.1395" />
+        <entry key="app/src/main/res/drawable/mark_list_background.xml" value="0.2125" />
         <entry key="app/src/main/res/drawable/notifications.xml" value="0.241" />
         <entry key="app/src/main/res/drawable/person.xml" value="0.2335" />
         <entry key="app/src/main/res/drawable/schedule_background.xml" value="0.229" />
@@ -85,26 +87,38 @@
         <entry key="app/src/main/res/layout-v26/calander_sheet_model.xml" value="0.3484375" />
         <entry key="app/src/main/res/layout-v26/fragment_profile.xml" value="0.3453125" />
         <entry key="app/src/main/res/layout/activity_application.xml" value="0.24074074074074073" />
+        <entry key="app/src/main/res/layout/activity_attendance.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/layout/activity_change_password.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/layout/activity_edit_attendance.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_list_news.xml" value="0.3463541666666667" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.33229166666666665" />
+        <entry key="app/src/main/res/layout/activity_mark_report.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/layout/activity_new_details.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_news_detail.xml" value="0.32314814814814813" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/layout/activity_take_attendance.xml" value="0.31666666666666665" />
+        <entry key="app/src/main/res/layout/activity_take_mark.xml" value="0.3037037037037037" />
         <entry key="app/src/main/res/layout/activity_teaching_schedule.xml" value="0.3212962962962963" />
         <entry key="app/src/main/res/layout/activity_timetable.xml" value="0.335" />
         <entry key="app/src/main/res/layout/calendar_sheet_model.xml" value="0.3212962962962963" />
         <entry key="app/src/main/res/layout/fragemnt_profile.xml" value="0.1288149028933809" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_new_detail.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_take_attendance.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/layout/list_app_type.xml" value="0.24074074074074073" />
+        <entry key="app/src/main/res/layout/list_attendance_detail.xml" value="0.31666666666666665" />
+        <entry key="app/src/main/res/layout/list_class_attendance.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/layout/list_function.xml" value="0.375" />
         <entry key="app/src/main/res/layout/list_list_news.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/list_mark.xml" value="0.31851851851851853" />
+        <entry key="app/src/main/res/layout/list_mark_details.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/layout/list_news.xml" value="0.3453125" />
         <entry key="app/src/main/res/layout/list_schedule.xml" value="0.335" />
         <entry key="app/src/main/res/layout/list_schedule_details.xml" value="0.34205128205128205" />
+        <entry key="app/src/main/res/layout/list_student_attendance.xml" value="0.31666666666666665" />
+        <entry key="app/src/main/res/layout/list_take_mark_details.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/layout/list_teaching_schedule.xml" value="0.2638888888888889" />
         <entry key="app/src/main/res/layout/list_teaching_schedule_details.xml" value="0.375" />
         <entry key="app/src/main/res/layout/search_sheet_model.xml" value="0.2734584450402145" />

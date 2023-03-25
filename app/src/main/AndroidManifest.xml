@@ -22,6 +22,12 @@
             android:usesCleartextTraffic="true"
             tools:targetApi="31">
         <activity
+                android:name=".activity.teacher.TakeMarkActivity"
+                android:exported="false"/>
+        <activity
+                android:name=".activity.MarkReportActivity"
+                android:exported="false"/>
+        <activity
                 android:name=".activity.TeachingScheduleActivity"
                 android:exported="false"/>
 
@@ -34,6 +40,7 @@
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_channel_id"
                 android:value="@string/default_notification_channel_id"/>
+
         <activity
                 android:name=".activity.teacher.EditAttendanceActivity"
                 android:exported="false"/>

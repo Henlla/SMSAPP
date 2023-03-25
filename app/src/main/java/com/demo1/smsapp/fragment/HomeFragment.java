@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.bumptech.glide.Glide;
 import com.demo1.smsapp.R;
 import com.demo1.smsapp.activity.*;
+import com.demo1.smsapp.activity.teacher.TakeMarkActivity;
 import com.demo1.smsapp.activity.teacher.TeacherAttendanceActivity;
 import com.demo1.smsapp.adapter.ListFunctionAdapter;
 import com.demo1.smsapp.adapter.NewAdapter;
@@ -205,6 +206,10 @@ public class HomeFragment extends Fragment {
                     startActivity(new Intent(context, TeacherAttendanceActivity.class));
                 } else if (functionName.equals(TEACHING_SCHEDULE.toString())) {
                     startActivity(new Intent(context, TeachingScheduleActivity.class));
+                }else if (functionName.equals(MARK.toString())){
+                    startActivity(new Intent(context, MarkReportActivity.class));
+                } else if (functionName.equals(TAKE_MARK.toString())) {
+                    startActivity(new Intent(context, TakeMarkActivity.class));
                 }
             }
         });
@@ -222,7 +227,7 @@ public class HomeFragment extends Fragment {
         List<FunctionModel> functionModels = new ArrayList<>();
         FunctionModel attendance = new FunctionModel(ERole.Teacher.toString(), "Attendance", ATTENDANCE.toString(), R.drawable.attendance);
         FunctionModel attendanceStudent = new FunctionModel(ERole.Student.toString(), "View Attendance", VIEW_ATTENDANCE.toString(), R.drawable.attendance);
-        FunctionModel mark = new FunctionModel(ERole.Teacher.toString(), "Mark", MARK.toString(), R.drawable.logout_2);
+        FunctionModel mark = new FunctionModel(ERole.Teacher.toString(), "Take Mark", TAKE_MARK.toString(), R.drawable.check_mark);
         FunctionModel schedule = new FunctionModel(ERole.Student.toString(), "Timetable", SCHEDULES.toString(), R.drawable.schedule);
         FunctionModel application = new FunctionModel(ERole.Student.toString(), "Send Application", APPLICATION.toString(), R.drawable.resume);
         FunctionModel viewApplication = new FunctionModel(ERole.Student.toString(), "View Application", VIEW_APPLICATION.toString(), R.drawable.check_mark);

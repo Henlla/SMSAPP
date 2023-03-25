@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_20sdp"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools">
+    <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/person"
+            app:civ_border_color="#FF000000"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_gravity="center"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_toEndOf="@+id/profile_image"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:id="@+id/tvStudentCode"
+              android:layout_marginTop="@dimen/_5sdp"
+              android:textStyle="bold"
+              android:text="Student1312805"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/tvStudentName"
+              android:textStyle="bold"
+              android:layout_marginTop="@dimen/_25sdp"
+              android:layout_marginStart="@dimen/_10sdp"
+              android:layout_toEndOf="@+id/profile_image"
+              android:text="Võ Ngọc Hòa"/>
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentEnd="true"
+                  android:layout_marginRight="@dimen/_10sdp"
+                  android:layout_centerVertical="true"
+                  android:orientation="horizontal">
+        <EditText android:layout_width="@dimen/_60sdp"
+                  android:layout_height="wrap_content"
+                  android:hint="ASM"
+                  android:inputType="number"
+                  android:textSize="@dimen/_10sdp"
+                  android:id="@+id/asm"/>
+        <EditText android:layout_width="@dimen/_60sdp"
+                  android:layout_height="wrap_content"
+                  android:textSize="@dimen/_10sdp"
+                  android:hint="OBJ"
+                  android:inputType="number"
+                  android:id="@+id/obj"/>
+
+    </LinearLayout>
+</RelativeLayout>

@@ -20,6 +20,7 @@ public class APIUtils {
     private static final String URL_SCHEDULE_DETAIL = "http://10.0.2.2:8080/api/schedules_detail/";
     private static final String URL_STUDENT_MAJOR = "http://10.0.2.2:8080/api/student-major/";
     private static final String URL_ATTENDANCE_TRACKING = "http://10.0.2.2:8080/api/attendance_tracking/";
+    private static final String URL_MARK = "http://10.0.2.2:8080/api/mark/";
 
 
 //    private static final String URL_ACCOUNT = "http://192.168.1.58:8080/api/accounts/";
@@ -106,6 +107,10 @@ public class APIUtils {
 
     public static StudentSubjectAPI getStudentSubject() {
         return Retrofit.getRetrofitClient(URL_STUDENT_SUBJECT).create(StudentSubjectAPI.class);
+    }
+
+    public static MarkAPI getMarkAPI() {
+        return Retrofit.getRetrofitClient(URL_MARK).create(MarkAPI.class);
     }
 
 }

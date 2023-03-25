@@ -17,7 +17,6 @@ public class StudentSubject {
 
     private String status;
     @SerializedName("attendancesById")
-
     private List<Attendance> attendancesById;
     @SerializedName("marksById")
 

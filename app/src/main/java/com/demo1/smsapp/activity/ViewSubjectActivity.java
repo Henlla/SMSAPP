@@ -98,10 +98,8 @@ public class ViewSubjectActivity extends AppCompatActivity {
         subjectView.setSubject_name(subject.getSubjectName());
         subjectView.setStatus(studentSubject.getStatus());
         listSubjectView.add(subjectView);
-        if(listSubjectView.lastIndexOf(subjectView) == listSubject.size()-1){
-            Collections.sort(listSubjectView, Comparator.comparing(SubjectView::getSemester).thenComparing(SubjectView::getId));
-            OnBindingView(listSubjectView);
-        }
+        Collections.sort(listSubjectView, Comparator.comparing(SubjectView::getSemester).thenComparing(SubjectView::getId));
+        OnBindingView(listSubjectView);
     }
 
     public void OnBindingView(List<SubjectView> listSubjectView) {
@@ -303,13 +301,13 @@ public class ViewSubjectActivity extends AppCompatActivity {
         });
     }
 
-    public void onItemClick(){
+    public void onItemClick() {
         adapter.OnItemClick(new ListSubjectAdapter.ItemClick() {
             @Override
             public void OnClickItem(SubjectView subjectView) {
                 Intent intent = new Intent(ViewSubjectActivity.this, AttendanceActivity.class);
-                intent.putExtra("subjectId",subjectView.getId().toString());
-                intent.putExtra("studentId",student.getId().toString());
+                intent.putExtra("subjectId", subjectView.getId().toString());
+                intent.putExtra("studentId", student.getId().toString());
                 startActivity(intent);
             }
         });

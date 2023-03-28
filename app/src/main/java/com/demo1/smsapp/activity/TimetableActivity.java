@@ -354,6 +354,7 @@ public class TimetableActivity extends AppCompatActivity implements CalendarBott
                                         ScheduleDetailModel scheduleDetailModel = new ScheduleDetailModel();
                                         scheduleDetailModel.setDate(scheduleDetail.getDate());
                                         scheduleDetailModel.setId(scheduleDetail.getId());
+                                        scheduleDetailModel.setDepartmentCode(classses.getDepartmentByDepartmentId().getDepartmentCode());
                                         scheduleDetailModel.setSubjectId(scheduleDetail.getSubjectBySubjectId().getId());
                                         scheduleDetailModel.setScheduleId(scheduleDetail.getScheduleId());
                                         scheduleDetailModel.setSubjectBySubjectId(scheduleDetail.getSubjectBySubjectId());
@@ -363,11 +364,11 @@ public class TimetableActivity extends AppCompatActivity implements CalendarBott
                                         scheduleDetailModel.setSlot(scheduleDetail.getSlot());
                                         if(subShift.equals("M")){
                                             if(scheduleDetail.getSlot().equals(1)){
-                                                scheduleDetailModel.setTimeStart("7:30");
-                                                scheduleDetailModel.setTimeEnd("9:30");
+                                                scheduleDetailModel.setTimeStart("8:00");
+                                                scheduleDetailModel.setTimeEnd("10:00");
                                             }else{
-                                                scheduleDetailModel.setTimeStart("9:30");
-                                                scheduleDetailModel.setTimeEnd("11:30");
+                                                scheduleDetailModel.setTimeStart("10:00");
+                                                scheduleDetailModel.setTimeEnd("12:00");
                                             }
                                         } else if (subShift.equals("A")) {
                                             if(scheduleDetail.getSlot().equals(1)){

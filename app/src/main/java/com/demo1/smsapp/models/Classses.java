@@ -55,6 +55,26 @@ public class Classses {
     @SerializedName("classRoom")
     @Expose
     private Room classRoom;
+    @SerializedName("departmentId")
+    private Integer departmentId;
+    @SerializedName("departmentByDepartmentId")
+    private Department departmentByDepartmentId;
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public Department getDepartmentByDepartmentId() {
+        return departmentByDepartmentId;
+    }
+
+    public void setDepartmentByDepartmentId(Department departmentByDepartmentId) {
+        this.departmentByDepartmentId = departmentByDepartmentId;
+    }
 
     public String getClassStatus() {
         return classStatus;

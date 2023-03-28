@@ -3,8 +3,17 @@ package com.demo1.smsapp.models;
 public class StudentTakeMarkModel {
     private Student student;
     private Integer studentSubjectId;
+    private Integer markId;
     private Double asm;
     private Double obj;
+
+    public Integer getMarkId() {
+        return markId;
+    }
+
+    public void setMarkId(Integer markId) {
+        this.markId = markId;
+    }
 
     public Student getStudent() {
         return student;

@@ -47,7 +47,7 @@ public class ListScheduleDetailsAdapter extends RecyclerView.Adapter<ListSchedul
             holder.scheduleDetailsBinding.time2.setText(scheduleDetailModel.getTimeEnd());
             holder.scheduleDetailsBinding.subTitle.setText(scheduleDetailModel.getSubjectBySubjectId().getSubjectName());
 
-            holder.scheduleDetailsBinding.roomCode.setText("Room "+scheduleDetailModel.getRoomCode());
+            holder.scheduleDetailsBinding.roomCode.setText("Room "+scheduleDetailModel.getDepartmentCode()+"_"+scheduleDetailModel.getRoomCode());
             holder.scheduleDetailsBinding.teacher.setText("GV:"+scheduleDetailModel.getTeacherName());
             holder.scheduleDetailsBinding.tvClass.setText("Class: "+scheduleDetailModel.getClassName());
     }

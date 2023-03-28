@@ -13,20 +13,20 @@
                   android:text="Slot 1"
                   android:id="@+id/slot"
                   android:textColor="@color/black"
-                  android:textSize="@dimen/_14sdp"
+                  android:textSize="@dimen/_11sdp"
                   android:layout_height="wrap_content"/>
         <LinearLayout android:layout_width="wrap_content"
                       android:orientation="horizontal"
                       android:layout_height="wrap_content">
             <TextView android:layout_width="wrap_content"
                       android:text="Teacher: "
-                      android:textSize="@dimen/_12sdp"
+                      android:textSize="@dimen/_11sdp"
                       android:layout_height="wrap_content"/>
             <TextView android:layout_width="wrap_content"
                       android:text="Tran Van A"
                       android:id="@+id/teacher"
                       android:textColor="@color/black"
-                      android:textSize="@dimen/_14sdp"
+                      android:textSize="@dimen/_10sdp"
                       android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:gravity="end"
             android:id="@+id/status"
-            android:textSize="@dimen/_14sdp"
+            android:textSize="@dimen/_10sdp"
             android:layout_marginRight="@dimen/_10sdp"
             android:text="Present"
             android:layout_height="wrap_content"/>

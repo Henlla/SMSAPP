@@ -17,11 +17,19 @@ public class ScheduleDetailModel {
     private String timeEnd;
     private Integer slot;
     private String roomCode;
+    private String departmentCode;
     private String teacherName;
     private String className;
     private Subject subjectBySubjectId;
     private Schedule scheduleByScheduleId;
 
+    public String getDepartmentCode() {
+        return departmentCode;
+    }
+
+    public void setDepartmentCode(String departmentCode) {
+        this.departmentCode = departmentCode;
+    }
 
     public String getRoomCode() {
         return roomCode;

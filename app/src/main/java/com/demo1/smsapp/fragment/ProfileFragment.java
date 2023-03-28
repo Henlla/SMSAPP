@@ -93,6 +93,7 @@ public class ProfileFragment extends Fragment {
                 for (MajorStudent majorStudent : majorStudentList){
                     if(majorStudentList.get(majorStudentList.size() -1) !=null){
                         major.append(majorStudent.getMajorByMajorId().getMajorName());
+                        profileBinding.tvMajor2.setText(majorStudent.getMajorByMajorId().getApartmentByApartmentId().getApartmentCode());
                     }else{
                         major.append(majorStudent.getMajorByMajorId().getMajorName()).append(", ");
                     }

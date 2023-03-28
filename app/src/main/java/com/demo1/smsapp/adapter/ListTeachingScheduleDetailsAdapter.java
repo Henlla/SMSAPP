@@ -46,12 +46,12 @@ public class ListTeachingScheduleDetailsAdapter extends RecyclerView.Adapter<Lis
         holder.binding.dayOfWeek.setText(date.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.US).toString());
         holder.binding.date.setText(date.format(formatter));
         holder.binding.tvSubName.setText(scheduleDetailModel.getSubject().getSubjectName());
-        holder.binding.tvRoom.setText("Room: "+scheduleDetailModel.getRoomCode());
+        holder.binding.tvRoom.setText("Room: "+scheduleDetailModel.getDepartmentCode()+"_"+scheduleDetailModel.getRoomCode());
         if(scheduleDetailModel.getShift().charAt(0) == 'M'){
             if(scheduleDetailModel.getSlot().equals(1)){
-                holder.binding.tvTime.setText("Time: 7:30 - 9:30");
+                holder.binding.tvTime.setText("Time: 8:00 - 10:00");
             }else{
-                holder.binding.tvTime.setText("Time: 9:30 - 11:30");
+                holder.binding.tvTime.setText("Time: 10:00 - 12:00");
             }
         }else if (scheduleDetailModel.getShift().charAt(0) == 'A'){
             if(scheduleDetailModel.getSlot().equals(1)){

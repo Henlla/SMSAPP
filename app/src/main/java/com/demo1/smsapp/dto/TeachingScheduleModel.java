@@ -7,9 +7,18 @@ public class TeachingScheduleModel {
     private String dayOfWeek;
     private Integer slot;
     private String roomCode;
+    private String departmentCode;
     private Subject subject;
     private String shift;
     private String classCode;
+
+    public String getDepartmentCode() {
+        return departmentCode;
+    }
+
+    public void setDepartmentCode(String departmentCode) {
+        this.departmentCode = departmentCode;
+    }
 
     public String getClassCode() {
         return classCode;

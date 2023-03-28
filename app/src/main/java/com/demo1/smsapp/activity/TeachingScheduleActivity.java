@@ -108,6 +108,7 @@ public class TeachingScheduleActivity extends AppCompatActivity {
                     scheduleDetails = gson.fromJson(json, listType);
                     LocalDate now = LocalDate.now();
                     Integer week = now.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
+                    Integer year = now.getYear();
 //                    for (ScheduleDetail scheduleDetail : scheduleDetails.stream().filter(scheduleDetail -> LocalDate.parse(scheduleDetail.getDate())
 //                            .get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) == week).collect(Collectors.toList())) {
 //                        scheduleAPI.getScheduleByScheduleDetail(_token, scheduleDetail.getScheduleId()).enqueue(new Callback<ResponseModel>() {
@@ -150,7 +151,7 @@ public class TeachingScheduleActivity extends AppCompatActivity {
 //                        });
 //                    }
                     for (ScheduleDetail scheduleDetail : scheduleDetails.stream().filter(scheduleDetail -> LocalDate.parse(scheduleDetail.getDate())
-                            .get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) == week).collect(Collectors.toList())) {
+                            .get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) == week && LocalDate.parse(scheduleDetail.getDate()).getYear() == year).collect(Collectors.toList())) {
                         try {
                             Response<ResponseModel> responseSchedule = scheduleAPI.getScheduleByScheduleDetail(_token, scheduleDetail.getScheduleId()).execute();
                             if (responseSchedule.isSuccessful()) {
@@ -167,6 +168,7 @@ public class TeachingScheduleActivity extends AppCompatActivity {
                                 scheduleModel.setSubject(scheduleDetail.getSubjectBySubjectId());
                                 scheduleModel.setDayOfWeek(scheduleDetail.getDayOfWeek());
                                 scheduleModel.setShift(classses.getShift());
+                                scheduleModel.setDepartmentCode(classses.getDepartmentByDepartmentId().getDepartmentCode());
                                 scheduleModel.setSlot(scheduleDetail.getSlot());
                                 scheduleModel.setRoomCode(classses.getClassRoom().getRoomCode());
                                 scheduleModel.setClassCode(classses.getClassCode());
@@ -224,9 +226,10 @@ public class TeachingScheduleActivity extends AppCompatActivity {
             @Override
             public Unit invoke(Date date) {
                 Integer week = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
+                Integer year = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
                 List<TeachingScheduleModel> scheduleModels = new ArrayList<>();
                 for (ScheduleDetail scheduleDetail : scheduleDetails.stream().filter(scheduleDetail -> LocalDate.parse(scheduleDetail.getDate())
-                        .get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) == week).collect(Collectors.toList())) {
+                        .get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) == week && LocalDate.parse(scheduleDetail.getDate()).getYear() == year).collect(Collectors.toList())) {
                     try {
                         Response<ResponseModel> responseSchedule = scheduleAPI.getScheduleByScheduleDetail(_token, scheduleDetail.getScheduleId()).execute();
                         if (responseSchedule.isSuccessful()) {
@@ -243,6 +246,7 @@ public class TeachingScheduleActivity extends AppCompatActivity {
                             scheduleModel.setSubject(scheduleDetail.getSubjectBySubjectId());
                             scheduleModel.setDayOfWeek(scheduleDetail.getDayOfWeek());
                             scheduleModel.setShift(classses.getShift());
+                            scheduleModel.setDepartmentCode(classses.getDepartmentByDepartmentId().getDepartmentCode());
                             scheduleModel.setSlot(scheduleDetail.getSlot());
                             scheduleModel.setRoomCode(classses.getClassRoom().getRoomCode());
                             scheduleModel.setClassCode(classses.getClassCode());

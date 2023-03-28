@@ -158,7 +158,7 @@ public class HomeFragment extends Fragment {
                                                     if (LocalDate.parse(scheduleDetail.getDate()).equals(currenDate)) {
                                                         fragmentHomeBinding.layoutNotification.setVisibility(View.VISIBLE);
                                                         fragmentHomeBinding.subName.setText("Môn: " + scheduleDetail.getSubjectBySubjectId().getSubjectName());
-                                                        fragmentHomeBinding.time.setText("Vào lúc: " + ConvertDayOfWeek.convertShift(classses.getShift()));
+                                                        fragmentHomeBinding.time.setText(ConvertDayOfWeek.convertShift(classses.getShift()));
                                                     }
                                                 }
                                             }

@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,24 +29,27 @@ public class ListStudentTakeMarkAdapter extends RecyclerView.Adapter<ListStudent
     List<StudentTakeMarkModel> studentTakeMarkModels;
     private FirebaseStorage firebaseStorage;
     Context context;
-    public void setData( List<StudentTakeMarkModel> studentTakeMarkModels){
+
+    public void setData(List<StudentTakeMarkModel> studentTakeMarkModels) {
         this.studentTakeMarkModels = studentTakeMarkModels;
         notifyDataSetChanged();
     }
 
-    public List<StudentTakeMarkModel> getList(){
+    public List<StudentTakeMarkModel> getList() {
         return this.studentTakeMarkModels;
     }
+
     @NonNull
     @NotNull
     @Override
     public ListStudentTakeMarkVH onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        ListTakeMarkDetailsBinding listTakeMarkDetailsBinding = ListTakeMarkDetailsBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
-        context= parent.getContext();
+        ListTakeMarkDetailsBinding listTakeMarkDetailsBinding = ListTakeMarkDetailsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        context = parent.getContext();
         firebaseStorage = FirebaseStorage.getInstance();
         return new ListStudentTakeMarkVH(listTakeMarkDetailsBinding);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull @NotNull ListStudentTakeMarkVH holder, @SuppressLint("RecyclerView") int position) {
         StudentTakeMarkModel studentTakeMarkModel = studentTakeMarkModels.get(position);
@@ -60,10 +64,22 @@ public class ListStudentTakeMarkAdapter extends RecyclerView.Adapter<ListStudent
                         .into(holder.listTakeMarkDetailsBinding.profileImage);
             }
         });
-        holder.listTakeMarkDetailsBinding.tvStudentName.setText(studentTakeMarkModel.getStudent().getStudentByProfile().getFirstName()+" "+studentTakeMarkModel.getStudent().getStudentByProfile().getLastName());
+        holder.listTakeMarkDetailsBinding.tvStudentName.setText(studentTakeMarkModel.getStudent().getStudentByProfile().getFirstName() + " " + studentTakeMarkModel.getStudent().getStudentByProfile().getLastName());
         holder.listTakeMarkDetailsBinding.tvStudentCode.setText(studentTakeMarkModel.getStudent().getStudentCard());
-        holder.listTakeMarkDetailsBinding.obj.setFilters(new InputFilter[]{ new InputFilterMinMax("0", "100")});
-        holder.listTakeMarkDetailsBinding.asm.setFilters(new InputFilter[]{ new InputFilterMinMax("0", "100")});
+        holder.listTakeMarkDetailsBinding.obj.setFilters(new InputFilter[]{new InputFilterMinMax("0", "100")});
+        holder.listTakeMarkDetailsBinding.asm.setFilters(new InputFilter[]{new InputFilterMinMax("0", "100")});
+
+        if (studentTakeMarkModel.getAsm().equals(0.0)) {
+            holder.listTakeMarkDetailsBinding.asm.setText("");
+        } else {
+            holder.listTakeMarkDetailsBinding.asm.setHint(String.valueOf(studentTakeMarkModel.getAsm()));
+        }
+
+        if (studentTakeMarkModel.getObj().equals(0.0)) {
+            holder.listTakeMarkDetailsBinding.obj.setText("");
+        } else {
+            holder.listTakeMarkDetailsBinding.obj.setHint(String.valueOf(studentTakeMarkModel.getObj()));
+        }
 
         holder.listTakeMarkDetailsBinding.obj.addTextChangedListener(new TextWatcher() {
             @Override
@@ -78,9 +94,9 @@ public class ListStudentTakeMarkAdapter extends RecyclerView.Adapter<ListStudent
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!editable.toString().equals("")){
+                if (!editable.toString().equals("")) {
                     studentTakeMarkModels.get(position).setObj(Double.valueOf(editable.toString()));
-                }else{
+                } else {
                     studentTakeMarkModels.get(position).setObj(0.0);
                 }
             }
@@ -99,9 +115,9 @@ public class ListStudentTakeMarkAdapter extends RecyclerView.Adapter<ListStudent
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!editable.toString().equals("")){
+                if (!editable.toString().equals("")) {
                     studentTakeMarkModels.get(position).setAsm(Double.valueOf(editable.toString()));
-                }else{
+                } else {
                     studentTakeMarkModels.get(position).setAsm(0.0);
                 }
             }
@@ -116,6 +132,7 @@ public class ListStudentTakeMarkAdapter extends RecyclerView.Adapter<ListStudent
 
     public static class ListStudentTakeMarkVH extends RecyclerView.ViewHolder {
         ListTakeMarkDetailsBinding listTakeMarkDetailsBinding;
+
         public ListStudentTakeMarkVH(ListTakeMarkDetailsBinding listTakeMarkDetailsBinding) {
             super(listTakeMarkDetailsBinding.getRoot());
             this.listTakeMarkDetailsBinding = listTakeMarkDetailsBinding;

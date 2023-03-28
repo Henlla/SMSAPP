@@ -38,7 +38,7 @@ public class ListAttendanceDetailAdapter extends RecyclerView.Adapter<ListAttend
             holder.binding.status.setTextColor(Color.RED);
         } else {
             holder.binding.status.setText("FUTURE");
-            holder.binding.status.setTextColor(Color.BLACK);
+            holder.binding.status.setTextColor(Color.BLUE);
         }
     }
 

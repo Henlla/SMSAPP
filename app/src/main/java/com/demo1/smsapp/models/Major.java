@@ -16,6 +16,27 @@ public class Major {
     @SerializedName("subjectsById")
     private List<Subject> subjectsById;
 
+    @SerializedName("apartmentId")
+    private Integer apartmentId;
+    @SerializedName("apartmentByApartmentId")
+    private Apartment apartmentByApartmentId;
+
+    public Integer getApartmentId() {
+        return apartmentId;
+    }
+
+    public void setApartmentId(Integer apartmentId) {
+        this.apartmentId = apartmentId;
+    }
+
+    public Apartment getApartmentByApartmentId() {
+        return apartmentByApartmentId;
+    }
+
+    public void setApartmentByApartmentId(Apartment apartmentByApartmentId) {
+        this.apartmentByApartmentId = apartmentByApartmentId;
+    }
+
     public int getId() {
         return id;
     }

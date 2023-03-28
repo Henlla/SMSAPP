@@ -27,11 +27,11 @@ public class ConvertDayOfWeek {
         String split = shift.substring(0,1);
         switch (split){
             case "M":
-                return "7h30 - 11h30";
+                return "8:00 - 12:00";
             case "A":
-                return "13h30 - 17h30";
+                return "13:30 - 17:30";
             case "E":
-                return "17h30 - 21h30";
+                return "17:30 - 21:30";
         }
         return "";
     }

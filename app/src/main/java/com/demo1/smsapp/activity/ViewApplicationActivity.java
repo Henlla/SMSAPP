@@ -68,11 +68,11 @@ public class ViewApplicationActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        String applicationJson = gson.toJson(response.body().getData());
-                        Type listType = new TypeToken<ArrayList<Application>>() {
-                        }.getType();
-                        List<Application> listApplication = gson.fromJson(applicationJson, listType);
+                    String applicationJson = gson.toJson(response.body().getData());
+                    Type listType = new TypeToken<ArrayList<Application>>() {
+                    }.getType();
+                    List<Application> listApplication = gson.fromJson(applicationJson, listType);
+                    if (!listApplication.isEmpty()) {
                         binding.rcvApplication.setLayoutManager(new LinearLayoutManager(ViewApplicationActivity.this));
                         applicationAdapter.setData(listApplication);
                         binding.rcvApplication.setAdapter(applicationAdapter);

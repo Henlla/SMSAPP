@@ -92,7 +92,7 @@ public class ProfileFragment extends Fragment {
                 StringBuilder major = new StringBuilder();
                 for (MajorStudent majorStudent : majorStudentList){
                     if(majorStudentList.get(majorStudentList.size() -1) !=null){
-                        major.append(majorStudent.getMajorByMajorId().getMajorName());
+                        major.append(majorStudent.getMajorByMajorId().getMajorCode());
                         profileBinding.tvMajor2.setText(majorStudent.getMajorByMajorId().getApartmentByApartmentId().getApartmentCode());
                     }else{
                         major.append(majorStudent.getMajorByMajorId().getMajorName()).append(", ");
@@ -160,10 +160,14 @@ public class ProfileFragment extends Fragment {
         profileBinding.tvPhone.setText(profile.getPhone());
 
         StringBuilder address = new StringBuilder();
-        address.append(profile.getAddress()).append(", ")
-                .append(profile.getWardByWardId().getName()).append(", ")
-                .append(profile.getDistrictByDistrictId().getName()).append(", ")
-                .append(profile.getProfileProvince().getName());
+        if(profile.getAddress() != null && profile.getWardByWardId() !=null && profile.getDistrictByDistrictId()!=null && profile.getProfileProvince()!=null){
+            address.append(profile.getAddress()).append(", ")
+                    .append(profile.getWardByWardId().getName()).append(", ")
+                    .append(profile.getDistrictByDistrictId().getName()).append(", ")
+                    .append(profile.getProfileProvince().getName());
+        }else{
+            address.append("");
+        }
         profileBinding.tvAddress.setText(address);
 
 

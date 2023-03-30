@@ -135,7 +135,7 @@ public class TakeMarkActivity extends AppCompatActivity {
                                                     if(response.isSuccessful()){
                                                         materialDialog = new MaterialDialog.Builder(TakeMarkActivity.this)
                                                                 .setMessage("Take mark success")
-                                                                .setCancelable(false)
+                                                                .setCancelable(true)
                                                                 .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
                                                                     @Override
                                                                     public void onClick(DialogInterface dialogInterface, int which) {
@@ -153,12 +153,13 @@ public class TakeMarkActivity extends AppCompatActivity {
                                             });
                                         }else{
                                             if(times < 2){
+                                                times += 1;
                                                 for (StudentTakeMarkModel studentTakeMarkModel:markModelList){
                                                     Mark mark = new Mark();
                                                     mark.setId(studentTakeMarkModel.getMarkId());
                                                     mark.setAsm(studentTakeMarkModel.getAsm());
                                                     mark.setObj(studentTakeMarkModel.getObj());
-                                                    mark.setUpdateTimes(times+1);
+                                                    mark.setUpdateTimes(times);
                                                     mark.setStudentSubjectId(studentTakeMarkModel.getStudentSubjectId());
                                                     markList.add(mark);
                                                 }
@@ -168,11 +169,14 @@ public class TakeMarkActivity extends AppCompatActivity {
                                                     public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                                                         if(response.isSuccessful()){
                                                             materialDialog = new MaterialDialog.Builder(TakeMarkActivity.this)
-                                                                    .setMessage("You only have "+(2 - (times + 1))+" times update mark")
-                                                                    .setCancelable(false)
+                                                                    .setMessage("You only have "+(2 - times)+" times update mark")
+                                                                    .setCancelable(true)
                                                                     .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
                                                                         @Override
                                                                         public void onClick(DialogInterface dialogInterface, int which) {
+                                                                            listStudentTakeMarkAdapter.setData(studentTakeMarkModels);
+                                                                            takeMarkBinding.rcvTakeMark.setAdapter(listStudentTakeMarkAdapter);
+                                                                            takeMarkBinding.rcvTakeMark.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                                                             materialDialog.dismiss();
                                                                         }
                                                                     }).build();
@@ -188,7 +192,7 @@ public class TakeMarkActivity extends AppCompatActivity {
                                             }else{
                                                 materialDialog = new MaterialDialog.Builder(TakeMarkActivity.this)
                                                         .setMessage("You have 0 times update mark!"+"\n"+"Please contact with admin to update mark")
-                                                        .setCancelable(false)
+                                                        .setCancelable(true)
                                                         .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialogInterface, int which) {

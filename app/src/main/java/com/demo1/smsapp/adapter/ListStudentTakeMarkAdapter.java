@@ -66,62 +66,79 @@ public class ListStudentTakeMarkAdapter extends RecyclerView.Adapter<ListStudent
         });
         holder.listTakeMarkDetailsBinding.tvStudentName.setText(studentTakeMarkModel.getStudent().getStudentByProfile().getFirstName() + " " + studentTakeMarkModel.getStudent().getStudentByProfile().getLastName());
         holder.listTakeMarkDetailsBinding.tvStudentCode.setText(studentTakeMarkModel.getStudent().getStudentCard());
-        holder.listTakeMarkDetailsBinding.obj.setFilters(new InputFilter[]{new InputFilterMinMax("0", "100")});
-        holder.listTakeMarkDetailsBinding.asm.setFilters(new InputFilter[]{new InputFilterMinMax("0", "100")});
+        if(studentTakeMarkModel.getTimesUpdate() < 2){
+            holder.listTakeMarkDetailsBinding.obj.setFilters(new InputFilter[]{new InputFilterMinMax("0", "100")});
+            holder.listTakeMarkDetailsBinding.asm.setFilters(new InputFilter[]{new InputFilterMinMax("0", "100")});
 
-        if (studentTakeMarkModel.getAsm().equals(0.0)) {
-            holder.listTakeMarkDetailsBinding.asm.setText("");
-        } else {
-            holder.listTakeMarkDetailsBinding.asm.setHint(String.valueOf(studentTakeMarkModel.getAsm()));
-        }
-
-        if (studentTakeMarkModel.getObj().equals(0.0)) {
-            holder.listTakeMarkDetailsBinding.obj.setText("");
-        } else {
-            holder.listTakeMarkDetailsBinding.obj.setHint(String.valueOf(studentTakeMarkModel.getObj()));
-        }
-
-        holder.listTakeMarkDetailsBinding.obj.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            if (studentTakeMarkModel.getAsm().equals(0.0)) {
+                holder.listTakeMarkDetailsBinding.asm.setText("");
+            } else {
+                holder.listTakeMarkDetailsBinding.asm.setHint(String.valueOf(studentTakeMarkModel.getAsm()));
             }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            if (studentTakeMarkModel.getObj().equals(0.0)) {
+                holder.listTakeMarkDetailsBinding.obj.setText("");
+            } else {
+                holder.listTakeMarkDetailsBinding.obj.setHint(String.valueOf(studentTakeMarkModel.getObj()));
             }
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (!editable.toString().equals("")) {
-                    studentTakeMarkModels.get(position).setObj(Double.valueOf(editable.toString()));
-                } else {
-                    studentTakeMarkModels.get(position).setObj(0.0);
+
+            holder.listTakeMarkDetailsBinding.obj.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
                 }
-            }
-        });
 
-        holder.listTakeMarkDetailsBinding.asm.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (!editable.toString().equals("")) {
-                    studentTakeMarkModels.get(position).setAsm(Double.valueOf(editable.toString()));
-                } else {
-                    studentTakeMarkModels.get(position).setAsm(0.0);
                 }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (!editable.toString().equals("")) {
+                        studentTakeMarkModels.get(position).setObj(Double.valueOf(editable.toString()));
+                    } else {
+                        studentTakeMarkModels.get(position).setObj(0.0);
+                    }
+                }
+            });
+
+            holder.listTakeMarkDetailsBinding.asm.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (!editable.toString().equals("")) {
+                        studentTakeMarkModels.get(position).setAsm(Double.valueOf(editable.toString()));
+                    } else {
+                        studentTakeMarkModels.get(position).setAsm(0.0);
+                    }
+                }
+            });
+        }else{
+            if (studentTakeMarkModel.getAsm().equals(0.0)) {
+                holder.listTakeMarkDetailsBinding.asm.setText("");
+            } else {
+                holder.listTakeMarkDetailsBinding.asm.setHint(String.valueOf(studentTakeMarkModel.getAsm()));
             }
-        });
+
+            if (studentTakeMarkModel.getObj().equals(0.0)) {
+                holder.listTakeMarkDetailsBinding.obj.setText("");
+            } else {
+                holder.listTakeMarkDetailsBinding.obj.setHint(String.valueOf(studentTakeMarkModel.getObj()));
+            }
+            holder.listTakeMarkDetailsBinding.obj.setEnabled(false);
+            holder.listTakeMarkDetailsBinding.asm.setEnabled(false);
+        }
 
     }
 

@@ -6,6 +6,15 @@ public class StudentTakeMarkModel {
     private Integer markId;
     private Double asm;
     private Double obj;
+    private Integer timesUpdate;
+
+    public Integer getTimesUpdate() {
+        return timesUpdate;
+    }
+
+    public void setTimesUpdate(Integer timesUpdate) {
+        this.timesUpdate = timesUpdate;
+    }
 
     public Integer getMarkId() {
         return markId;

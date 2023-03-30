@@ -9,11 +9,21 @@ public class Mark {
     private Double asm;
     @SerializedName("obj")
     private Double obj;
+    @SerializedName("updateTimes")
+    private int updateTimes;
     @SerializedName("studentSubjectId")
     private Integer studentSubjectId;
     @SerializedName("studentSubjectByStudentSubjectId")
     private StudentSubject studentSubjectByStudentSubjectId;
 
+
+    public int getUpdateTimes() {
+        return updateTimes;
+    }
+
+    public void setUpdateTimes(int updateTimes) {
+        this.updateTimes = updateTimes;
+    }
 
     public int getId() {
         return id;

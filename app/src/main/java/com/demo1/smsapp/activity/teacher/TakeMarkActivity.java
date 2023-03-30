@@ -52,6 +52,7 @@ public class TakeMarkActivity extends AppCompatActivity {
     List<String> listSubjectName;
     MarkAPI markAPI;
     ListStudentTakeMarkAdapter listStudentTakeMarkAdapter;
+    int times;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +124,7 @@ public class TakeMarkActivity extends AppCompatActivity {
                                                 Mark mark = new Mark();
                                                 mark.setAsm(studentTakeMarkModel.getAsm());
                                                 mark.setObj(studentTakeMarkModel.getObj());
+                                                mark.setUpdateTimes(0);
                                                 mark.setStudentSubjectId(studentTakeMarkModel.getStudentSubjectId());
                                                 markList.add(mark);
                                             }
@@ -150,37 +152,51 @@ public class TakeMarkActivity extends AppCompatActivity {
                                                 }
                                             });
                                         }else{
-                                            for (StudentTakeMarkModel studentTakeMarkModel:markModelList){
-                                                Mark mark = new Mark();
-                                                mark.setId(studentTakeMarkModel.getMarkId());
-                                                mark.setAsm(studentTakeMarkModel.getAsm());
-                                                mark.setObj(studentTakeMarkModel.getObj());
-                                                mark.setStudentSubjectId(studentTakeMarkModel.getStudentSubjectId());
-                                                markList.add(mark);
-                                            }
-                                            String json = gson.toJson(markList);
-                                            markAPI.saveAll(_token,json).enqueue(new Callback<ResponseModel>() {
-                                                @Override
-                                                public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                                                    if(response.isSuccessful()){
-                                                        materialDialog = new MaterialDialog.Builder(TakeMarkActivity.this)
-                                                                .setMessage("Edit mark success")
-                                                                .setCancelable(false)
-                                                                .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
-                                                                    @Override
-                                                                    public void onClick(DialogInterface dialogInterface, int which) {
-                                                                        materialDialog.dismiss();
-                                                                    }
-                                                                }).build();
-                                                        materialDialog.show();
+                                            if(times < 2){
+                                                for (StudentTakeMarkModel studentTakeMarkModel:markModelList){
+                                                    Mark mark = new Mark();
+                                                    mark.setId(studentTakeMarkModel.getMarkId());
+                                                    mark.setAsm(studentTakeMarkModel.getAsm());
+                                                    mark.setObj(studentTakeMarkModel.getObj());
+                                                    mark.setUpdateTimes(times+1);
+                                                    mark.setStudentSubjectId(studentTakeMarkModel.getStudentSubjectId());
+                                                    markList.add(mark);
+                                                }
+                                                String json = gson.toJson(markList);
+                                                markAPI.saveAll(_token,json).enqueue(new Callback<ResponseModel>() {
+                                                    @Override
+                                                    public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                                                        if(response.isSuccessful()){
+                                                            materialDialog = new MaterialDialog.Builder(TakeMarkActivity.this)
+                                                                    .setMessage("You only have "+(2 - (times + 1))+" times update mark")
+                                                                    .setCancelable(false)
+                                                                    .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialogInterface, int which) {
+                                                                            materialDialog.dismiss();
+                                                                        }
+                                                                    }).build();
+                                                            materialDialog.show();
+                                                        }
                                                     }
-                                                }
 
-                                                @Override
-                                                public void onFailure(Call<ResponseModel> call, Throwable t) {
-                                                    Log.e("msg","save All mark "+t.getMessage());
-                                                }
-                                            });
+                                                    @Override
+                                                    public void onFailure(Call<ResponseModel> call, Throwable t) {
+                                                        Log.e("msg","save All mark "+t.getMessage());
+                                                    }
+                                                });
+                                            }else{
+                                                materialDialog = new MaterialDialog.Builder(TakeMarkActivity.this)
+                                                        .setMessage("You have 0 times update mark!"+"\n"+"Please contact with admin to update mark")
+                                                        .setCancelable(false)
+                                                        .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int which) {
+                                                                materialDialog.dismiss();
+                                                            }
+                                                        }).build();
+                                                materialDialog.show();
+                                            }
                                         }
                                     }
                                 }
@@ -203,12 +219,15 @@ public class TakeMarkActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 subjectCode = listSubjectModel.get(i).getName();
                 flag = true;
+                times = 0;
                 SubjectModel subjectModel = listSubjectModel.stream().filter(s -> s.getName().equals(subjectCode)).findFirst().get();
                 for (StudentTakeMarkModel studentTakeMarkModel:studentTakeMarkModels){
                     StudentSubject studentSubject = studentTakeMarkModel.getStudent().getStudentSubjectsById()
                                                 .stream().filter(s -> s.getSubjectId().equals(subjectModel.getId()) && s.getStudentId().equals(studentTakeMarkModel.getStudent().getId())).findFirst().get();
                     studentTakeMarkModel.setStudentSubjectId(studentSubject.getId());
                     if(!studentSubject.getMarksById().isEmpty()){
+                        times = studentSubject.getMarksById().get(0).getUpdateTimes();
+                        studentTakeMarkModels.stream().filter(s->s.getStudent().getId().equals(studentTakeMarkModel.getStudent().getId())).findFirst().get().setTimesUpdate(times);
                         studentTakeMarkModels.stream().filter(s->s.getStudent().getId().equals(studentTakeMarkModel.getStudent().getId())).findFirst().get().setAsm(studentSubject.getMarksById().get(0).getAsm());
                         studentTakeMarkModels.stream().filter(s->s.getStudent().getId().equals(studentTakeMarkModel.getStudent().getId())).findFirst().get().setMarkId(studentSubject.getMarksById().get(0).getId());
                         studentTakeMarkModels.stream().filter(s->s.getStudent().getId().equals(studentTakeMarkModel.getStudent().getId())).findFirst().get().setObj(studentSubject.getMarksById().get(0).getObj());
@@ -272,6 +291,7 @@ public class TakeMarkActivity extends AppCompatActivity {
                                 studentTakeMarkModel.setAsm(0.0);
                                 studentTakeMarkModel.setObj(0.0);
                                 studentTakeMarkModel.setStudentSubjectId(0);
+                                studentTakeMarkModel.setTimesUpdate(0);
                                 studentTakeMarkModels.add(studentTakeMarkModel);
                             }
                             takeMarkBinding.cbxSubject.setItem(listSubjectName);

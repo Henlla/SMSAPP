@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.time.LocalDate;
@@ -63,6 +66,7 @@ public class TakeAttendanceActivity extends AppCompatActivity {
     List<Attendance> listAttendance;
     List<StudentSubject> listStudentSubject;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +74,9 @@ public class TakeAttendanceActivity extends AppCompatActivity {
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.red));
         binding = ActivityTakeAttendanceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         onCreateApi();
+
     }
 
     public void onCreateApi() {
@@ -108,46 +114,89 @@ public class TakeAttendanceActivity extends AppCompatActivity {
         onGetStudentInClass();
     }
 
+
     @SuppressLint("NewApi")
     public void onGetStudentInClass() {
-        try {
-            listStudentAttendance = new ArrayList<>();
-            Response<ResponseModel> response = studentClassAPI.getStudentByClassId(token, Integer.valueOf(classId)).execute();
-            if (response.isSuccessful()) {
-                String studentJson = gson.toJson(response.body().getData());
-                List<StudentClass> studentClassList = gson.fromJson(studentJson, new TypeToken<ArrayList<StudentClass>>() {
-                }.getType());
-                for (StudentClass studentClass : studentClassList) {
-                    StudentAttendanceView studentAttendanceView = new StudentAttendanceView();
-                    studentAttendanceView.setId(studentClass.getStudentId());
-                    studentAttendanceView.setClassId(dataClass);
-                    studentAttendanceView.setStudentName(studentClass.getClassStudentByStudent().getStudentByProfile().getFirstName() + " " + studentClass.getClassStudentByStudent().getStudentByProfile().getLastName());
-                    listStudentAttendance.add(studentAttendanceView);
+//        try {
+        listStudentAttendance = new ArrayList<>();
+            studentClassAPI.getStudentByClassId(token,Integer.valueOf(classId)).enqueue(new Callback<ResponseModel>() {
+                @Override
+                public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                    if (response.isSuccessful()) {
+                        String studentJson = gson.toJson(response.body().getData());
+                        List<StudentClass> studentClassList = gson.fromJson(studentJson, new TypeToken<ArrayList<StudentClass>>() {
+                        }.getType());
+                        for (StudentClass studentClass : studentClassList) {
+                            StudentAttendanceView studentAttendanceView = new StudentAttendanceView();
+                            studentAttendanceView.setId(studentClass.getStudentId());
+                            studentAttendanceView.setClassId(dataClass);
+                            studentAttendanceView.setStudentName(studentClass.getClassStudentByStudent().getStudentByProfile().getFirstName() + " " + studentClass.getClassStudentByStudent().getStudentByProfile().getLastName());
+                            listStudentAttendance.add(studentAttendanceView);
+                        }
+                        Collections.sort(listStudentAttendance, Comparator.comparing(StudentAttendanceView::getStudentName));
+                        if (!listStudentAttendance.isEmpty()) {
+                            OnBindingData(listStudentAttendance);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Don't find student", Toast.LENGTH_LONG).show();
+                        }
+                    } else if (response.code() == 403) {
+                        materialDialog = new MaterialDialog.Builder(TakeAttendanceActivity.this)
+                                .setMessage("End of session login ! Please login again")
+                                .setCancelable(false)
+                                .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int which) {
+                                        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("informationAccount", MODE_PRIVATE);
+                                        sharedPreferences.edit().clear().apply();
+                                        dialogInterface.dismiss();
+                                        startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+                                    }
+                                }).build();
+                        materialDialog.show();
+                    }
                 }
-                Collections.sort(listStudentAttendance, Comparator.comparing(StudentAttendanceView::getStudentName));
-                if (!listStudentAttendance.isEmpty()) {
-                    OnBindingData(listStudentAttendance);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Don't find student", Toast.LENGTH_LONG).show();
+
+                @Override
+                public void onFailure(Call<ResponseModel> call, Throwable t) {
+                    Log.e("error",t.getMessage());
                 }
-            } else if (response.code() == 403) {
-                materialDialog = new MaterialDialog.Builder(TakeAttendanceActivity.this)
-                        .setMessage("End of session login ! Please login again")
-                        .setCancelable(false)
-                        .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                SharedPreferences sharedPreferences = getApplication().getSharedPreferences("informationAccount", MODE_PRIVATE);
-                                sharedPreferences.edit().clear().apply();
-                                dialogInterface.dismiss();
-                                startActivity(new Intent(getApplicationContext(), SplashActivity.class));
-                            }
-                        }).build();
-                materialDialog.show();
-            }
-        } catch (Exception e) {
-            e.getMessage();
-        }
+            });
+//            Response<ResponseModel> response = studentClassAPI.getStudentByClassId(token, Integer.valueOf(classId)).execute();
+//            if (response.isSuccessful()) {
+//                String studentJson = gson.toJson(response.body().getData());
+//                List<StudentClass> studentClassList = gson.fromJson(studentJson, new TypeToken<ArrayList<StudentClass>>() {
+//                }.getType());
+//                for (StudentClass studentClass : studentClassList) {
+//                    StudentAttendanceView studentAttendanceView = new StudentAttendanceView();
+//                    studentAttendanceView.setId(studentClass.getStudentId());
+//                    studentAttendanceView.setClassId(dataClass);
+//                    studentAttendanceView.setStudentName(studentClass.getClassStudentByStudent().getStudentByProfile().getFirstName() + " " + studentClass.getClassStudentByStudent().getStudentByProfile().getLastName());
+//                    listStudentAttendance.add(studentAttendanceView);
+//                }
+//                Collections.sort(listStudentAttendance, Comparator.comparing(StudentAttendanceView::getStudentName));
+//                if (!listStudentAttendance.isEmpty()) {
+//                    OnBindingData(listStudentAttendance);
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Don't find student", Toast.LENGTH_LONG).show();
+//                }
+//            } else if (response.code() == 403) {
+//                materialDialog = new MaterialDialog.Builder(TakeAttendanceActivity.this)
+//                        .setMessage("End of session login ! Please login again")
+//                        .setCancelable(false)
+//                        .setPositiveButton("", R.drawable.done, new MaterialDialog.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int which) {
+//                                SharedPreferences sharedPreferences = getApplication().getSharedPreferences("informationAccount", MODE_PRIVATE);
+//                                sharedPreferences.edit().clear().apply();
+//                                dialogInterface.dismiss();
+//                                startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+//                            }
+//                        }).build();
+//                materialDialog.show();
+//            }
+//        } catch (IOException e) {
+//           throw new RuntimeException(e);
+//        }
     }
 
     public void OnBindingData(List<StudentAttendanceView> list) {

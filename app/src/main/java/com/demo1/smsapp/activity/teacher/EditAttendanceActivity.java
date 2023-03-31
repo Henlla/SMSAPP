@@ -3,9 +3,14 @@ package com.demo1.smsapp.activity.teacher;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.demo1.smsapp.R;
 import com.demo1.smsapp.activity.HomeActivity;
@@ -23,6 +28,7 @@ import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import retrofit2.Response;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,12 +61,13 @@ public class EditAttendanceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityEditAttendanceBinding.inflate(getLayoutInflater());
+        Window window = this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.red));
         setContentView(binding.getRoot());
         onCreateApi();
         init();
-        onGetAttendanceByDate();
-        onGetStudentSubject();
-        onUpdateAttendance();
+        new MyTask().execute();
+
     }
 
     public void onCreateApi() {
@@ -87,12 +94,23 @@ public class EditAttendanceActivity extends AppCompatActivity {
         date = classData.split("-")[2] + "-" + classData.split("-")[3] + "-" + classData.split("-")[4];
     }
 
+    public class MyTask extends AsyncTask<Void,Void,Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            onGetClass();
+            onUpdateAttendance();
+            return null;
+        }
+    }
+
     public void onGetClass() {
         try {
             Response<ResponseModel> response = classAPI.getClassById(token, Integer.valueOf(classId)).execute();
             if (response.isSuccessful()) {
                 String classJson = gson.toJson(response.body().getData());
                 classses = gson.fromJson(classJson, Classses.class);
+                onGetAttendanceByDate(classses);
             } else if (response.code() == 403) {
                 materialDialog = new MaterialDialog.Builder(EditAttendanceActivity.this)
                         .setMessage("End of session login ! Please login again")
@@ -108,13 +126,12 @@ public class EditAttendanceActivity extends AppCompatActivity {
                         }).build();
                 materialDialog.show();
             }
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Don't find", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public void onGetAttendanceByDate() {
-        onGetClass();
+    public void onGetAttendanceByDate(Classses classses) {
         try {
             listAttendance = new ArrayList<>();
             Response<ResponseModel> response = attendanceAPI.findAttendanceByDateSlotAndShift(token, date, Integer.valueOf(slot), classses.getShift()).execute();
@@ -122,6 +139,9 @@ public class EditAttendanceActivity extends AppCompatActivity {
                 String attendanceJson = gson.toJson(response.body().getData());
                 listAttendance = gson.fromJson(attendanceJson, new TypeToken<ArrayList<Attendance>>() {
                 }.getType());
+                if(!listAttendance.isEmpty()){
+                    onGetStudentSubject(listAttendance);
+                }
             } else if (response.code() == 403) {
                 materialDialog = new MaterialDialog.Builder(EditAttendanceActivity.this)
                         .setMessage("End of session login ! Please login again")
@@ -137,12 +157,12 @@ public class EditAttendanceActivity extends AppCompatActivity {
                         }).build();
                 materialDialog.show();
             }
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Don't find", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public void onGetStudentSubject() {
+    public void onGetStudentSubject(List<Attendance> listAttendance) {
         try {
             listStudentAttendance = new ArrayList<>();
             for (Attendance attendance : listAttendance) {
@@ -166,12 +186,23 @@ public class EditAttendanceActivity extends AppCompatActivity {
                 }
             }
             if (!listStudentAttendance.isEmpty()) {
-                OnBindingData(listStudentAttendance);
-            }
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Don't find", Toast.LENGTH_LONG).show();
-        }
+                this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        OnBindingData(listStudentAttendance);
+                        binding.editRcv.setVisibility(View.VISIBLE);
+                        binding.emptyView.setVisibility(View.GONE);
+                    }
+                });
 
+            }else{
+                binding.editRcv.setVisibility(View.GONE);
+                binding.emptyView.setVisibility(View.VISIBLE);
+                binding.emptyView.setText("Don't have attendance taken");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void OnBindingData(List<StudentAttendanceView> list) {
@@ -220,7 +251,7 @@ public class EditAttendanceActivity extends AppCompatActivity {
                         materialDialog.show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Don't find", Toast.LENGTH_LONG).show();
+                    Log.e("error",e.getMessage());
                 }
             } else {
                 Toast.makeText(getApplicationContext(), "Attendance fail", Toast.LENGTH_LONG).show();
@@ -280,7 +311,7 @@ public class EditAttendanceActivity extends AppCompatActivity {
                 materialDialog.show();
             }
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Don't find", Toast.LENGTH_LONG).show();
+            Log.e("error",e.getMessage());
         }
     }
 
@@ -307,7 +338,7 @@ public class EditAttendanceActivity extends AppCompatActivity {
                 materialDialog.show();
             }
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Don't find", Toast.LENGTH_LONG).show();
+            Log.e("error",e.getMessage());
         }
 
     }

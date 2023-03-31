@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/_5sdp"
+              android:orientation="horizontal">
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_gravity="center_vertical">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center"
+                  android:fontFamily="@font/inria_serif_regular"
+                  android:text="Slot 1"
+                  android:textColor="@color/blue_dark"
+                  android:id="@+id/slot"
+                  android:textSize="@dimen/_16sdp"/>
+        <ImageView
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:scaleType="centerCrop"
+                android:id="@+id/img_line"
+                android:src="@drawable/line_start"
+                android:backgroundTint="@color/gray"
+        />
+        <LinearLayout android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center"
+                      android:text="13:30"
+                      android:id="@+id/time_1"
+                      android:textColor="@color/red"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:textSize="@dimen/_10sdp"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center"
+                      android:layout_marginStart="@dimen/_11sdp"
+                      android:text="15:30"
+                      android:fontFamily="@font/inria_serif_regular"
+                      android:id="@+id/time_2"
+                      android:textColor="@color/red"
+                      android:textSize="@dimen/_11sdp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+            android:layout_width="1dp"
+            android:layout_below="@+id/tv_fullName"
+            android:layout_height="match_parent"
+            android:background="@drawable/line_4"
+            android:layout_marginStart="@dimen/_10sdp"
+    />
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_marginStart="@dimen/_5sdp"
+                  >
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/blue_dark"
+                  android:id="@+id/sub_title"
+                  android:fontFamily="@font/inria_serif_regular"
+                  android:textStyle="bold"
+                  android:textSize="@dimen/_11sdp"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:fontFamily="@font/inria_serif_regular"
+                  android:textStyle="bold"
+                  android:id="@+id/teacher"
+                  android:textSize="@dimen/_12sdp"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/roomCode"
+                  android:fontFamily="@font/inria_serif_regular"
+                  android:textStyle="bold"
+                  android:textSize="@dimen/_10sdp"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:fontFamily="@font/inria_serif_regular"
+                  android:textStyle="bold"
+                  android:id="@+id/tv_class"
+                  android:textSize="@dimen/_10sdp"/>
+    </LinearLayout>
+</LinearLayout>

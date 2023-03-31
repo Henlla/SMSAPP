@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">SMSAPP</string>
+    <string name="msg_error_login">Enter username and password !</string>
+    <string name="msg_error_username">Enter username !</string>
+    <string name="msg_error_password">Enter password !</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="favorite">Profile</string>
+    <string name="msg_error_changePassword">Enter old password and new password !</string>
+    <string name="msg_error_oldPassword">Enter old password !</string>
+    <string name="msg_error_newPassword">Enter new password !</string>
+    <string name="default_notification_channel_id">htk_app</string>
+
 </resources>

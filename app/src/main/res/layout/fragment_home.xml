@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/home_fm"
+             tools:context=".fragment.HomeFragment">
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical">
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="@dimen/_44sdp"
+                          android:background="#DF7084"
+                          android:orientation="horizontal">
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/person"
+                        app:civ_border_color="#FF000000"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="20dp"/>
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginStart="20dp"
+                              android:orientation="vertical"
+                              android:layout_gravity="center">
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:textSize="20sp"
+                              android:id="@+id/username"
+                              android:textColor="@color/white"
+                              android:fontFamily="@font/inria_serif_regular"
+                              android:text="User name 1"/>
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:id="@+id/card"
+                              android:textSize="14sp"
+                              android:textColor="@color/white"
+                              android:fontFamily="@font/inria_serif_regular"
+                              android:text="StudentCard"/>
+                </LinearLayout>
+                <ImageView android:layout_width="match_parent"
+                           android:layout_height="@dimen/_20sdp"
+                           android:layout_gravity="center"
+                           android:backgroundTint="@null"
+                           app:tint="@color/white"
+                           android:id="@+id/btn_logout"
+                           android:background="?attr/selectableItemBackgroundBorderless"
+                           android:layout_marginStart="@dimen/_80sdp"
+                           app:srcCompat="@drawable/logout"/>
+            </LinearLayout>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="30dp"
+                            android:layout_marginStart="30dp"
+                            android:id="@+id/l_search"
+                            android:layout_height="30dp"
+                            android:background="@drawable/input_search_home">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="Search something ..."
+                          android:layout_gravity="center"
+                          android:fontFamily="@font/inria_serif_regular"
+                          android:layout_centerVertical="true"
+                          android:layout_marginStart="30dp">
+                </TextView>
+                <ImageView android:layout_width="30dp"
+                           android:layout_height="25dp"
+                           android:src="@drawable/search"
+                           android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
+                           android:layout_marginEnd="20dp"/>
+            </RelativeLayout>
+
+            <androidx.cardview.widget.CardView
+                    app:cardCornerRadius="6dp"
+                    android:visibility="gone"
+                    android:id="@+id/layout_notification"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:backgroundTint="@color/yellow">
+                <ImageView android:layout_width="@dimen/_15sdp"
+                           android:layout_height="@dimen/_15sdp"
+                           android:layout_margin="@dimen/_4sdp"
+                           android:background="?attr/selectableItemBackgroundBorderless"
+                           android:src="@drawable/notifications"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginVertical="@dimen/_5sdp"
+                          android:layout_marginLeft="@dimen/_20sdp"
+                          android:textStyle="bold"
+                          android:fontFamily="@font/inria_serif_regular"
+                          android:text="Lịch học hôm nay"/>
+                <ImageView android:layout_width="@dimen/_15sdp"
+                           android:layout_height="@dimen/_15sdp"
+                           android:layout_margin="@dimen/_4sdp"
+                           android:layout_gravity="end"
+                           android:id="@+id/btn_close_notice"
+                           android:background="?attr/selectableItemBackgroundBorderless"
+                           android:src="@drawable/close"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_margin="@dimen/_4sdp"
+                          android:id="@+id/sub_name"
+                          android:fontFamily="@font/inria_serif_regular"
+                          android:text="Môn : Java application"
+                          android:layout_gravity="bottom"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginHorizontal="@dimen/_4sdp"
+                          android:layout_marginTop="@dimen/_33sdp"
+                          android:fontFamily="@font/inria_serif_regular"
+                          android:text="Vào lúc : 13h30 - 17h30"
+                          android:id="@+id/time"
+                          android:layout_gravity="end"/>
+
+            </androidx.cardview.widget.CardView>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginHorizontal="@dimen/_20sdp">
+
+                <androidx.cardview.widget.CardView
+                        app:cardCornerRadius="6dp"
+                        android:layout_margin="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <com.smarteist.autoimageslider.SliderView
+                            android:id="@+id/imageSlider"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            app:sliderAnimationDuration="600"
+                            app:sliderAutoCycleDirection="back_and_forth"
+                            app:sliderAutoCycleEnabled="true"
+                            app:sliderIndicatorAnimationDuration="600"
+                            app:sliderIndicatorGravity="center_horizontal|bottom"
+                            app:sliderIndicatorMargin="15dp"
+                            app:sliderIndicatorOrientation="horizontal"
+                            app:sliderIndicatorPadding="3dp"
+                            app:sliderIndicatorRadius="2dp"
+                            app:sliderIndicatorSelectedColor="#5A5A5A"
+                            app:sliderIndicatorUnselectedColor="#FFF"
+                            app:sliderScrollTimeInSec="1"
+                            app:sliderStartAutoCycle="true"
+                            tools:ignore="MissingClass"/>
+
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/list_func"/>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_20sdp">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="News"
+                          android:fontFamily="@font/inria_serif_regular"
+                          android:textSize="@dimen/_20sdp"
+                          android:textColor="@color/black"
+                          android:layout_marginStart="30dp"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="More ..."
+                          android:layout_marginBottom="1dp"
+                          android:fontFamily="@font/inria_serif_regular"
+                          android:textSize="@dimen/_12sdp"
+                          android:layout_alignParentRight="true"
+                          android:layout_alignParentBottom="true"
+                          android:paddingHorizontal="@dimen/_20sdp"
+                          android:id="@+id/read_more"
+                          android:textColor="@color/black" android:layout_marginRight="0dp"/>
+            </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"
+                                                       android:id="@+id/rcv_new"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

@@ -35,10 +35,12 @@
     <LinearLayout android:layout_width="match_parent"
                   android:orientation="vertical"
                   android:layout_height="match_parent">
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/attendanceRcv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+        <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/attendanceRcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+        </androidx.core.widget.NestedScrollView>
         <TextView
                 android:id="@+id/empty_view"
                 android:layout_width="match_parent"

@@ -137,11 +137,13 @@ public class EditAttendanceFragment extends Fragment {
                     if (!listScheduleDetail.isEmpty()) {
                         new MyTask().execute();
                     } else {
-                        Toast.makeText(getContext(), "Don't have schedule for 2 days ago from now", Toast.LENGTH_LONG).show();
-                    }
+                        binding.emptyView.setVisibility(View.VISIBLE);
+                        binding.editRcv.setVisibility(View.GONE);
+                        binding.emptyView.setText("Don't have attendance taken");                    }
                 } else {
-                    Toast.makeText(getContext(), "Don't have schedule for 2 days ago from now", Toast.LENGTH_LONG).show();
-                }
+                    binding.emptyView.setVisibility(View.VISIBLE);
+                    binding.editRcv.setVisibility(View.GONE);
+                    binding.emptyView.setText("Don't have attendance taken");                }
             }
 
             @Override

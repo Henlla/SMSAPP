@@ -1,6 +1,7 @@
 package com.demo1.smsapp.activity;
 
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
@@ -57,17 +58,6 @@ public class TeachingScheduleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTeachingScheduleBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Window window = this.getWindow();
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.red));
-        gson = new Gson();
-        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("informationAccount", MODE_PRIVATE);
-        _token = sharedPreferences.getString("token", null);
-        teacherJson = sharedPreferences.getString("data", null);
-        teacher = gson.fromJson(teacherJson, Teacher.class);
-        classAPI = APIUtils.getClasses();
-        scheduleDetailAPI = APIUtils.getScheduleDetail();
-        scheduleAPI = APIUtils.getScheduleAPI();
-        listTeachingScheduleAdapter = new ListTeachingScheduleAdapter();
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .detectDiskReads()
                 .detectDiskWrites()
@@ -80,12 +70,32 @@ public class TeachingScheduleActivity extends AppCompatActivity {
                 .penaltyLog()
                 .penaltyDeath()
                 .build());
+        Window window = this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.red));
+        gson = new Gson();
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("informationAccount", MODE_PRIVATE);
+        _token = sharedPreferences.getString("token", null);
+        teacherJson = sharedPreferences.getString("data", null);
+        teacher = gson.fromJson(teacherJson, Teacher.class);
+        classAPI = APIUtils.getClasses();
+        scheduleDetailAPI = APIUtils.getScheduleDetail();
+        scheduleAPI = APIUtils.getScheduleAPI();
+        listTeachingScheduleAdapter = new ListTeachingScheduleAdapter();
+
         processBtnBack();
-        getListSchedule();
-//        getList();
-        eventSelectDate();
+        new MyTask().execute();
+//        getListSchedule();
+//        eventSelectDate();
     }
 
+    public class MyTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            getListSchedule();
+            eventSelectDate();
+            return null;
+        }
+    }
 
     private void processBtnBack() {
         binding.icBack.setOnClickListener(view -> {
@@ -93,132 +103,173 @@ public class TeachingScheduleActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressWarnings("NewApi")
     private void getListSchedule() {
         scheduleDetails = new ArrayList<>();
         classses = new Classses();
         scheduleModels = new ArrayList<>();
-        scheduleDetailAPI.findScheduleByTeacher(_token, teacher.getId()).enqueue(new Callback<ResponseModel>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                if (response.isSuccessful()) {
-                    String json = gson.toJson(response.body().getData());
-                    Type listType = new TypeToken<ArrayList<ScheduleDetail>>() {
-                    }.getType();
-                    scheduleDetails = gson.fromJson(json, listType);
-                    LocalDate now = LocalDate.now();
-                    Integer week = now.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
-                    Integer year = now.getYear();
-//                    for (ScheduleDetail scheduleDetail : scheduleDetails.stream().filter(scheduleDetail -> LocalDate.parse(scheduleDetail.getDate())
-//                            .get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) == week).collect(Collectors.toList())) {
-//                        scheduleAPI.getScheduleByScheduleDetail(_token, scheduleDetail.getScheduleId()).enqueue(new Callback<ResponseModel>() {
-//                            @Override
-//                            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-//                                if (response.isSuccessful()) {
-//                                    String json = gson.toJson(response.body().getData());
-//                                    Type listType = new TypeToken<ArrayList<Schedule>>() {
-//                                    }.getType();
-//                                    List<Schedule> l = gson.fromJson(json, listType);
-//                                    Schedule schedule = l.get(0);
-//                                    classAPI.getClassById(_token, schedule.getClassId()).enqueue(new Callback<ResponseModel>() {
-//                                        @Override
-//                                        public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-//                                            if (response.isSuccessful()) {
-//                                                String json = gson.toJson(response.body().getData());
-//                                                classses = gson.fromJson(json, Classses.class);
-//                                                TeachingScheduleModel scheduleModel = new TeachingScheduleModel();
-//                                                scheduleModel.setDate(scheduleDetail.getDate());
-//                                                scheduleModel.setSubject(scheduleDetail.getSubjectBySubjectId());
-//                                                scheduleModel.setDayOfWeek(scheduleDetail.getDayOfWeek());
-//                                                scheduleModel.setShift(classses.getShift());
-//                                                scheduleModel.setSlot(scheduleDetail.getSlot());
-//                                                scheduleModel.setRoomCode(classses.getClassRoom().getRoomCode());
-//                                                scheduleModel.setClassCode(classses.getClassCode());
-//                                                scheduleModels.add(scheduleModel);
-//                                            }
-//                                        }
-//                                        @Override
-//                                        public void onFailure(Call<ResponseModel> call, Throwable t) {
-//
-//                                        }
-//                                    });
-//                                }
-//                            }
-//                            @Override
-//                            public void onFailure(Call<ResponseModel> call, Throwable t) {
-//
-//                            }
-//                        });
-//                    }
-                    for (ScheduleDetail scheduleDetail : scheduleDetails.stream().filter(scheduleDetail -> LocalDate.parse(scheduleDetail.getDate())
-                            .get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) == week && LocalDate.parse(scheduleDetail.getDate()).getYear() == year).collect(Collectors.toList())) {
-                        try {
-                            Response<ResponseModel> responseSchedule = scheduleAPI.getScheduleByScheduleDetail(_token, scheduleDetail.getScheduleId()).execute();
-                            if (responseSchedule.isSuccessful()) {
-                                String jsonSchedule = gson.toJson(responseSchedule.body().getData());
-                                Type collectionType = new TypeToken<ArrayList<Schedule>>() {
-                                }.getType();
-                                List<Schedule> l = gson.fromJson(jsonSchedule, collectionType);
-                                Schedule schedule = l.get(0);
-                                Response<ResponseModel> responseClass = classAPI.getClassById(_token, schedule.getClassId()).execute();
-                                String jsonClass = gson.toJson(responseClass.body().getData());
-                                classses = gson.fromJson(jsonClass, Classses.class);
-                                TeachingScheduleModel scheduleModel = new TeachingScheduleModel();
-                                scheduleModel.setDate(scheduleDetail.getDate());
-                                scheduleModel.setSubject(scheduleDetail.getSubjectBySubjectId());
-                                scheduleModel.setDayOfWeek(scheduleDetail.getDayOfWeek());
-                                scheduleModel.setShift(classses.getShift());
-                                scheduleModel.setDepartmentCode(classses.getDepartmentByDepartmentId().getDepartmentCode());
-                                scheduleModel.setSlot(scheduleDetail.getSlot());
-                                scheduleModel.setRoomCode(classses.getClassRoom().getRoomCode());
-                                scheduleModel.setClassCode(classses.getClassCode());
-                                scheduleModels.add(scheduleModel);
-                            }
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+        try {
+            Response<ResponseModel> responseScheduleDetail = scheduleDetailAPI.findScheduleByTeacher(_token, teacher.getId()).execute();
+            if (responseScheduleDetail.isSuccessful()) {
+                String json = gson.toJson(responseScheduleDetail.body().getData());
+                Type listType = new TypeToken<ArrayList<ScheduleDetail>>() {
+                }.getType();
+                scheduleDetails = gson.fromJson(json, listType);
+                LocalDate now = LocalDate.now();
+                Integer week = now.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
+                Integer year = now.getYear();
+                for (ScheduleDetail scheduleDetail : scheduleDetails.stream().filter(scheduleDetail -> LocalDate.parse(scheduleDetail.getDate())
+                        .get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) == week && LocalDate.parse(scheduleDetail.getDate()).getYear() == year).collect(Collectors.toList())) {
+                    try {
+                        Response<ResponseModel> responseSchedule = scheduleAPI.getScheduleByScheduleDetail(_token, scheduleDetail.getScheduleId()).execute();
+                        if (responseSchedule.isSuccessful()) {
+                            String jsonSchedule = gson.toJson(responseSchedule.body().getData());
+                            Type collectionType = new TypeToken<ArrayList<Schedule>>() {
+                            }.getType();
+                            List<Schedule> l = gson.fromJson(jsonSchedule, collectionType);
+                            Schedule schedule = l.get(0);
+                            Response<ResponseModel> responseClass = classAPI.getClassById(_token, schedule.getClassId()).execute();
+                            String jsonClass = gson.toJson(responseClass.body().getData());
+                            classses = gson.fromJson(jsonClass, Classses.class);
+                            TeachingScheduleModel scheduleModel = new TeachingScheduleModel();
+                            scheduleModel.setDate(scheduleDetail.getDate());
+                            scheduleModel.setSubject(scheduleDetail.getSubjectBySubjectId());
+                            scheduleModel.setDayOfWeek(scheduleDetail.getDayOfWeek());
+                            scheduleModel.setShift(classses.getShift());
+                            scheduleModel.setDepartmentCode(classses.getDepartmentByDepartmentId().getDepartmentCode());
+                            scheduleModel.setSlot(scheduleDetail.getSlot());
+                            scheduleModel.setRoomCode(classses.getClassRoom().getRoomCode());
+                            scheduleModel.setClassCode(classses.getClassCode());
+                            scheduleModels.add(scheduleModel);
                         }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                    HashMap<String, List<TeachingScheduleModel>> hashMap = new HashMap<>();
-                    for (TeachingScheduleModel teachingScheduleModel : scheduleModels) {
-                        String key = teachingScheduleModel.getDate();
-                        if (hashMap.containsKey(key)) {
-                            List<TeachingScheduleModel> list = hashMap.get(key);
-                            list.add(teachingScheduleModel);
-                        } else {
-                            List<TeachingScheduleModel> list = new ArrayList<>();
-                            list.add(teachingScheduleModel);
-                            hashMap.put(key, list);
-                        }
-
-                    }
-
-                    SortedSet<String> keys = new TreeSet<>(hashMap.keySet());
-                    List<TeachingScheduleGroupDTO> scheduleGroupDTOList = new ArrayList<>();
-                    for (String key : keys) {
-                        List<TeachingScheduleModel> list = hashMap.get(key);
-                        TeachingScheduleGroupDTO teachingScheduleGroupDTO = new TeachingScheduleGroupDTO();
-                        teachingScheduleGroupDTO.setDate(LocalDate.parse(key));
-                        teachingScheduleGroupDTO.setTeachingScheduleModels(list);
-                        scheduleGroupDTOList.add(teachingScheduleGroupDTO);
-
-                    }
-
-                    listTeachingScheduleAdapter.setData(scheduleGroupDTOList);
-                    binding.rcvTeachingSchedule.setAdapter(listTeachingScheduleAdapter);
-                    binding.rcvTeachingSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 }
-            }
+                HashMap<String, List<TeachingScheduleModel>> hashMap = new HashMap<>();
+                for (TeachingScheduleModel teachingScheduleModel : scheduleModels) {
+                    String key = teachingScheduleModel.getDate();
+                    if (hashMap.containsKey(key)) {
+                        List<TeachingScheduleModel> list = hashMap.get(key);
+                        list.add(teachingScheduleModel);
+                    } else {
+                        List<TeachingScheduleModel> list = new ArrayList<>();
+                        list.add(teachingScheduleModel);
+                        hashMap.put(key, list);
+                    }
 
-            @Override
-            public void onFailure(Call<ResponseModel> call, Throwable t) {
+                }
 
+                SortedSet<String> keys = new TreeSet<>(hashMap.keySet());
+                List<TeachingScheduleGroupDTO> scheduleGroupDTOList = new ArrayList<>();
+                for (String key : keys) {
+                    List<TeachingScheduleModel> list = hashMap.get(key);
+                    TeachingScheduleGroupDTO teachingScheduleGroupDTO = new TeachingScheduleGroupDTO();
+                    teachingScheduleGroupDTO.setDate(LocalDate.parse(key));
+                    teachingScheduleGroupDTO.setTeachingScheduleModels(list);
+                    scheduleGroupDTOList.add(teachingScheduleGroupDTO);
+
+                }
+                Log.i("json",gson.toJson(scheduleGroupDTOList));
+
+//                listTeachingScheduleAdapter.setData(scheduleGroupDTOList);
+//                binding.rcvTeachingSchedule.setAdapter(listTeachingScheduleAdapter);
+//                binding.rcvTeachingSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+                TeachingScheduleActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listTeachingScheduleAdapter.setData(scheduleGroupDTOList);
+                        binding.rcvTeachingSchedule.setAdapter(listTeachingScheduleAdapter);
+                        binding.rcvTeachingSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    }
+                });
             }
-        });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+//        scheduleDetailAPI.findScheduleByTeacher(_token, teacher.getId()).enqueue(new Callback<ResponseModel>() {
+//            @RequiresApi(api = Build.VERSION_CODES.O)
+//            @Override
+//            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+//                if (response.isSuccessful()) {
+//                    String json = gson.toJson(response.body().getData());
+//                    Type listType = new TypeToken<ArrayList<ScheduleDetail>>() {
+//                    }.getType();
+//                    scheduleDetails = gson.fromJson(json, listType);
+//                    LocalDate now = LocalDate.now();
+//                    Integer week = now.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
+//                    Integer year = now.getYear();
+//                    for (ScheduleDetail scheduleDetail : scheduleDetails.stream().filter(scheduleDetail -> LocalDate.parse(scheduleDetail.getDate())
+//                            .get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) == week && LocalDate.parse(scheduleDetail.getDate()).getYear() == year).collect(Collectors.toList())) {
+//                        try {
+//                            Response<ResponseModel> responseSchedule = scheduleAPI.getScheduleByScheduleDetail(_token, scheduleDetail.getScheduleId()).execute();
+//                            if (responseSchedule.isSuccessful()) {
+//                                String jsonSchedule = gson.toJson(responseSchedule.body().getData());
+//                                Type collectionType = new TypeToken<ArrayList<Schedule>>() {
+//                                }.getType();
+//                                List<Schedule> l = gson.fromJson(jsonSchedule, collectionType);
+//                                Schedule schedule = l.get(0);
+//                                Response<ResponseModel> responseClass = classAPI.getClassById(_token, schedule.getClassId()).execute();
+//                                String jsonClass = gson.toJson(responseClass.body().getData());
+//                                classses = gson.fromJson(jsonClass, Classses.class);
+//                                TeachingScheduleModel scheduleModel = new TeachingScheduleModel();
+//                                scheduleModel.setDate(scheduleDetail.getDate());
+//                                scheduleModel.setSubject(scheduleDetail.getSubjectBySubjectId());
+//                                scheduleModel.setDayOfWeek(scheduleDetail.getDayOfWeek());
+//                                scheduleModel.setShift(classses.getShift());
+//                                scheduleModel.setDepartmentCode(classses.getDepartmentByDepartmentId().getDepartmentCode());
+//                                scheduleModel.setSlot(scheduleDetail.getSlot());
+//                                scheduleModel.setRoomCode(classses.getClassRoom().getRoomCode());
+//                                scheduleModel.setClassCode(classses.getClassCode());
+//                                scheduleModels.add(scheduleModel);
+//                            }
+//                        } catch (IOException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                    }
+//                    HashMap<String, List<TeachingScheduleModel>> hashMap = new HashMap<>();
+//                    for (TeachingScheduleModel teachingScheduleModel : scheduleModels) {
+//                        String key = teachingScheduleModel.getDate();
+//                        if (hashMap.containsKey(key)) {
+//                            List<TeachingScheduleModel> list = hashMap.get(key);
+//                            list.add(teachingScheduleModel);
+//                        } else {
+//                            List<TeachingScheduleModel> list = new ArrayList<>();
+//                            list.add(teachingScheduleModel);
+//                            hashMap.put(key, list);
+//                        }
+//
+//                    }
+//
+//                    SortedSet<String> keys = new TreeSet<>(hashMap.keySet());
+//                    List<TeachingScheduleGroupDTO> scheduleGroupDTOList = new ArrayList<>();
+//                    for (String key : keys) {
+//                        List<TeachingScheduleModel> list = hashMap.get(key);
+//                        TeachingScheduleGroupDTO teachingScheduleGroupDTO = new TeachingScheduleGroupDTO();
+//                        teachingScheduleGroupDTO.setDate(LocalDate.parse(key));
+//                        teachingScheduleGroupDTO.setTeachingScheduleModels(list);
+//                        scheduleGroupDTOList.add(teachingScheduleGroupDTO);
+//
+//                    }
+//                    TeachingScheduleActivity.this.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            listTeachingScheduleAdapter.setData(scheduleGroupDTOList);
+//                            binding.rcvTeachingSchedule.setAdapter(listTeachingScheduleAdapter);
+//                            binding.rcvTeachingSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+//                        }
+//                    });
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseModel> call, Throwable t) {
+//
+//            }
+//        });
     }
-
-//    public void getList(){
-//        List<TeachingScheduleModel> list = scheduleModels;
-//    }
 
     private void eventSelectDate() {
         binding.datePicker.setOnSelectionChanged(new Function1<Date, Unit>() {
@@ -253,6 +304,7 @@ public class TeachingScheduleActivity extends AppCompatActivity {
                             scheduleModels.add(scheduleModel);
                         }
                     } catch (IOException e) {
+                        Log.e("error",e.getMessage());
                         throw new RuntimeException(e);
                     }
                 }
@@ -279,12 +331,20 @@ public class TeachingScheduleActivity extends AppCompatActivity {
                     teachingScheduleGroupDTO.setDate(LocalDate.parse(key));
                     teachingScheduleGroupDTO.setTeachingScheduleModels(list);
                     scheduleGroupDTOList.add(teachingScheduleGroupDTO);
-
                 }
 
-                listTeachingScheduleAdapter.setData(scheduleGroupDTOList);
-                binding.rcvTeachingSchedule.setAdapter(listTeachingScheduleAdapter);
-                binding.rcvTeachingSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                Log.i("json", gson.toJson(scheduleGroupDTOList));
+//                listTeachingScheduleAdapter.setData(scheduleGroupDTOList);
+//                binding.rcvTeachingSchedule.setAdapter(listTeachingScheduleAdapter);
+//                binding.rcvTeachingSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                TeachingScheduleActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listTeachingScheduleAdapter.setData(scheduleGroupDTOList);
+                        binding.rcvTeachingSchedule.setAdapter(listTeachingScheduleAdapter);
+                        binding.rcvTeachingSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    }
+                });
                 return null;
             }
         });

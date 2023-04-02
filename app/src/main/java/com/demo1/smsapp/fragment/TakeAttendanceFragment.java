@@ -151,7 +151,9 @@ public class TakeAttendanceFragment extends Fragment {
                     if (!listScheduleDetail.isEmpty()) {
                         new MyTask().execute();
                     } else {
-                        Toast.makeText(getContext(), "Don't have attendance for today", Toast.LENGTH_LONG).show();
+                        binding.takeRcv.setVisibility(View.GONE);
+                        binding.emptyRcv.setVisibility(View.VISIBLE);
+                        binding.emptyRcv.setText("Don't have attendance for today");
                     }
                 } else if (response.code() == 403) {
                     materialDialog = new MaterialDialog.Builder(getActivity())
@@ -221,11 +223,11 @@ public class TakeAttendanceFragment extends Fragment {
                                                             takeAttendanceView.setDate(scheduleDetail.getDate());
                                                             takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
                                                             if (scheduleDetail.getSlot() == 1) {
-                                                                takeAttendanceView.setStartTime("07:30");
-                                                                takeAttendanceView.setEndTime("09:30");
+                                                                takeAttendanceView.setStartTime("08:00");
+                                                                takeAttendanceView.setEndTime("10:00");
                                                             } else {
-                                                                takeAttendanceView.setStartTime("09:30");
-                                                                takeAttendanceView.setEndTime("11:30");
+                                                                takeAttendanceView.setStartTime("10:00");
+                                                                takeAttendanceView.setEndTime("12:00");
                                                             }
                                                             listTakeAttendanceView.add(takeAttendanceView);
                                                         } else if (detailDate.isEqual(currentDate)) {
@@ -236,11 +238,11 @@ public class TakeAttendanceFragment extends Fragment {
                                                             takeAttendanceView.setDate(scheduleDetail.getDate());
                                                             takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
                                                             if (scheduleDetail.getSlot() == 1) {
-                                                                takeAttendanceView.setStartTime("07:30");
-                                                                takeAttendanceView.setEndTime("09:30");
+                                                                takeAttendanceView.setStartTime("08:00");
+                                                                takeAttendanceView.setEndTime("10:00");
                                                             } else {
-                                                                takeAttendanceView.setStartTime("09:30");
-                                                                takeAttendanceView.setEndTime("11:30");
+                                                                takeAttendanceView.setStartTime("10:00");
+                                                                takeAttendanceView.setEndTime("12:00");
                                                             }
                                                             listTakeAttendanceView.add(takeAttendanceView);
                                                         } else {
@@ -252,11 +254,11 @@ public class TakeAttendanceFragment extends Fragment {
                                                                 takeAttendanceView.setDate(scheduleDetail.getDate());
                                                                 takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
                                                                 if (scheduleDetail.getSlot() == 1) {
-                                                                    takeAttendanceView.setStartTime("07:30");
-                                                                    takeAttendanceView.setEndTime("09:30");
+                                                                    takeAttendanceView.setStartTime("08:00");
+                                                                    takeAttendanceView.setEndTime("10:00");
                                                                 } else {
-                                                                    takeAttendanceView.setStartTime("09:30");
-                                                                    takeAttendanceView.setEndTime("11:30");
+                                                                    takeAttendanceView.setStartTime("10:00");
+                                                                    takeAttendanceView.setEndTime("12:00");
                                                                 }
                                                                 listTakeAttendanceView.add(takeAttendanceView);
                                                             } else {
@@ -268,11 +270,11 @@ public class TakeAttendanceFragment extends Fragment {
                                                                     takeAttendanceView.setDate(scheduleDetail.getDate());
                                                                     takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
                                                                     if (scheduleDetail.getSlot() == 1) {
-                                                                        takeAttendanceView.setStartTime("07:30");
-                                                                        takeAttendanceView.setEndTime("09:30");
+                                                                        takeAttendanceView.setStartTime("08:00");
+                                                                        takeAttendanceView.setEndTime("10:00");
                                                                     } else {
-                                                                        takeAttendanceView.setStartTime("09:30");
-                                                                        takeAttendanceView.setEndTime("11:30");
+                                                                        takeAttendanceView.setStartTime("10:00");
+                                                                        takeAttendanceView.setEndTime("12:00");
                                                                     }
                                                                     listTakeAttendanceView.add(takeAttendanceView);
                                                                 } else {
@@ -293,7 +295,7 @@ public class TakeAttendanceFragment extends Fragment {
                                                             takeAttendanceView.setDate(scheduleDetail.getDate());
                                                             takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
                                                             if (scheduleDetail.getSlot() == 1) {
-                                                                takeAttendanceView.setStartTime("12:30");
+                                                                takeAttendanceView.setStartTime("13:30");
                                                                 takeAttendanceView.setEndTime("15:30");
                                                             } else {
                                                                 takeAttendanceView.setStartTime("15:30");
@@ -308,7 +310,7 @@ public class TakeAttendanceFragment extends Fragment {
                                                             takeAttendanceView.setDate(scheduleDetail.getDate());
                                                             takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
                                                             if (scheduleDetail.getSlot() == 1) {
-                                                                takeAttendanceView.setStartTime("12:30");
+                                                                takeAttendanceView.setStartTime("13:30");
                                                                 takeAttendanceView.setEndTime("15:30");
                                                             } else {
                                                                 takeAttendanceView.setStartTime("15:30");
@@ -324,7 +326,7 @@ public class TakeAttendanceFragment extends Fragment {
                                                                 takeAttendanceView.setDate(scheduleDetail.getDate());
                                                                 takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
                                                                 if (scheduleDetail.getSlot() == 1) {
-                                                                    takeAttendanceView.setStartTime("12:30");
+                                                                    takeAttendanceView.setStartTime("13:30");
                                                                     takeAttendanceView.setEndTime("15:30");
                                                                 } else {
                                                                     takeAttendanceView.setStartTime("15:30");
@@ -340,7 +342,7 @@ public class TakeAttendanceFragment extends Fragment {
                                                                     takeAttendanceView.setDate(scheduleDetail.getDate());
                                                                     takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
                                                                     if (scheduleDetail.getSlot() == 1) {
-                                                                        takeAttendanceView.setStartTime("12:30");
+                                                                        takeAttendanceView.setStartTime("13:30");
                                                                         takeAttendanceView.setEndTime("15:30");
                                                                     } else {
                                                                         takeAttendanceView.setStartTime("15:30");
@@ -486,12 +488,21 @@ public class TakeAttendanceFragment extends Fragment {
                         materialDialog.show();
                     }
                 }
-                if(isOnTime){
-                    if(!listTakeAttendanceView.isEmpty()){
+                if (isOnTime) {
+                    if (!listTakeAttendanceView.isEmpty()) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 OnBindingData(listTakeAttendanceView);
+                            }
+                        });
+                    } else {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                binding.takeRcv.setVisibility(View.GONE);
+                                binding.emptyRcv.setVisibility(View.VISIBLE);
+                                binding.emptyRcv.setText("All your attendance is taken");
                             }
                         });
                     }

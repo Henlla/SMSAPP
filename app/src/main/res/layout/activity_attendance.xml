@@ -32,10 +32,12 @@
     </androidx.appcompat.widget.Toolbar>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="match_parent">
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/attendanceRcv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+        <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/attendanceRcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
 </LinearLayout>

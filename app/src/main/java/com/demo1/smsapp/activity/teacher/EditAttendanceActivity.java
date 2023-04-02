@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -63,10 +64,24 @@ public class EditAttendanceActivity extends AppCompatActivity {
         binding = ActivityEditAttendanceBinding.inflate(getLayoutInflater());
         Window window = this.getWindow();
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.red));
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads()
+                .detectDiskWrites()
+                .detectNetwork()
+                .penaltyLog()
+                .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects()
+                .detectLeakedClosableObjects()
+                .penaltyLog()
+                .penaltyDeath()
+                .build());
         setContentView(binding.getRoot());
         onCreateApi();
         init();
-        new MyTask().execute();
+        onGetClass();
+        onUpdateAttendance();
+//        new MyTask().execute();
 
     }
 
@@ -94,15 +109,14 @@ public class EditAttendanceActivity extends AppCompatActivity {
         date = classData.split("-")[2] + "-" + classData.split("-")[3] + "-" + classData.split("-")[4];
     }
 
-    public class MyTask extends AsyncTask<Void,Void,Void>{
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            onGetClass();
-            onUpdateAttendance();
-            return null;
-        }
-    }
+//    public class MyTask extends AsyncTask<Void,Void,Void>{
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//
+//            return null;
+//        }
+//    }
 
     public void onGetClass() {
         try {
@@ -198,7 +212,7 @@ public class EditAttendanceActivity extends AppCompatActivity {
             }else{
                 binding.editRcv.setVisibility(View.GONE);
                 binding.emptyView.setVisibility(View.VISIBLE);
-                binding.emptyView.setText("Don't have attendance taken");
+                binding.emptyView.setText("Don't have student in class");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

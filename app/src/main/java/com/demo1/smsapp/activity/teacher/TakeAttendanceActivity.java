@@ -142,6 +142,7 @@ public class TakeAttendanceActivity extends AppCompatActivity {
                             studentAttendanceView.setId(studentClass.getStudentId());
                             studentAttendanceView.setClassId(dataClass);
                             studentAttendanceView.setStudentName(studentClass.getClassStudentByStudent().getStudentByProfile().getFirstName() + " " + studentClass.getClassStudentByStudent().getStudentByProfile().getLastName());
+                            studentAttendanceView.setStudentCard(studentClass.getClassStudentByStudent().getStudentCard());
                             listStudentAttendance.add(studentAttendanceView);
                         }
                         Collections.sort(listStudentAttendance, Comparator.comparing(StudentAttendanceView::getStudentName));

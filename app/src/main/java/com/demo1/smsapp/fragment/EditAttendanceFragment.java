@@ -231,6 +231,23 @@ public class EditAttendanceFragment extends Fragment {
                                                     break;
                                             }
                                         }
+                                        if (!listTakeAttendanceView.isEmpty()) {
+                                            getActivity().runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    OnBindingData(listTakeAttendanceView);
+                                                }
+                                            });
+                                        }else{
+                                            getActivity().runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    binding.emptyView.setVisibility(View.VISIBLE);
+                                                    binding.editRcv.setVisibility(View.GONE);
+                                                    binding.emptyView.setText("Don't have attendance taken");
+                                                }
+                                            });
+                                        }
                                     } else if (responseAttendance.code() == 403) {
                                         materialDialog = new MaterialDialog.Builder(getActivity())
                                                 .setMessage("End of session login ! Please login again")
@@ -279,23 +296,23 @@ public class EditAttendanceFragment extends Fragment {
                         materialDialog.show();
                     }
                 }
-                if (!listTakeAttendanceView.isEmpty()) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            OnBindingData(listTakeAttendanceView);
-                        }
-                    });
-                }else{
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            binding.emptyView.setVisibility(View.VISIBLE);
-                            binding.editRcv.setVisibility(View.GONE);
-                            binding.emptyView.setText("Don't have attendance taken");
-                        }
-                    });
-                }
+//                if (!listTakeAttendanceView.isEmpty()) {
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            OnBindingData(listTakeAttendanceView);
+//                        }
+//                    });
+//                }else{
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            binding.emptyView.setVisibility(View.VISIBLE);
+//                            binding.editRcv.setVisibility(View.GONE);
+//                            binding.emptyView.setText("Don't have attendance taken");
+//                        }
+//                    });
+//                }
             } catch (
                     IOException e) {
                 throw new RuntimeException(e.getMessage());

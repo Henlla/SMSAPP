@@ -87,7 +87,7 @@ public class ProfileFragment extends Fragment {
             profileBinding.stCard.setText(student.getStudentCard());
             List<MajorStudent> majorStudentList = student.getMajorStudentsById();
             if(majorStudentList.isEmpty()){
-                profileBinding.tvMajor.setText("Chưa có");
+                profileBinding.tvMajor.setText("None");
             }else{
                 StringBuilder major = new StringBuilder();
                 for (MajorStudent majorStudent : majorStudentList){
@@ -114,7 +114,7 @@ public class ProfileFragment extends Fragment {
 //                                Type classType = new TypeToken<ResponseModel>(){}.getType();
                                Classses classses = gson.fromJson(jsonClass, Classses.class);
                                 if(classses==null){
-                                    profileBinding.tvClass.setText("Chưa có");
+                                    profileBinding.tvClass.setText("None");
                                 }else{
                                     profileBinding.tvClass.setText(classses.getClassCode());
                                 }
@@ -137,6 +137,7 @@ public class ProfileFragment extends Fragment {
             profileBinding.lMajor.setVisibility(View.GONE);
             profileBinding.lClass.setVisibility(View.GONE);
             profileBinding.stCard.setVisibility(View.GONE);
+            profileBinding.lMajor2.setVisibility(View.GONE);
             teacher = gson.fromJson(data, Teacher.class);
         }
         profile = gson.fromJson(profileJson, Profile.class);

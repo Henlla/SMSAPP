@@ -37,6 +37,7 @@ public class ListStudentAttendanceAdapter extends RecyclerView.Adapter<ListStude
     public void onBindViewHolder(@NotNull ViewHolder holder, int position) {
         StudentAttendanceView studentView = list.get(position);
         holder.binding.studentName.setText(studentView.getStudentName());
+        holder.binding.studentCard.setText(studentView.getStudentCard());
         if (holder.binding.switchAttendance.isChecked()) {
             list.get(position).setPresent(1);
         } else {

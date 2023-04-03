@@ -200,37 +200,52 @@ public class TakeAttendanceFragment extends Fragment {
                                 if (classses != null) {
                                     Response<ResponseModel> responseAttendance = attendanceAPI.findAttendanceByDateSlotAndShift(token, scheduleDetail.getDate(), scheduleDetail.getSlot(), classses.getShift()).execute();
                                     if (responseAttendance.isSuccessful()) {
-                                        if (responseAttendance.isSuccessful()) {
-                                            String attendanceJson = gson.toJson(responseAttendance.body().getData());
-                                            Type type = new TypeToken<ArrayList<Attendance>>() {
-                                            }.getType();
-                                            listAttendance = gson.fromJson(attendanceJson, type);
-                                            if (listAttendance.isEmpty()) {
-                                                takeAttendanceView = new TakeAttendanceView();
-                                                currentDate = LocalDate.parse(LocalDate.now().format(formatDate));
-                                                previousDate = currentDate.minusDays(1);
-                                                detailDate = LocalDate.parse(LocalDate.parse(scheduleDetail.getDate()).format(formatDate));
-                                                switch (classses.getShift().substring(0, 1)) {
-                                                    case "M":
-                                                        startTime = LocalTime.parse(mSTime, formatTime);
-                                                        endTime = LocalTime.parse(mETime, formatTime);
-                                                        onTime = LocalTime.parse(currentTime, formatTime);
-                                                        if (detailDate.isEqual(previousDate)) {
-                                                            takeAttendanceView.setClass_code(classses.getClassCode());
-                                                            takeAttendanceView.setSlot(scheduleDetail.getSlot());
-                                                            takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
-                                                            takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
-                                                            takeAttendanceView.setDate(scheduleDetail.getDate());
-                                                            takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
-                                                            if (scheduleDetail.getSlot() == 1) {
-                                                                takeAttendanceView.setStartTime("08:00");
-                                                                takeAttendanceView.setEndTime("10:00");
-                                                            } else {
-                                                                takeAttendanceView.setStartTime("10:00");
-                                                                takeAttendanceView.setEndTime("12:00");
-                                                            }
-                                                            listTakeAttendanceView.add(takeAttendanceView);
-                                                        } else if (detailDate.isEqual(currentDate)) {
+                                        String attendanceJson = gson.toJson(responseAttendance.body().getData());
+                                        Type type = new TypeToken<ArrayList<Attendance>>() {
+                                        }.getType();
+                                        listAttendance = gson.fromJson(attendanceJson, type);
+                                        if (listAttendance.isEmpty()) {
+                                            takeAttendanceView = new TakeAttendanceView();
+                                            currentDate = LocalDate.parse(LocalDate.now().format(formatDate));
+                                            previousDate = currentDate.minusDays(1);
+                                            detailDate = LocalDate.parse(LocalDate.parse(scheduleDetail.getDate()).format(formatDate));
+                                            switch (classses.getShift().substring(0, 1)) {
+                                                case "M":
+                                                    startTime = LocalTime.parse(mSTime, formatTime);
+                                                    endTime = LocalTime.parse(mETime, formatTime);
+                                                    onTime = LocalTime.parse(currentTime, formatTime);
+                                                    if (detailDate.isEqual(previousDate)) {
+                                                        takeAttendanceView.setClass_code(classses.getClassCode());
+                                                        takeAttendanceView.setSlot(scheduleDetail.getSlot());
+                                                        takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
+                                                        takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
+                                                        takeAttendanceView.setDate(scheduleDetail.getDate());
+                                                        takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
+                                                        if (scheduleDetail.getSlot() == 1) {
+                                                            takeAttendanceView.setStartTime("08:00");
+                                                            takeAttendanceView.setEndTime("10:00");
+                                                        } else {
+                                                            takeAttendanceView.setStartTime("10:00");
+                                                            takeAttendanceView.setEndTime("12:00");
+                                                        }
+                                                        listTakeAttendanceView.add(takeAttendanceView);
+                                                    } else if (detailDate.isEqual(currentDate)) {
+                                                        takeAttendanceView.setClass_code(classses.getClassCode());
+                                                        takeAttendanceView.setSlot(scheduleDetail.getSlot());
+                                                        takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
+                                                        takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
+                                                        takeAttendanceView.setDate(scheduleDetail.getDate());
+                                                        takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
+                                                        if (scheduleDetail.getSlot() == 1) {
+                                                            takeAttendanceView.setStartTime("08:00");
+                                                            takeAttendanceView.setEndTime("10:00");
+                                                        } else {
+                                                            takeAttendanceView.setStartTime("10:00");
+                                                            takeAttendanceView.setEndTime("12:00");
+                                                        }
+                                                        listTakeAttendanceView.add(takeAttendanceView);
+                                                    } else {
+                                                        if (detailDate.plusDays(1).isEqual(previousDate)) {
                                                             takeAttendanceView.setClass_code(classses.getClassCode());
                                                             takeAttendanceView.setSlot(scheduleDetail.getSlot());
                                                             takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
@@ -246,7 +261,7 @@ public class TakeAttendanceFragment extends Fragment {
                                                             }
                                                             listTakeAttendanceView.add(takeAttendanceView);
                                                         } else {
-                                                            if (detailDate.plusDays(1).isEqual(previousDate)) {
+                                                            if (onTime.isAfter(startTime) && onTime.isBefore(endTime)) {
                                                                 takeAttendanceView.setClass_code(classses.getClassCode());
                                                                 takeAttendanceView.setSlot(scheduleDetail.getSlot());
                                                                 takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
@@ -262,47 +277,47 @@ public class TakeAttendanceFragment extends Fragment {
                                                                 }
                                                                 listTakeAttendanceView.add(takeAttendanceView);
                                                             } else {
-                                                                if (onTime.isAfter(startTime) && onTime.isBefore(endTime)) {
-                                                                    takeAttendanceView.setClass_code(classses.getClassCode());
-                                                                    takeAttendanceView.setSlot(scheduleDetail.getSlot());
-                                                                    takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
-                                                                    takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
-                                                                    takeAttendanceView.setDate(scheduleDetail.getDate());
-                                                                    takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
-                                                                    if (scheduleDetail.getSlot() == 1) {
-                                                                        takeAttendanceView.setStartTime("08:00");
-                                                                        takeAttendanceView.setEndTime("10:00");
-                                                                    } else {
-                                                                        takeAttendanceView.setStartTime("10:00");
-                                                                        takeAttendanceView.setEndTime("12:00");
-                                                                    }
-                                                                    listTakeAttendanceView.add(takeAttendanceView);
-                                                                } else {
-                                                                    isOnTime = false;
-                                                                }
+                                                                isOnTime = false;
                                                             }
                                                         }
-                                                        break;
-                                                    case "A":
-                                                        startTime = LocalTime.parse(aSTime, formatTime);
-                                                        endTime = LocalTime.parse(aETime, formatTime);
-                                                        onTime = LocalTime.parse(currentTime, formatTime);
-                                                        if (detailDate.isEqual(previousDate)) {
-                                                            takeAttendanceView.setClass_code(classses.getClassCode());
-                                                            takeAttendanceView.setSlot(scheduleDetail.getSlot());
-                                                            takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
-                                                            takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
-                                                            takeAttendanceView.setDate(scheduleDetail.getDate());
-                                                            takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
-                                                            if (scheduleDetail.getSlot() == 1) {
-                                                                takeAttendanceView.setStartTime("13:30");
-                                                                takeAttendanceView.setEndTime("15:30");
-                                                            } else {
-                                                                takeAttendanceView.setStartTime("15:30");
-                                                                takeAttendanceView.setEndTime("17:30");
-                                                            }
-                                                            listTakeAttendanceView.add(takeAttendanceView);
-                                                        } else if (detailDate.isEqual(currentDate)) {
+                                                    }
+                                                    break;
+                                                case "A":
+                                                    startTime = LocalTime.parse(aSTime, formatTime);
+                                                    endTime = LocalTime.parse(aETime, formatTime);
+                                                    onTime = LocalTime.parse(currentTime, formatTime);
+                                                    if (detailDate.isEqual(previousDate)) {
+                                                        takeAttendanceView.setClass_code(classses.getClassCode());
+                                                        takeAttendanceView.setSlot(scheduleDetail.getSlot());
+                                                        takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
+                                                        takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
+                                                        takeAttendanceView.setDate(scheduleDetail.getDate());
+                                                        takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
+                                                        if (scheduleDetail.getSlot() == 1) {
+                                                            takeAttendanceView.setStartTime("13:30");
+                                                            takeAttendanceView.setEndTime("15:30");
+                                                        } else {
+                                                            takeAttendanceView.setStartTime("15:30");
+                                                            takeAttendanceView.setEndTime("17:30");
+                                                        }
+                                                        listTakeAttendanceView.add(takeAttendanceView);
+                                                    } else if (detailDate.isEqual(currentDate)) {
+                                                        takeAttendanceView.setClass_code(classses.getClassCode());
+                                                        takeAttendanceView.setSlot(scheduleDetail.getSlot());
+                                                        takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
+                                                        takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
+                                                        takeAttendanceView.setDate(scheduleDetail.getDate());
+                                                        takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
+                                                        if (scheduleDetail.getSlot() == 1) {
+                                                            takeAttendanceView.setStartTime("13:30");
+                                                            takeAttendanceView.setEndTime("15:30");
+                                                        } else {
+                                                            takeAttendanceView.setStartTime("15:30");
+                                                            takeAttendanceView.setEndTime("17:30");
+                                                        }
+                                                        listTakeAttendanceView.add(takeAttendanceView);
+                                                    } else {
+                                                        if (detailDate.plusDays(1).isEqual(previousDate)) {
                                                             takeAttendanceView.setClass_code(classses.getClassCode());
                                                             takeAttendanceView.setSlot(scheduleDetail.getSlot());
                                                             takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
@@ -318,7 +333,7 @@ public class TakeAttendanceFragment extends Fragment {
                                                             }
                                                             listTakeAttendanceView.add(takeAttendanceView);
                                                         } else {
-                                                            if (detailDate.plusDays(1).isEqual(previousDate)) {
+                                                            if (onTime.isAfter(startTime) && onTime.isBefore(endTime)) {
                                                                 takeAttendanceView.setClass_code(classses.getClassCode());
                                                                 takeAttendanceView.setSlot(scheduleDetail.getSlot());
                                                                 takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
@@ -334,47 +349,47 @@ public class TakeAttendanceFragment extends Fragment {
                                                                 }
                                                                 listTakeAttendanceView.add(takeAttendanceView);
                                                             } else {
-                                                                if (onTime.isAfter(startTime) && onTime.isBefore(endTime)) {
-                                                                    takeAttendanceView.setClass_code(classses.getClassCode());
-                                                                    takeAttendanceView.setSlot(scheduleDetail.getSlot());
-                                                                    takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
-                                                                    takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
-                                                                    takeAttendanceView.setDate(scheduleDetail.getDate());
-                                                                    takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
-                                                                    if (scheduleDetail.getSlot() == 1) {
-                                                                        takeAttendanceView.setStartTime("13:30");
-                                                                        takeAttendanceView.setEndTime("15:30");
-                                                                    } else {
-                                                                        takeAttendanceView.setStartTime("15:30");
-                                                                        takeAttendanceView.setEndTime("17:30");
-                                                                    }
-                                                                    listTakeAttendanceView.add(takeAttendanceView);
-                                                                } else {
-                                                                    isOnTime = false;
-                                                                }
+                                                                isOnTime = false;
                                                             }
                                                         }
-                                                        break;
-                                                    case "E":
-                                                        startTime = LocalTime.parse(eSTime, formatTime);
-                                                        endTime = LocalTime.parse(eETime, formatTime);
-                                                        onTime = LocalTime.parse(currentTime, formatTime);
-                                                        if (detailDate.isEqual(previousDate)) {
-                                                            takeAttendanceView.setClass_code(classses.getClassCode());
-                                                            takeAttendanceView.setSlot(scheduleDetail.getSlot());
-                                                            takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
-                                                            takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
-                                                            takeAttendanceView.setDate(scheduleDetail.getDate());
-                                                            takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
-                                                            if (scheduleDetail.getSlot() == 1) {
-                                                                takeAttendanceView.setStartTime("17:30");
-                                                                takeAttendanceView.setEndTime("19:30");
-                                                            } else {
-                                                                takeAttendanceView.setStartTime("19:30");
-                                                                takeAttendanceView.setEndTime("21:30");
-                                                            }
-                                                            listTakeAttendanceView.add(takeAttendanceView);
-                                                        } else if (detailDate.isEqual(currentDate)) {
+                                                    }
+                                                    break;
+                                                case "E":
+                                                    startTime = LocalTime.parse(eSTime, formatTime);
+                                                    endTime = LocalTime.parse(eETime, formatTime);
+                                                    onTime = LocalTime.parse(currentTime, formatTime);
+                                                    if (detailDate.isEqual(previousDate)) {
+                                                        takeAttendanceView.setClass_code(classses.getClassCode());
+                                                        takeAttendanceView.setSlot(scheduleDetail.getSlot());
+                                                        takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
+                                                        takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
+                                                        takeAttendanceView.setDate(scheduleDetail.getDate());
+                                                        takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
+                                                        if (scheduleDetail.getSlot() == 1) {
+                                                            takeAttendanceView.setStartTime("17:30");
+                                                            takeAttendanceView.setEndTime("19:30");
+                                                        } else {
+                                                            takeAttendanceView.setStartTime("19:30");
+                                                            takeAttendanceView.setEndTime("21:30");
+                                                        }
+                                                        listTakeAttendanceView.add(takeAttendanceView);
+                                                    } else if (detailDate.isEqual(currentDate)) {
+                                                        takeAttendanceView.setClass_code(classses.getClassCode());
+                                                        takeAttendanceView.setSlot(scheduleDetail.getSlot());
+                                                        takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
+                                                        takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
+                                                        takeAttendanceView.setDate(scheduleDetail.getDate());
+                                                        takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
+                                                        if (scheduleDetail.getSlot() == 1) {
+                                                            takeAttendanceView.setStartTime("17:30");
+                                                            takeAttendanceView.setEndTime("19:30");
+                                                        } else {
+                                                            takeAttendanceView.setStartTime("19:30");
+                                                            takeAttendanceView.setEndTime("21:30");
+                                                        }
+                                                        listTakeAttendanceView.add(takeAttendanceView);
+                                                    } else {
+                                                        if (detailDate.plusDays(1).isEqual(previousDate)) {
                                                             takeAttendanceView.setClass_code(classses.getClassCode());
                                                             takeAttendanceView.setSlot(scheduleDetail.getSlot());
                                                             takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
@@ -390,7 +405,7 @@ public class TakeAttendanceFragment extends Fragment {
                                                             }
                                                             listTakeAttendanceView.add(takeAttendanceView);
                                                         } else {
-                                                            if (detailDate.plusDays(1).isEqual(previousDate)) {
+                                                            if (onTime.isAfter(startTime) && onTime.isBefore(endTime)) {
                                                                 takeAttendanceView.setClass_code(classses.getClassCode());
                                                                 takeAttendanceView.setSlot(scheduleDetail.getSlot());
                                                                 takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
@@ -406,39 +421,31 @@ public class TakeAttendanceFragment extends Fragment {
                                                                 }
                                                                 listTakeAttendanceView.add(takeAttendanceView);
                                                             } else {
-                                                                if (onTime.isAfter(startTime) && onTime.isBefore(endTime)) {
-                                                                    takeAttendanceView.setClass_code(classses.getClassCode());
-                                                                    takeAttendanceView.setSlot(scheduleDetail.getSlot());
-                                                                    takeAttendanceView.setSubject_code(scheduleDetail.getSubjectBySubjectId().getSubjectCode());
-                                                                    takeAttendanceView.setSubject_name(scheduleDetail.getSubjectBySubjectId().getSubjectName());
-                                                                    takeAttendanceView.setDate(scheduleDetail.getDate());
-                                                                    takeAttendanceView.setId(classses.getId() + "-" + scheduleDetail.getSlot() + "-" + scheduleDetail.getDate());
-                                                                    if (scheduleDetail.getSlot() == 1) {
-                                                                        takeAttendanceView.setStartTime("17:30");
-                                                                        takeAttendanceView.setEndTime("19:30");
-                                                                    } else {
-                                                                        takeAttendanceView.setStartTime("19:30");
-                                                                        takeAttendanceView.setEndTime("21:30");
-                                                                    }
-                                                                    listTakeAttendanceView.add(takeAttendanceView);
-                                                                } else {
-                                                                    isOnTime = false;
-                                                                }
+                                                                isOnTime = false;
                                                             }
                                                         }
-                                                        break;
-                                                }
+                                                    }
+                                                    break;
                                             }
-//                                            if (isOnTime) {
-//                                                if (!listTakeAttendanceView.isEmpty()) {
-//                                                    getActivity().runOnUiThread(new Runnable() {
-//                                                        @Override
-//                                                        public void run() {
-//                                                            OnBindingData(listTakeAttendanceView);
-//                                                        }
-//                                                    });
-//                                                }
-//                                            }
+                                        }
+                                        if (isOnTime) {
+                                            if (!listTakeAttendanceView.isEmpty()) {
+                                                getActivity().runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        OnBindingData(listTakeAttendanceView);
+                                                    }
+                                                });
+                                            } else {
+                                                getActivity().runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        binding.takeRcv.setVisibility(View.GONE);
+                                                        binding.emptyRcv.setVisibility(View.VISIBLE);
+                                                        binding.emptyRcv.setText("All your attendance is taken");
+                                                    }
+                                                });
+                                            }
                                         }
                                     } else if (responseAttendance.code() == 403) {
                                         materialDialog = new MaterialDialog.Builder(getActivity())
@@ -486,25 +493,6 @@ public class TakeAttendanceFragment extends Fragment {
                                     }
                                 }).build();
                         materialDialog.show();
-                    }
-                }
-                if (isOnTime) {
-                    if (!listTakeAttendanceView.isEmpty()) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                OnBindingData(listTakeAttendanceView);
-                            }
-                        });
-                    } else {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                binding.takeRcv.setVisibility(View.GONE);
-                                binding.emptyRcv.setVisibility(View.VISIBLE);
-                                binding.emptyRcv.setText("All your attendance is taken");
-                            }
-                        });
                     }
                 }
             } catch (IOException e) {

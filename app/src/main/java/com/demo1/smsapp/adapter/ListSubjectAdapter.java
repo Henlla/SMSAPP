@@ -39,9 +39,9 @@ public class ListSubjectAdapter extends RecyclerView.Adapter<ListSubjectAdapter.
     public void onBindViewHolder(@NotNull ViewHolder holder, int position) {
         SubjectView subject = listSubject.get(position);
         if (Integer.parseInt(subject.getStatus()) >= 0 && Integer.parseInt(subject.getStatus()) <= 10) {
-            holder.binding.subjectStatus.setTextColor(Color.rgb(0, 228, 94));
+            holder.binding.subjectStatus.setTextColor(Color.BLUE);
         } else if (Integer.parseInt(subject.getStatus()) >= 10 && Integer.parseInt(subject.getStatus()) <= 20) {
-            holder.binding.subjectStatus.setTextColor(Color.rgb(249, 255, 136));
+            holder.binding.subjectStatus.setTextColor(Color.BLUE);
         } else {
             holder.binding.subjectStatus.setTextColor(Color.RED);
 

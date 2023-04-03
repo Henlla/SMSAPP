@@ -170,7 +170,7 @@ public class TeachingScheduleActivity extends AppCompatActivity {
                     scheduleGroupDTOList.add(teachingScheduleGroupDTO);
 
                 }
-                Log.i("json",gson.toJson(scheduleGroupDTOList));
+//                Log.i("json",gson.toJson(scheduleGroupDTOList));
 
 //                listTeachingScheduleAdapter.setData(scheduleGroupDTOList);
 //                binding.rcvTeachingSchedule.setAdapter(listTeachingScheduleAdapter);
@@ -333,7 +333,7 @@ public class TeachingScheduleActivity extends AppCompatActivity {
                     scheduleGroupDTOList.add(teachingScheduleGroupDTO);
                 }
 
-                Log.i("json", gson.toJson(scheduleGroupDTOList));
+//                Log.i("json", gson.toJson(scheduleGroupDTOList));
 //                listTeachingScheduleAdapter.setData(scheduleGroupDTOList);
 //                binding.rcvTeachingSchedule.setAdapter(listTeachingScheduleAdapter);
 //                binding.rcvTeachingSchedule.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

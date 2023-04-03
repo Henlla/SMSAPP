@@ -5,8 +5,17 @@ public class StudentAttendanceView {
     private Integer student_subjectId;
     private String classId;
     private String studentName;
+    private String studentCard;
     private String note;
     private Integer isPresent;
+
+    public String getStudentCard() {
+        return studentCard;
+    }
+
+    public void setStudentCard(String studentCard) {
+        this.studentCard = studentCard;
+    }
 
     public Integer isPresent() {
         return isPresent;

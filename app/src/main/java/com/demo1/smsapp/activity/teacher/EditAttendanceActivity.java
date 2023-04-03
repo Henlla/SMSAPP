@@ -81,7 +81,6 @@ public class EditAttendanceActivity extends AppCompatActivity {
         init();
         onGetClass();
         onUpdateAttendance();
-//        new MyTask().execute();
 
     }
 
@@ -108,15 +107,6 @@ public class EditAttendanceActivity extends AppCompatActivity {
         slot = classData.split("-")[1];
         date = classData.split("-")[2] + "-" + classData.split("-")[3] + "-" + classData.split("-")[4];
     }
-
-//    public class MyTask extends AsyncTask<Void,Void,Void>{
-//
-//        @Override
-//        protected Void doInBackground(Void... voids) {
-//
-//            return null;
-//        }
-//    }
 
     public void onGetClass() {
         try {
@@ -195,6 +185,7 @@ public class EditAttendanceActivity extends AppCompatActivity {
                         studentAttendanceView.setNote(attendance.getNote());
                         studentAttendanceView.setStudentName(student.getStudentByProfile().getFirstName() + " " + student.getStudentByProfile().getLastName());
                         studentAttendanceView.setPresent(attendance.getStatus());
+                        studentAttendanceView.setStudentCard(student.getStudentCard());
                         listStudentAttendance.add(studentAttendanceView);
                     }
                 }

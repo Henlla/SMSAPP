@@ -32,7 +32,7 @@ public class ListAttendanceDetailAdapter extends RecyclerView.Adapter<ListAttend
         holder.binding.teacher.setText(attendanceView.getTeacher_name());
         if (attendanceView.getStatus().equals("1")) {
             holder.binding.status.setText("PRESENT");
-            holder.binding.status.setTextColor(Color.GREEN);
+            holder.binding.status.setTextColor(Color.rgb(1, 140, 69));
         } else if (attendanceView.getStatus().equals("0")) {
             holder.binding.status.setText("ABSENT");
             holder.binding.status.setTextColor(Color.RED);

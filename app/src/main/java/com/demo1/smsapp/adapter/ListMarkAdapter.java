@@ -25,12 +25,12 @@ public class ListMarkAdapter extends RecyclerView.Adapter<ListMarkAdapter.ListMa
 
     public void setData(List<MarkGroupModel> markGroupModels){
         this.markGroupModels = markGroupModels;
+        notifyDataSetChanged();
     }
 
-    @NonNull
     @NotNull
     @Override
-    public ListMarkVH onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+    public ListMarkVH onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         ListMarkBinding listMarkBinding = ListMarkBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
         detailsAdapter = new ListMarkDetailsAdapter();
         context = parent.getContext();
@@ -38,7 +38,7 @@ public class ListMarkAdapter extends RecyclerView.Adapter<ListMarkAdapter.ListMa
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ListMarkVH holder, int position) {
+    public void onBindViewHolder(@NotNull ListMarkVH holder, int position) {
             MarkGroupModel model = markGroupModels.get(position);
             holder.listMarkBinding.semester.setText("SEMESTER "+model.getSemester());
             detailsAdapter.setList(model.getList());
